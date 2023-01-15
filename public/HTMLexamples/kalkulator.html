@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjs/10.6.4/math.min.js"
+        integrity="sha512-iphNRh6dPbeuPGIrQbCdbBF/qcqadKWLa35YPVfMZMHBSI6PLJh1om2xCTWhpVpmUyb4IvVS9iYnnYMkleVXLA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="/HTMLexamples/kalkulator.js"></script>
+    <link rel="stylesheet" href="/HTMLexamples/kalkulator.css">
+    <title>Kalkulator</title>
+</head>
+
+<body onload="startup()">
+    <div id="button-cont">
+        <input type="text" id="output">
+        <div class="buttons" onclick="add()">&plus;</div>
+        <div class="buttons" onclick="sub()">&minus;</div>
+        <div class="buttons" onclick="multi()">&times;</div>
+        <div class="buttons" onclick="div()">&divide;</div>
+        <div class="clear" onclick="clearstuff()">AC</div>
+        <div class="equal" onclick="equal()">&equals;</div>
+    </div>
+</body>
+
+</html>

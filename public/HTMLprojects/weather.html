@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="/HTMLprojects/weatherapp/css/styles.css">
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
+    <!-- <script type="text/javascript" src="/HTMLprojects/weatherapp/js/MoldeC.js"></script> -->
+    <!-- <script type="text/javascript" src="/HTMLprojects/weatherapp/js/Albuquerque.js"></script> -->
+
+    <script src="/HTMLprojects/weatherapp/js/code.js"></script>
+</head>
+<!-- myWeatherApp.YOURFUNTIONHERE() -->
+
+<body onload="startup()">
+    <div id="navbar">
+        <div class="w-list-button nav-button" onclick="openWlist()">🌐</div>
+        <div id="location"></div>
+        <div id="w-list">
+            <div class="w-list-close">
+                <div class="w-list-button-close nav-button" onclick="closeWlist()">✖</div>
+            </div>
+            <div id="w-list-items">
+            </div>
+            <div class="w-list-additem">✚
+                <input type="text" class="searchbox" id="searchbox" placeholder="Add new city" />
+            </div>
+        </div>
+        <div class="theme-button nav-button" onclick="tgl()" value="light">◑</div>
+        <div class="settings-button nav-button" onclick="openSettings()">⚙</div>
+        <div id="settings-cont">
+            <div class="settings-close">
+                <div class="settings-button-close nav-button" onclick="closeSettings()">✖</div>
+            </div>
+            <div class="settings-stuff">
+                Celsius
+                <div class="temp-btn-cont" onclick="tglTemp()">
+                    <div id="slider-temp"></div>
+                </div>Farenheit
+            </div>
+            <div class="settings-stuff"></div>
+            <div class="settings-stuff"></div>
+        </div>
+    </div>
+    <div id="mainbody">
+        <div class="top-cont">
+            <div id="w-icon"></div>
+            <div id="main-temp"></div>
+            <div id="date"></div>
+            <div id="time"></div>
+            <div id="timezone"></div>
+            <div class="sunrise-set"><span id="sunrise-set"></span></div>
+            <div class="week-day-buttons">
+                <div class="w-d-button" onclick="weekButton()">Day</div>
+                <div class="w-d-button" onclick="dayButton()">Hour</div>
+            </div>
+        </div>
+        <div class="day-hr-cont" id="day-hr-cont">
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+
+</html>

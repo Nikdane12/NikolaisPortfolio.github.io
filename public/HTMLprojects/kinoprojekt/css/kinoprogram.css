@@ -1,0 +1,104 @@
+.datocont{
+    display: flex;
+    justify-content: space-between;
+}
+.dato{
+    background-color: rgb(var(--color2));
+    width: 200px;
+    height: 145px;
+    text-align: center;
+    color: rgb(var(--textbasic));
+    font-family: var(--lgfont);
+    display: flex;
+    flex-direction: column;
+}
+
+.dato:first-child{
+    background-color: rgb(var(--acsentcolor));
+}
+
+.day{
+    margin-top: 3px;
+}
+
+.daynum{
+    
+    font-size: 70px;
+    margin: 0px 20px;
+}
+
+#tidenecont{
+    width: calc(100% - 40px);
+    padding: 0px 20px;
+    height: max-content;
+    background-color: rgb(var(--color1));
+}
+
+.tid{
+    width:100%;
+    height:max-content;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.filmlink{
+    width: max-content;
+    height: max-content;
+    margin: 40px 0px 40px 20px;
+}
+
+.film-img{
+    height: 170px;
+    object-fit: contain;
+}
+
+.klokka, .navn, .sted, .billettbtn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    color: rgb(var(--textbasic));
+    font-family: var(--lgfont);
+    margin: 20px 30px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.navn{
+    width:20%;
+}
+
+.badgecont{
+    display: flex;
+    justify-content:flex-start;
+}
+
+.badge{
+    margin-top:10px;
+    width:max-content;
+    font-size: small;
+    font-weight: lighter;
+    padding: 4px 8px;
+    margin-right:5px;
+    background-color: rgb(var(--color2));
+    border: 3px solid;
+    border-color: rgb(var(--color3));
+    border-radius: 15px;
+}
+
+.billettbtn{
+
+    background-color: rgba(var(--acsentcolor));
+    border: 3px solid rgb(var(--acsentcolor));
+    border-radius: 10px;
+    padding: 3px 7px 5px 7px;
+    margin: auto;
+    cursor: pointer;
+    transition: 0.5s ease;
+}
+
+.billettbtn:hover{
+    background-color: rgb(var(--acsentcolordark));
+    border: 3px solid rgb(var(--acsentcolor));
+    transition: 0.5s ease;
+}

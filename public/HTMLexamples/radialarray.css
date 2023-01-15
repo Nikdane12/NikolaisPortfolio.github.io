@@ -1,0 +1,70 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 10px;
+    overflow: hidden;
+    display: grid;
+    grid-template-areas: 'total dist options' 'button button button' 'cont cont cont';
+}
+
+.infocont {
+    z-index: 999;
+}
+
+.infocont.total {
+    grid-area: total;
+}
+
+.infocont.dist {
+    grid-area: dist;
+}
+
+.infocont.options{
+    grid-area: options;
+}
+
+.infocont.button {
+    grid-area: button;
+    margin: auto;
+}
+
+button {
+    width: 100px;
+    height: 50px;
+    margin-bottom: 50px;
+    z-index: 999;
+    background: linear-gradient(to bottom right, #EF4765, #FF9A5A);
+    border: 0;
+    border-radius: 12px;
+    color: #FFFFFF;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 2.5;
+    cursor: pointer;
+}
+
+#cont {
+    width: 600px;
+    height: 600px;
+    position: relative;
+    top: calc(-10% - 0px);
+    left: calc(50% - 300px);
+    transition: 0.5s ease;
+    grid-area: cont;
+}
+
+.objcont {
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+}
+
+.obj{
+    width: 50px;
+    height: 50px;
+    background-color: grey;
+    border-radius: 50%;
+    text-align: center;
+    font-size: 50px;
+    color:white; 
+}

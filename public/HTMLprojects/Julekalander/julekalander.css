@@ -1,0 +1,182 @@
+body {
+  margin: 0px;
+  width: 100vw;
+  height: 100vh;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  background-color: grey;
+  color: black;
+  overflow-y: auto;
+  overflow-x: hidden;
+  font-size: 3.75rem;
+  /* background-image: url(https://images.unsplash.com/photo-1513297887119-d46091b24bfa?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80),
+    radial-gradient(circle, rgba(0, 0, 36, 0) 10%, rgba(0, 0, 36, 0.5) 50%); */
+  background-image: url(https://s3.amazonaws.com/cdn.vermontchristmasco.com/images/popup/bb884e.jpg);
+  background-position: 50% 50%;
+  background-size: cover;
+}
+
+
+h1 {
+  margin: 0px;
+  text-align: center;
+}
+
+.settings-cont {
+  position: absolute;
+  top: 0px;
+}
+
+.settings-cont > * {
+  padding: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  color: black;
+}
+
+a:link,
+a:visited {
+    text-decoration: none !important;
+}
+
+#calender {
+  position: relative;
+  width: 80%;
+  height: 80%;
+  left: calc(50% - 40%);
+  /* display: flex; */
+  /* gap: 20px; */
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto auto auto;
+  grid-template-rows: auto auto auto;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.daycont {
+  width: 125px;
+  height: 125px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  grid-template-areas: "inner-div";
+}
+
+.daycont>* {
+  grid-area: inner-div;
+  border-radius: 10px;
+
+}
+
+.daybackground {
+  position: relative;
+  width: 125px;
+  height: 125px;
+  background: radial-gradient(circle, rgb(73, 89, 118) 50%, rgb(62, 62, 62) 95%);
+  border: 2px solid black;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+
+}
+
+.black {
+  background-color: rgb(73, 89, 118);
+
+}
+
+.day {
+  cursor: pointer;
+  position: relative;
+  width: 125px;
+  height: 125px;
+  /* background-color: rgba(255, 255, 255, 0.3); */
+  /* background-color: green; */
+  /* border: 2px solid black; */
+  filter: drop-shadow(0px 0px 7px black);
+  -webkit-drop-shadow: 0px 0px 7px black;
+  -moz-drop-shadow: 0px 0px 7px black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: filter 0.5s ease, transform 0.5s ease;
+  transform: perspective(800px) rotateX(0deg) rotatey(0deg);
+  -webkit-transform: perspective(800px) rotateX(0deg);
+  z-index: 999;
+  backdrop-filter: blur(1px);
+  -webkit-backdrop-filter: blur(1px);
+}
+
+/* .daycont:nth-child(even)>.day {
+  background-color: red;
+} */
+
+.hide {
+  display: none;
+}
+
+.day:hover {
+  filter: drop-shadow(0px 0px 16px yellow);
+  transition: filter 0.5s ease, transform 0.75s ease;
+}
+
+.daycont>img {
+  cursor: pointer;
+  position: relative;
+  width: 125px;
+  height: 125px;
+  object-fit: cover;
+  opacity: 1;
+  transition: 0.75s ease;
+}
+
+.daycont>img:hover {
+  filter: drop-shadow(0px 0px 16px yellow);
+  transition: 0.75s ease;
+}
+
+img.taken {
+  opacity: 0;
+  transition: 0.75s ease;
+  transform: scale(1.1);
+}
+
+.day.originup,
+.day.originleft {
+  transform-origin: 0 0;
+  -webkit-transform-origin: 0 0;
+}
+
+.day.origindown,
+.day.originright {
+  transform-origin: 0 100%;
+  -webkit-transform-origin: 0 100%;
+}
+
+.day.originright {
+  transform-origin: 100% 0;
+  -webkit-transform-origin: 100% 0;
+}
+
+.up {
+  transform: perspective(800px) rotateX(100deg);
+  -webkit-transform: perspective(800px) rotateX(100deg);
+  transition: transform 0.75s ease;
+}
+
+.down {
+  transform: perspective(800px) rotateX(-100deg);
+  -webkit-transform: perspective(800px) rotateX(-100deg);
+  transition: transform 0.75s ease;
+}
+
+.left {
+  -webkit-transform: perspective(800px) rotateY(-100deg);
+  transform: perspective(800px) rotateY(-100deg);
+  transition: transform 0.75s ease;
+}
+
+.right {
+  -webkit-transform: perspective(800px) rotateY(100deg);
+  transform: perspective(800px) rotateY(100deg);
+  transition: transform 0.75s ease;
+}

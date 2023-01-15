@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz</title>
+    <link rel="stylesheet" href="/HTMLexamples/quiz.css">
+    <script src="/HTMLexamples/quiz.js"></script>
+    <script src="/HTMLexamples/confetti.js"></script>
+</head>
+
+<body onload="startup()">
+    <div id="mainbody">
+    <div class="title">Make a quiz!</div>
+    <div id="questioncont">
+        <label>Separate possible answers with ",": </label>
+
+    </div>
+    <div id="addquestion" class="button" onclick="addquestion()" tabindex="0">Add Question</div>
+    <div id="submit" class="button" onclick="submit()" tabindex="0">Submit</div>
+    </div>
+    <div id="quizbody">
+        <canvas id="confetti-canvas"></canvas>
+        <div class="button back" onclick="document.getElementById('quizbody').style.display = `none`">Back to Quiz Maker</div>
+        <div class="title">Start Quiz!</div>
+    <div id="actualquiz"></div>
+    <div id=score></div>
+    <div class="button" onclick="check()" tabindex="0">Check</div>
+    
+    </div>
+</body>
+
+</html>

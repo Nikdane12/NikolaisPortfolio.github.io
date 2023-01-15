@@ -1,0 +1,512 @@
+:root {
+    --background: 0, 0, 2;
+    --color1: 60, 60, 60;
+    --color2: 100, 100, 100;
+    --textcolor: 220, 220, 220;
+    --textcolorinv: 30, 30, 30;
+    --red: 230, 0, 0;
+}
+
+body {
+    overflow-x: hidden;
+    margin: 0px;
+
+    background-color: rgb(var(--background));
+
+    color: rgb(var(--textcolor));
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+#nav {
+    position: absolute;
+    z-index: 999;
+
+    width: calc(100% - 88px);
+    height: 60px;
+
+    margin-left: 40px;
+    margin-top: 5px;
+}
+
+.logocont {
+    width: max-content;
+    height: 100%;
+    float: left;
+
+    margin-right: 20px;
+}
+
+.catagoriescont {
+    width: 600px;
+    height: 100%;
+
+    float: left;
+    display: flex;
+    justify-content: space-around;
+}
+
+.catagory,
+.logo {
+    width: max-content;
+    height: 100%;
+    box-sizing: border-box;
+
+    padding: 16px;
+    margin: 0px 10px;
+    text-decoration: none;
+    color: rgb(var(--textcolor));
+
+
+    font-size: 1.5rem;
+}
+
+.logo {
+    margin: 0px;
+    padding: 0px;
+    font-size: 2rem;
+
+}
+
+.logo > svg{
+    width: 95px;
+    height: 100%;
+}
+
+.rightnav {
+    display: flex;
+    justify-content: space-around;
+
+    width: auto;
+    height: 100%;
+}
+
+.navbtn {
+    width: 60px;
+    height: 60px;
+
+    margin-left: 20px;
+    border-radius: 30px;
+    background-color: rgb(var(--color1));
+    display: flex;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
+.search {
+    box-sizing: border-box;
+    margin-left: auto;
+    background-color: transparent;
+    border: 2px solid rgba(var(--color1), 0);
+
+    transition: 0.6s ease;
+    cursor:auto;
+    
+}
+
+.search:hover {
+    background-color: rgba(var(--color1), 0.15);
+    backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+    border: 3px solid rgba(var(--color1), 1);
+
+    width: 70%;
+    transition: 0.6s ease;
+}
+
+.navicon {
+    margin: auto 0%;
+}
+
+.searchicon {
+    width: 30px;
+    height: 30px;
+    fill: none;
+    stroke: rgb(var(--textcolor));
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1px;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.search:hover>.searchbox {
+    display: inline;
+    transition-delay: 0.6s;
+
+}
+
+.searchbox {
+    width: 100%;
+    appearance: none;
+    background: none;
+    border: none;
+    outline: none;
+    color: rgb(var(--textcolor));
+    font-size: 18px;
+
+    display: none;
+    transition-delay: 0.6s;
+
+}
+
+.profile{
+    width:100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+.profileicon{
+    width: 100%;
+    height: 100%;
+}
+
+
+
+
+
+#mainbody {
+    width: 100%;
+    height: max-content;
+}
+
+.topfilm {
+    width: calc(100% - 40px);
+    height: 75vh;
+    background-image: radial-gradient(closest-corner at 65% 50%, rgba(var(--background), 0) 50%, rgba(var(--background), 1) 85%), url(https://mir-s3-cdn-cf.behance.net/project_modules/fs/8a6a68144592045.628efcd3e77b5.jpg);
+    background-size: cover;
+    background-repeat: no-repeat, no-repeat;
+    background-position: 20% 0%, 0% 15%;
+
+    padding: 40px;
+    padding-bottom: 0px;
+    margin-left: 0px;
+
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.topfilm>* {
+    width: 35%;
+}
+
+
+.topfilmtitle {
+    height: 150px;
+    width: 300px;
+
+    display: flex;
+    justify-content:flex-start;
+    flex-direction: column;
+    row-gap: 10px;
+}
+
+.nfilm {
+    height: 20px;
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.nfilm > svg{
+    height: 20px;
+}
+
+.strangerthingsglow{
+    width:300px;
+    position: absolute;
+    margin-top:35px;
+    filter:blur(6px) brightness(150%);
+    
+}
+
+.topbtncont {
+    height: 7%;
+
+    display: flex;
+
+    margin: 2% 0px;
+}
+
+.topbtn {
+    width: 25%;
+
+    padding: 3px 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+
+    color: rgb(var(--textcolorinv));
+    background-color: rgb(var(--textcolor));
+
+    font-size: 14px;
+
+    display: flex;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.topbtn>svg {
+    height: 50%;
+    margin: auto 0px;
+
+    fill: rgb(var(--textcolorinv));
+    stroke: rgb(var(--textcolorinv));
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2px;
+}
+
+.alt {
+    color: rgb(var(--textcolor));
+    background-color: rgb(var(--color1));
+}
+
+.alt>svg {
+    stroke: rgb(var(--textcolor));
+}
+
+.topbtn>p {
+    height: 40%;
+
+    margin: auto 0px;
+    margin-left: 10px;
+
+    font-weight: bold;
+}
+
+
+
+.topfilmdesc {
+    width: 30%;
+    height: 35%;
+    font-size: 18px;
+}
+
+.catcont {
+    width: 100%;
+    height: max-content;
+
+    margin-bottom: 30px;
+    margin-left: 40px;
+
+}
+
+.cattitle {
+    font-size: 20px;
+
+    margin-bottom: 20px;
+}
+
+
+
+.prev,
+.next {
+    width: 50px;
+    height: 296px;
+
+    position: absolute;
+
+    color: rgb(var(--textcolor));
+    font-weight: bold;
+    font-size: 40px;
+
+    background-color: rgba(var(--color1), 0.8);
+    /* backdrop-filter: blur(2px);
+    -webkit-backdrop-filter: blur(2px);
+
+    border: 3px solid rgba(255, 255, 255, 0.3); */
+    border: none;
+
+    user-select: none;
+    transition: 0.5s ease;
+
+    z-index: 999;
+
+}
+
+.prev:hover,
+.next:hover {
+    color: rgb(var(--textcolorinv));
+    background-color: rgba(var(--color2), 1);
+    transition: 0.5s ease;
+}
+
+.prev {
+    left: 0px;
+    border-radius: 0px 5px 5px 0px;
+}
+
+.next {
+    right: 0px;
+    border-radius: 5px 0px 0px 5px;
+}
+
+.filmcont {
+    width: max-content;
+    height: max-content;
+
+    display: flex;
+    transition: 0.5s ease;
+}
+
+.film {
+    position: relative;
+
+
+    margin-right: 10px;
+}
+
+.filmbtn{
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 0px;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.imagecont {
+    height: 296px;
+    object-fit: cover;
+
+    transition: 0.5s ease;
+    border-radius: 5px;
+
+    overflow: hidden;
+
+}
+
+.filmbtn:hover > .imagecont {
+    transform: scale(1.1);
+    transition: 0.5s ease;
+}
+
+.imagecont > img {
+    width: 200px;
+
+    height: 296px;
+    object-fit: cover;
+}
+
+
+
+.progressbar {
+    position: sticky;
+    height: 4px;
+
+    bottom: 0px;
+    background-color: rgb(var(--red));
+}
+
+/* AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa */
+
+#modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: max-content;
+    overflow: auto;
+    background-color: rgba(var(--color1), 0.4);
+}
+
+.modal-content {
+    width: 60%;
+    background-color: rgb(var(--color1));
+    margin: 5% auto 70% auto;
+    padding: 20px;
+    border: none;
+    border-radius: 10px;
+
+    display: grid;
+    grid-template-areas: 'img title' 'img desc' 'img stats' 'img link';
+    column-gap: 20px;
+    row-gap: 20px;
+    justify-content: flex-start;
+}
+
+.modalclose {
+    position: absolute;
+
+    color: rgb(var(--textcolor));
+    float: right;
+
+    right: 20%;
+    top: 5.5%;
+
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.modalclose:hover,
+.modalclose:focus {
+    color: rgba(var(--textcolor), 0.5);
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modalimg{
+    height: 444px;
+    grid-area: img;
+    border-radius: 5px;
+
+}
+
+.modaltitle,
+.modaldesc,
+.modalstats,
+.filmlink {
+    font-size: 20px;
+
+    float: left;
+    width: max-content;
+
+}
+
+.modaltitle {
+    font-size: 2.4rem;
+    width: 70%;
+
+    font-weight: bold;
+    grid-area: title;
+
+    overflow-y: auto;
+    word-wrap: normal;
+
+
+}
+
+.modaldesc{
+    width: 70%;
+
+    grid-area: desc;
+    word-wrap: normal;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+}
+.modalstats{
+    width:100%;
+    font-size: 15px;
+
+    grid-area: stats;
+    display: flex;
+    column-gap: 5%;
+}
+
+.stats1{
+    color: rgb(var(--textcolor), 0.5);
+}
+
+.stats2{
+    width: 50%;
+}
+
+.filmlink{
+    height:min-content;
+
+
+    grid-area: link;
+    color: rgb(var(--red));
+}

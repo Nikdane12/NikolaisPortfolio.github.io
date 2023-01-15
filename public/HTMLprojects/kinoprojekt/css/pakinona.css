@@ -1,0 +1,45 @@
+.filmcont{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.filmcard:hover > .film-img{
+    transition: .5s ease;
+    transform: scale(1.1);
+}
+
+.filmcard{
+    width: 250px;
+    height: 400px;  
+    margin: 0px 10px 40px 0px; 
+    border-radius: 5px;
+    overflow: hidden;  
+    text-decoration: none;  
+}
+
+.film-img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    background-size: cover;
+    max-height: 75%; 
+    transition: 0.5s ease;
+}
+
+.film-name{
+    position: relative;
+    width: 100%;
+    height: 100px;
+    padding: 10px;
+    padding-bottom: 85px;
+    box-sizing: border-box;
+    font-family: var(--lgfont);
+    font-size: 20px;
+    color: rgb(var(--textbasic));
+    background-color: rgb(var(--color2));
+
+}

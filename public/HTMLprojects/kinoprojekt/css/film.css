@@ -1,0 +1,41 @@
+#video{
+    position: relative;
+    width: 100%;  
+}
+
+.youtubevid{
+    width: 100%;
+    height: 52.5vh;
+}
+
+h1{
+    margin-top: 50px;
+}
+
+.omfilmen{
+    display: flex;
+}
+
+.film-img2{    
+    object-fit: contain;
+    height: 100%;
+    max-height: 75%; 
+}
+.film-img-container{
+    height: 300px;
+    width:max-content;
+}
+
+.stats{
+    min-width: max-content;
+    font-size: large;
+    font-family: var(--lgfont);
+    color: rgb(var(--textbasic));
+    margin: 0px 20px;
+}
+
+.desc{
+    font-size: medium;
+    font-family: var(--lgfont);
+    color: rgb(var(--textbasic));
+}

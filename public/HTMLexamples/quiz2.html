@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>quiz 2.0</title>
+    <link rel="stylesheet" href="/HTMLexamples/quiz.css">
+    <script src="/HTMLexamples/quiz2.js"></script>
+</head>
+
+<body onload="startup()">
+    <div id="makertitle">Make a quiz!</div>
+    <div id="questioncont">
+        <div class="questioninnercont">1.
+            <input type="text" class="question" placeholder="Question">
+            <input type="checkbox" name="chekcbox1" class="correctanswercheck">
+            <input type="text" class="answer" placeholder="Answer 1">
+            <input type="checkbox" class="correctanswercheck">
+            <input type="text" class="answer" placeholder="Answer 2">
+            <input type="checkbox" class="correctanswercheck">
+            <input type="text" class="answer" placeholder="Answer 3">
+            <input type="checkbox" class="correctanswercheck">
+            <input type="text" class="answer" placeholder="Answer 4">
+        </div>
+    </div>
+    <div id="addquestion" onclick="addquestion()">Add Question</div>
+    <div id="submit" onclick="submit()">Submit</div>
+
+    <div id="actualquiz"></div>
+    <div onclick="check()">Check</div>    
+</body>
+
+</html>

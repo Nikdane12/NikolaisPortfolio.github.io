@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/HTMLexamples/radialarray.css">
+    <script src="/HTMLexamples/radialarray.js"></script>
+    <title>Radial Array</title>
+</head>
+
+<body onload="main()">
+    <div class="infocont total">
+        <p>Value: <span id="output"></span></p>
+        <input type="range" min="1" max="8" value="3" class="slider" id="slider">
+    </div>
+
+    <!-- <input type="range" min="0" max="360" value="0" class="slider" id="rotate"> -->
+    <div class="infocont dist">
+        <p>Distance: <span id="distanceoutput"></span></p>
+        <input type="range" min="1" max="10" value="1" class="slider" id="distance">
+    </div>
+    <div class="infocont options">
+        <input type="checkbox" id="rotatefixer">
+        <label for="rotatefixer">Rotation fix</label><br>
+    </div>
+    <div class="infocont button">
+        <button id="prev"><</button>
+        <button id="next">></button>
+    </div>
+    <div id="cont"></div>
+
+
+
+</body>
+
+</html>

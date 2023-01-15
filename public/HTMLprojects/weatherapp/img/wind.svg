@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.24 19.68">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <line class="foggrey" x1="3.52" y1="9.91" x2="25.24" y2="9.91"/>
+      <path class="foggrey" d="M3.52,4.86c-1.39,0-2.52,1.13-2.52,2.52s1.13,2.52,2.52,2.52"/>
+      <line class="foggrey" x1="25.24" y1="13.63" x2="9.03" y2="13.63"/>
+      <path class="foggrey" d="M9.03,18.68c-1.39,0-2.52-1.13-2.52-2.52s1.13-2.52,2.52-2.52"/>
+      <line class="foggrey" x1="14.54" y1="6.05" x2="25.24" y2="6.05"/>
+      <path class="foggrey" d="M14.54,1c-1.39,0-2.52,1.13-2.52,2.52s1.13,2.52,2.52,2.52"/>
+    </g>
+  </g>
+</svg>

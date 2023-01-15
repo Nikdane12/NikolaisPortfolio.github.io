@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg class="icon" id="Layer_2" data-name="Layer 2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26.24 26.24">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <g>
+      <circle class="yellow" cx="13.12" cy="13.12" r="5.51"/>
+      <line class="yellow" x1="13.12" y1="1" x2="13.12" y2="3.2"/>
+      <line class="yellow" x1="13.12" y1="23.03" x2="13.12" y2="25.24"/>
+      <line class="yellow" x1="4.55" y1="4.55" x2="6.11" y2="6.11"/>
+      <line class="yellow" x1="20.13" y1="20.13" x2="21.69" y2="21.69"/>
+      <line class="yellow" x1="1" y1="13.12" x2="3.2" y2="13.12"/>
+      <line class="yellow" x1="23.03" y1="13.12" x2="25.24" y2="13.12"/>
+      <line class="yellow" x1="4.55" y1="21.69" x2="6.11" y2="20.13"/>
+      <line class="yellow" x1="20.13" y1="6.11" x2="21.69" y2="4.55"/>
+    </g>
+  </g>
+</svg>

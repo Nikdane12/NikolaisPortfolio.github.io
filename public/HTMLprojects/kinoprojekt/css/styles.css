@@ -1,0 +1,256 @@
+:root {
+    --textbasic: 247, 247, 247;
+    --background: 38, 38, 38;
+    --color1: 64, 64, 64;
+    --color2: 89, 89, 89;
+    --color3: 169, 169, 169;
+    --cardtextcolor: 255, 255, 255;
+    --cardbgcolor: 64, 64, 64;
+    --acsentcolor: 200, 0, 0;
+    --acsentcolordark: 168, 0, 0;
+    --acsentcolorfade: 213, 77, 77;
+
+    --barpadding: 17px 30px 43px 30px;
+
+    --lgfont: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
+}
+
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: none;
+    stroke: rgb(var(--color3));
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+body {
+    background-color: rgb(var(--background));
+    font-family: courier;
+    margin:0px;
+    margin-top: 60px;
+}
+
+#bar {
+    background-color: rgb(var(--acsentcolor));
+    margin: 0px 0px 20px 0px;
+    border-radius: 0px 0px 10px 10px;
+    width: 100%;
+    height: 50px;
+    position: fixed;
+    top: 0px;
+    padding: 0px 0px 10px 0px;
+    transition: top 0.3s;
+    z-index: 998;
+    display: flex;
+    justify-content: center;
+}
+
+.homelink {
+    position: absolute;
+    width: 8%;
+    height: 90%;
+    float: inline-start;
+    left:10px;
+    top:5%;
+}
+
+.kinosvg{
+    height:100%;
+    width:100%;
+}
+
+.st0 {
+    fill: #272324;
+}
+
+.kinoimg {
+    width: max-content;
+    height: 100%;
+    z-index: 999;
+    object-fit: contain;
+}
+
+.navlinks:link,
+.links:visited {
+    position: relative;
+    background-color: rgb(var(--acsentcolor));
+    padding: var(--barpadding);
+    color: rgb(var(--textbasic));
+    font-size: 20px;
+    font-family: var(--lgfont);
+    text-decoration: none !important;
+    transition-duration: 0.4s;
+}
+
+.navlinks:hover {
+    background-color: rgb(var(--acsentcolordark));
+}
+
+
+
+.sidemenu {
+    width: 65px;
+    height: 50px;
+    z-index: 0;
+    position: absolute;
+    right: 0px;
+}
+
+#menu__toggle {
+    width: 57px;
+    height: 57px;
+    opacity: 0;
+    position: relative;
+    right: 0px;
+    z-index: 3;
+    cursor: pointer;
+}
+
+#menu__toggle:checked+.menu__btn>span {
+    transform: rotate(45deg);
+}
+
+#menu__toggle:checked+.menu__btn>span::before {
+    top: 0;
+    transform: rotate(0deg);
+    background-color: rgb(var(--color1));
+    z-index: 999;
+}
+
+#menu__toggle:checked+.menu__btn>span::after {
+    top: 0;
+    transform: rotate(90deg);
+    background-color: rgb(var(--color1));
+    z-index: 999;
+}
+
+#menu__toggle:checked~.menu__box {
+    right: 0 !important;
+}
+
+.menu__btn {
+    position: fixed;
+    top: 30px;
+    right: 20px;
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+.menu__btn>span,
+.menu__btn>span::before,
+.menu__btn>span::after {
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background-color: rgb(var(--textbasic));
+    transition-duration: .25s;
+    z-index: 999;
+}
+
+.menu__btn>span::before {
+    content: '';
+    top: -8px;
+    background-color: rgb(var(--textbasic));
+    z-index: 999;
+}
+
+.menu__btn>span::after {
+    content: '';
+    top: 8px;
+    background-color: rgb(var(--textbasic));
+    z-index: 999;
+}
+
+.menu__box {
+    display: block;
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 300px;
+    height: 100%;
+    margin: 0;
+    padding: 57px 0;
+    list-style: none;
+    background-color: rgb(var(--color3));
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, .4);
+    transition-duration: .25s;
+    z-index: 0;
+}
+
+.menu__item {
+    display: block;
+    padding: 12px 24px;    
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    font-weight: 600;
+    text-decoration: none;
+    transition-duration: .25s;
+}
+
+
+li > .menu__item :first-of-type{
+    margin-top: 10px;
+}
+
+.menu__item:hover {
+    background-color: rgb(var(--color2));
+}
+
+.navlinks{
+    font-size:20px;
+    text-decoration: none;
+    color: rgb(var(--textbasic));
+    font-weight: bold;
+    margin:0px;
+}
+
+.stuffcont{
+    position: relative;
+    left:15vw;
+    width:70vw;
+    margin-top:0px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1{
+    margin: 50px 0px;
+    color: rgb(var(--textbasic));
+    font-family: var(--lgfont);
+}
+
+
+#bottombar{
+    background-color: rgb(var(--color1));
+    position: relative;
+    width:70vw;
+    margin-top:50px;
+    padding:0px 15vw;
+    padding-right: calc(15vw -(100vw - 100%));
+    height:100px;
+    display:flex;
+    justify-content: flex-start;
+    bottom:0px;
+}
+
+.kinoimgf {
+    width: auto;
+    height:auto;
+    margin:25px 40px 25px 0px;
+}
+
+.adresscont{
+    font-size:14px;
+    color: rgb(var(--textbasic));
+    font-family: var(--lgfont);
+    margin: auto 0px;
+}

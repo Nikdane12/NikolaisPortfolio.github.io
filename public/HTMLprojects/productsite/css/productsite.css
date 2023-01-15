@@ -1,0 +1,175 @@
+body {
+    width: 100vw;
+    height: 100vh;
+    margin: 0px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif
+}
+
+#nav{
+    width: 100%;
+    height: 50px;
+    background-color: grey;
+    margin-bottom: 10px;   
+}
+
+#mainbody{
+    margin: 40px;
+    overflow: hidden;
+    display: flex;
+    /* grid-template-areas: 'cover title' 'cover desc'  'cover velg' ' cover buttons'; */
+    gap:20px;
+}
+
+.info-cont{
+    width: 100%;
+}
+
+.title{
+    font: bold 30px Gill Sans, sans-serif;
+}
+
+.desc{
+    font-size: 15px;
+    list-style-type: circle;
+    padding-left: 20px;
+}
+
+.velg{
+    font-size: 20px;
+    margin: 20px 0px;
+}
+
+.coloroutput{
+    font-weight: lighter;
+}
+
+.velg > p{
+    font: bold 15px Gill Sans, sans-serif;
+    margin: 5px 0px;
+}
+
+
+
+button {
+    width: 50px;
+    height: 50px;
+    margin-bottom: 50px;
+    border-radius: 25px;
+    cursor: pointer;
+    border: 3px solid white;
+    outline: 1px solid #202020;
+
+    padding: 0px;
+    box-sizing: border-box;
+}
+
+button:focus, button:hover {
+    border: 3px solid #8baffc;
+}
+
+.grey{
+    background-color: #404145;
+}
+
+.purple{
+   background-color: #b2a1cd;
+}
+
+.white{
+    background-color: #f1f0ed;
+}
+
+.pd-price-box{
+    background-color: #f7f7f7;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+    padding: 40px;
+    padding-bottom: 20px;
+}
+
+.pd-name{
+    font-size: 20px;
+}
+
+.pd-name-alt{
+    font-size: 15px;
+}
+
+.pd-price{
+    font-size: 25px;
+    text-align: center;
+}
+
+.pd-price-alt{
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    font-size: 15px;
+    padding-top: 0px;
+
+}
+
+.pd-price-org{
+    text-decoration: line-through;
+}
+
+.buy-button{
+    width: 100px;
+    padding: 15px;
+    text-align: center;
+    background-color: blue;
+    color: white;
+    border-radius: 100px;
+    margin: auto;
+}
+
+
+
+.cover {
+    width: 100%;
+    overflow: hidden;
+    grid-area: cover;
+}
+
+#cont {
+    width: 600px;
+    height: 600px;
+    position: relative;
+    top: calc(0% - 0px);
+    left: calc(100% - 280px);
+    transition: 0.5s ease;
+    
+}
+
+.obj {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    top: calc(50% - 150px);
+    left: calc(50% - 150px);
+}
+
+.obj>img {
+    position: relative;
+    width: 200%;
+    transform: rotate(90deg);
+    left: -100px;
+}
+
+
+hr{
+    width: 100%;
+    padding: 0px !important;
+    border: 1px solid lightgrey;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.accent{
+    color: blue;
+}

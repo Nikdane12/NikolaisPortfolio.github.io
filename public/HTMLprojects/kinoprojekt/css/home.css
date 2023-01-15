@@ -1,0 +1,155 @@
+body {
+    background-color: rgb(var(--background));
+}
+
+.mousecapture {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+}
+
+.container {
+    max-width: 70vw;
+    min-height: 70vh;
+
+    overflow: hidden;
+    position: absolute;
+    top: 100px;
+    width: 100%;
+    min-width: 0;
+    box-shadow: 0 1px 3px rgb(0 0 0 / 12%), 0 1px 2px rgb(0 0 0 / 24%);
+    margin: auto;
+    left: 0;
+    right: 0;
+    height: auto;
+    bottom: auto;
+
+    --basicw: 70vw;
+    --basich: 70vh;
+}
+
+div#px_0 {
+    width: calc(var(--basicw) * 1);
+    height: calc(var(--basich) * 1);
+
+    position: absolute;
+}
+
+div#px_1 {
+    width: calc(var(--basicw) * 1.05);
+    height: calc(var(--basich) * 1.05);
+
+    position: absolute;
+}
+
+div#px_2 {
+    width: calc(var(--basicw) * 1.15);
+    height: calc(var(--basich) * 1.15);
+
+    position: absolute;
+}
+
+div#px_3 {
+    width: calc(var(--basicw) * 1.25);
+    height: calc(var(--basich) * 1.25);
+
+    position: absolute;
+}
+
+div#px_4 {
+    width: calc(var(--basicw) * 1.35);
+    height: calc(var(--basich) * 1.35);
+
+    position: absolute;
+}
+
+div#px_5 {
+    width: calc(var(--basicw) * 1.45);
+    height: calc(var(--basich) * 1.45);
+
+    position: absolute;
+}
+
+.theSvg {
+    width: 100%;
+    height: 100%;
+    object-fit: fill;
+}
+
+.backimg {
+    margin: auto;
+    width: 79%;
+    height: 100%;
+    overflow: hidden;
+}
+
+#randomimage {
+    position: absolute;
+    width: 110%;
+    object-fit: contain;
+}
+
+.stuffcont {
+    margin-top: 600px;
+}
+
+.arrowsvg {
+    width: 50px;
+    height: 50px;
+    margin: 50px auto;
+    margin-top: 60px;
+
+    fill:none;
+    stroke: rgb(var(--acsentcolor));
+    stroke-width: 2px;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+#arrowgrad, #arrowgrad2{
+    --color1: rgb(var(--acsentcolor));
+    --color2: rgba(var(--acsentcolor), 0)
+}
+
+.googlemap {
+    width: 100%;
+    height: 500px;
+}
+
+.infobtncont {
+    margin-top:50px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.infobtn {
+    width: 15vw;
+    height: 15vw;
+    background-color: rgb(var(--color1));
+    transition: 0.5s ease;
+}
+
+.infobtn:hover,
+.infobtn:first-child {
+    background-color: rgb(var(--acsentcolor));
+    transition: 0.5s ease;
+}
+
+.infoicons {
+    width: 40%;
+    height: 40%;
+
+    display: block;
+    margin: 30% auto;
+
+    stroke-miterlimit: 10;
+
+    fill: none;
+    stroke: rgb(var(--textbasic));
+    stroke-width: 1px;
+
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}

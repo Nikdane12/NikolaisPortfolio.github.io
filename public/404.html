@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/code.js"></script>
+    <link rel="stylesheet" href="/home/css/styles.css">
+    <title>Nikolai's Portfolio</title>
+    <link rel="icon" href="/home/favicon.ico" />
+    <meta name="viewport" content="width=device-width"/>
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <div class="sidemenu">
+            <div class="menubutton" onclick="tglMenu()"></div>
+                <div id="menux"></div>
+            <ul id="menubox">
+                <li><a class="menu__item" href="htmlprojects.html">HTML Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">HTML Examples</a></li>
+                <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+            </ul>
+        </div>
+        <a href="/" class="homelink">
+            <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tgl()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        
+    </div>
+
+<div id="pagenotfound">
+    <div class="pagenotfound-typeface">404</div>
+    <div class="pagenotfound-light"><img src="/home/img/404Light.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+    <div class="pagenotfound-desc">Page not found<br>Return to home?<a href="/" class="homelink">
+        <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+    </a></div>
+</div>
+</body>

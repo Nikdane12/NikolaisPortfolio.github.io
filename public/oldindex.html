@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/oldcode.js"></script>
+    <link rel="stylesheet" href="/home/css/oldstyles.css">
+    <!--
+            AUTO REFRESH PAGE EVERY 10secs
+            <meta http-equiv="refresh" content="10">
+        -->
+    <title>Nikolai's Portfolio</title>
+    <link rel="icon" href="/home/favicon.ico" />
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <a href="/" class="homelink">
+            <img src="/home/img/niko.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+
+        <!--
+            <a href="https://www.w3schools.com" class="navlinks">Hello</a>
+            <a href="https://molde.vgs.no/" class="navlinks">Skole</a>
+            <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="navlinks">Test</a>
+        -->
+
+        <div class="title">Nikolai's Portfolio</div>
+
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tgl()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        <div class="sidemenu">
+            <input id="menu__toggle" type="checkbox" />
+            <label class="menu__btn" for="menu__toggle">
+                <span></span>
+            </label>
+
+            <ul class="menu__box">
+                <li><a class="menu__item" href="javascript:void(0)">Konto</a></li>
+                <li><a class="menu__item" href="javascript:void(0)">Instilling</a></li>
+                <li><a class="menu__item" href="javascript:void(0)">Bruker</a></li>
+                <li><a class="menu__item" href="javascript:void(0)">Kontakt oss</a></li>
+                <li><a class="menu__item" href="javascript:void(0)">Logg ut</a></li>
+            </ul>
+        </div>
+    </div>
+
+<div id="mainbody">
+    <div class="stuffcollection">
+        <h2>
+            HTML Projects
+        </h2>
+        <div class="cardcontainer">
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="home/img/Notflix.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Notflix</div>
+                    </div>
+                    <div class="carddetails">
+                    This page is an example of calling an API to retrieve data and using it. All of the images and data
+                    are
+                    proceduraly generated from a database.
+                    </div>
+                </div>
+                
+                <a href="/HTMLprojects/notflix.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="/home/img/MoldeKino.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Kino Projekt</div>
+                    </div><div class="carddetails">
+                    This page was a school project to redesign the local theater's website.
+                </div>
+                </div>
+                
+                <a href="/HTMLprojects/kinoprojekt/kinohome.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="/home/img/ProductSite.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Product Site</div>
+                    </div><div class="carddetails">
+                    A mockup of a product site that uses a procedural radial array to display the different colors.
+                </div>
+                </div>
+                
+                <a href="/HTMLprojects/productsite.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <div class="emptyimage"></div>
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Weather App</div>
+                    </div><div class="carddetails"> This page will be a weather app based on data from a Google API.
+
+
+                </div>
+                </div>
+                
+                <a href="/HTMLprojects/weather.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="home/img/DatamaskineSide.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Datamaskin Side</div>
+                    </div>
+                <div class="carddetails">
+                    This page was a school project that displayed the different parts of a computer. Each part opens a
+                    window to information about it.</div>
+                
+                </div>
+                <a href="/HTMLprojects/datamaskinside.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="home/img/Julekalender.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Julekalander</div>
+                    </div><div class="carddetails">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sodales morbi dignissim sed diam pharetra vitae ipsum odio.
+                </div>
+                </div>
+                
+                <a href="/HTMLprojects/julekalander.html" class="cardlink" target="_blank">Open</a>
+            </div>
+        </div>
+    </div>
+    <div class="stuffcollection">
+        <h2>
+            HTML Examples
+        </h2>
+        <div class="cardcontainer">
+            <!-- <div class="cardcontainergradient"></div> -->
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <div class="emptyimage"></div>
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Card Mover</div>
+                    </div>
+                <div class="carddetails">
+                    BLANK
+                </div></div>
+                
+                <a href="" class="cardlinkna" target="_blank">Unavalible</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="home/img/Practice1.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Parallax</div>
+                    </div>
+                <div class="carddetails">
+                    This page is an example of "parallax", where different layers move at different speeds often to fake
+                    depth.</div>
+                
+                </div>
+                <a href="HTMLexamples/exampleparallax.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <img src="home/img/RadialArray.png" class="mainimage">
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Radial Array</div>
+                    </div>
+                <div class="carddetails">
+                    This page is a procedural radial array, with customizable images and settings.
+                </div></div>
+                
+                <a href="/HTMLexamples/radialarray.html" class="cardlink" target="_blank">Open</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <div class="emptyimage"></div>
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">Modal Opener</div>
+                    </div>
+                <div class="carddetails">
+                    BLANK
+                </div></div>
+                
+                <a href="" class="cardlinkna" target="_blank">Unavalible</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <div class="emptyimage"></div>
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">EMPTY</div>
+                    </div>
+                <div class="carddetails">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sodales morbi dignissim sed diam pharetra vitae ipsum odio.
+                </div></div>
+                
+                <a href="" class="cardlinkna" target="_blank">Unavalible</a>
+            </div>
+            <div class="card">
+                <div class="stuffcont">
+                    <div class="image-zoom">
+                        <div class="emptyimage"></div>
+                    </div>
+                    <div class="text-move">
+                        <div class="cardname">EMPTY</div>
+                    </div>
+                <div class="carddetails">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consectetur sodales morbi dignissim sed diam pharetra vitae ipsum odio.
+                </div></div>
+                
+                <a href="javascript:void(0)" class="cardlinkna">Unavalible</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="pageextender"></div>
+</div>
+</body>
+
+</html>

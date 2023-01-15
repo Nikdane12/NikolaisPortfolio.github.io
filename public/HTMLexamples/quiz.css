@@ -1,0 +1,105 @@
+:root{
+    --hue: 271;
+    --background-color:hsl(var(--hue), 66%, 40%);
+    --alt-color:hsl(var(--hue), 67%, 49%);
+    --text-color: rgb(255, 255, 255);
+}
+
+body{
+    margin: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+}
+
+#mainbody, #actualquiz{
+    position: relative;
+    width: 80%;
+    height: max-content;
+    left: 10%;
+}
+
+.title{
+    margin-top: 50px;
+    margin-bottom: 25px;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.button, input{
+    position: relative;
+    width: max-content;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 25px;
+    background-color: var(--alt-color);
+}
+
+.button{
+    margin-bottom: 10px;
+}
+
+input{
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: var(--text-color)
+}
+
+label{
+    font-size: 12px;
+}
+
+#questioncont, #actualquiz{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.questioninnercont{
+
+}
+
+#quizbody{
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+}
+
+#quizbody > *{
+    margin-left: 10%;
+}
+
+#actualquiz{
+    margin-left:0;
+}
+
+#actualquiz> div{
+    display: flex;
+    align-items: center;
+}
+
+#actualquiz> div > input{
+    margin-left: 10px;
+}
+
+#confetti-canvas{
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    left: 0;
+    margin-left: 0;
+}
+
+.back{
+    margin: 3% 0 -25px 5% !important;
+}
+
+#score{
+    margin-bottom: 10px;
+}

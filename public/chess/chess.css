@@ -1,0 +1,71 @@
+body{
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+}
+
+.chessboard{
+    position: relative;
+    width: 500px;
+    height: 500px;
+    /* background: conic-gradient(#FFF 0.25turn, #000 0.25turn 0.5turn, #FFF 0.5turn 0.75turn, #000 0.75turn) top left / 25% 25% repeat; */
+    border: 2px solid #000;
+    left: calc(50% - 250px);
+    top: calc(50% - 250px);
+    display: grid;
+    grid-template-columns: auto auto auto auto auto auto auto auto;
+}
+
+.chesssquare{
+    width:100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgb(180, 164, 136);
+}
+
+.chesssquare::before{
+    content: '';
+    position: absolute;
+    width: 10%;
+    height: 10%;
+    /* background-color: lime; */
+    opacity: 20%;
+    border-radius: 50%;
+}
+
+.chesssquare:nth-child(-2n+8), 
+.chesssquare:nth-child(8) ~ .chesssquare:nth-child(-2n+15), 
+.chesssquare:nth-child(16) ~ .chesssquare:nth-child(-2n+24),
+.chesssquare:nth-child(24) ~ .chesssquare:nth-child(-2n+31),
+.chesssquare:nth-child(32) ~ .chesssquare:nth-child(-2n+40),
+.chesssquare:nth-child(40) ~ .chesssquare:nth-child(-2n+47),
+.chesssquare:nth-child(48) ~ .chesssquare:nth-child(-2n+56),
+.chesssquare:nth-child(56) ~ .chesssquare:nth-child(-2n+63) {
+    background-color: rgb(95, 63, 34);
+}
+
+
+.button{
+    width: max-content;
+    background-color: grey;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    padding: 16px 20px;
+    margin: 20px;
+}
+
+svg {
+    fill: #292425;
+    position: absolute;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+svg.white{
+    fill: rgb(211, 211, 211);
+}

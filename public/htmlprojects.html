@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/code.js"></script>
+    <link rel="stylesheet" href="/home/css/styles.css">
+    <title>Nikolai's HTML Projects</title>
+    <link rel="icon" href="/home/favicon.ico" />
+    <meta name="viewport" content="width=device-width"/>
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <div class="sidemenu">
+            <div class="menubutton" onclick="tglMenu()"></div>
+                <div id="menux"></div>
+            <ul id="menubox">
+                <li><a class="menu__item" href="htmlprojects.html">HTML Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">HTML Examples</a></li>
+                <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+            </ul>
+        </div>
+        <a href="/" class="homelink">
+            <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tgl()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        
+    </div>
+<div id="mainbodyforcards">
+    <div class="title">HTML Projects</div>
+    <div class="card-cont">
+        <div class="card">
+            <a href="/HTMLprojects/notflix.html" target="_blank"><img src="home/img/NotflixThumbnail.png" class="cardimg"></a>
+            <!-- <div class="card-title">Notflix</div>
+            <div class="card-desc"></div> -->
+        </div>
+        <div class="card">
+            <a href="/HTMLprojects/weather.html" target="_blank"><img src="home/img/WeatherAppThumbnail.png" class="cardimg"></a>
+            <!-- <div class="card-title">Notflix</div>
+            <div class="card-desc"></div> -->
+        </div>
+        <div class="card">
+            <a href="/HTMLprojects/julekalander.html" target="_blank"><img src="home/img/JulekalanderThumbnail.png" class="cardimg"></a>
+            <!-- <div class="card-title">Notflix</div>
+            <div class="card-desc"></div> -->
+        </div>
+        <div class="card">
+            <a href="/HTMLprojects/productsite.html" target="_blank"><img src="home/img/ProductSiteThumbnail.png" class="cardimg"></a>
+            <!-- <div class="card-title">Notflix</div>
+            <div class="card-desc"></div> -->
+        </div>
+        <div class="card">
+            <a href="/HTMLprojects/kinoprojekt/kinohome.html" target="_blank"><img src="home/img/KinoThumbnail.png" class="cardimg"></a>
+            <!-- <div class="card-title">Notflix</div>
+            <div class="card-desc"></div> -->
+        </div>
+    </div>
+</div>
+</body>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Maskine Deler</title>
+    <link rel="stylesheet" href="/HTMLprojects/datamaskinside/css/styles.css">
+    <script src="/HTMLprojects/datamaskinside/js/code.js"></script>
+</head>
+
+<body onload="startup()">
+    <div id="header">
+        <div class="title">
+            <h1>Deler av en Datamaskin</h1>
+        </div>
+    </div>
+    <div id="mainbody">
+        <div class="buttons">        
+            <img class="backgroundimg" src="/HTMLprojects/datamaskinside/img/WholePC.png">
+            <img class="motherboard" src="/HTMLprojects/datamaskinside/img/MotherBoard.png" onclick="openModal('motherboard')">
+            <img class="cpu" src="/HTMLprojects/datamaskinside/img/CPU.png" onclick="openModal('cpu')">
+            <img class="gpu" src="/HTMLprojects/datamaskinside/img/GPU.png" onclick="openModal('gpu')">
+            <img class="psu" src="/HTMLprojects/datamaskinside/img/PSU.png" onclick="openModal('psu')">
+            <img class="ram" src="/HTMLprojects/datamaskinside/img/RAM.png" onclick="openModal('ram')">
+            <img class="ssd" src="/HTMLprojects/datamaskinside/img/SSD.png" onclick="openModal('ssd')">
+
+        </div>
+    </div>
+    <div id="modal" onclick="closeModal()">
+        <!-- <div class="modalcontent">
+            <div class="modalimage">
+                <img class="image" src="https://dlcdnwebimgs.asus.com/gain/1a1feeca-5a98-4183-bfde-b25e314f58c6/w328"/>
+            </div>
+            <div class="modalheader">Hovedkort</div>
+            <div class="modaldesc">Hovedkort er kretskortet som knytter alle de sentrale komponentene i en datamaskin sammen og som gjør at de kan kommunisere med hverandre.</div>
+            <div class="modallink">
+                <a class="link" href="https://no.wikipedia.org/wiki/Hovedkort" target=”_blank”>Les mer</a>
+            </div>
+        </div> -->
+    </div>
+    <div id="footer">
+        <div id="themepicker">
+            <div class="theme light"></div>
+            <div class="theme dark"></div>
+            <div class="theme color"></div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,215 @@
+:root{
+    --background: 255, 136, 0;
+    --textcolor: 38, 38, 38;
+    --acsentcolor: 255, 255, 255;
+}
+
+body{
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Agenda;
+    margin:0px;
+    background-color: rgb(var(--background));
+    color:rgb(var(--textcolor));
+}
+
+a:link,
+a:visited {
+    color:rgb(var(--textcolor));
+    position: relative;
+    text-decoration: none !important;
+}
+
+#navbar{
+    width:100vw;
+    height: 15vh;
+    display: flex;
+
+}
+
+.navlink{
+    width:max-content;
+    height:max-content;
+    padding: 1%;
+    margin: 0px 30px;
+    font-size: 20px;
+}
+
+.home{
+    margin-left: 20px;
+    margin-right:auto;
+}
+
+.login{
+    padding:1% 30px;
+    border-radius: 40px;
+    background-color: rgba(var(--acsentcolor), 0.3);
+    color:rgb(var(--background));
+    margin-right:30px;
+}
+
+#navbar > *{
+    margin-top: 20px;
+}
+.allcont{
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    display:flex;
+    justify-content: space-between;
+}
+
+.stuffcont{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.stuffcont > *{
+    margin-left: 30px; 
+} 
+
+.header, .subheader{
+    width: max-content;
+    height: max-content;
+    font-size: 100px;
+}
+
+.header{
+    font-size: 60px;
+}
+
+.header.bottom{
+    margin-top:-40px;
+    font-weight: bold;
+}
+
+.subheader{
+    font-size: 30px;
+}
+
+.projectsbtn{
+    width: max-content;
+    height: max-content;
+    padding:2% 40px;
+    border-radius: 30px 0px 30px 30px;
+    background-color: rgba(var(--acsentcolor), 0.3);
+
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.statscont{
+    width: 100%;
+    height: 60%;
+    margin: 0px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.statcard{
+    width:200px;
+    height:150px;
+
+    margin: 0px 50px;
+
+    background-color: rgba(var(--textcolor), 0.5);
+    border-radius: 20px;
+
+    display: flex;
+    flex-direction: column;
+}
+
+.statcard:last-child{
+    width:250px;
+    height:200px;
+}
+
+.staticon{
+    position: relative;
+    width: 50px;
+    height: 50px;
+
+    margin: 0px auto;
+    top:-15px;
+
+    background-color: rgb(var(--acsentcolor));
+    border-radius: 10px;
+    box-shadow: 0 0 0 10px rgb(var(--background));
+}
+
+.icon {
+    width: 80%;
+    height: 80%;
+
+    position: relative;
+
+    top:10%;
+    left:10%;
+
+    fill: none;
+    stroke: rgb(var(--textcolor));
+    stroke-linejoin: round;
+    stroke-width: 0.5px;
+}
+
+.mainimg{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    right:0px;
+    top:0px;
+}
+
+.parallax{
+    width: 75%;
+    height: 90%;
+
+    margin-left:auto;
+    overflow: hidden;
+    position: relative;
+
+    --basicw: 60vw;
+    --basich: 60vh;
+}
+
+.mousecapture {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    top:0px;
+    left:0px;
+}
+
+#px_1 {
+    width: calc(var(--basicw) * 1.05);
+    height: calc(var(--basich) * 1.05);
+
+    position: absolute;
+}
+
+#px_2 {
+    width: calc(var(--basicw) * 1.15);
+    height: calc(var(--basich) * 1.15);
+
+    position: absolute;
+}
+
+#px_3 {
+    width: calc(var(--basicw) * 1.25);
+    height: calc(var(--basich) * 1.25);
+
+    position: absolute;
+}
+
+.parsvg{
+    width: 90%;
+    height: 90%;
+    object-fit: fill;
+}
+
+
