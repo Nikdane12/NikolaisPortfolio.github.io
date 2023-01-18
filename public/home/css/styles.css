@@ -438,7 +438,7 @@ p {
     margin: auto;
 }
 
-.svg-cont>* {
+.svg-cont>div>* {
     width: 200px;
     height: 200px;
 }
@@ -452,8 +452,59 @@ p {
     gap: 10px;
 }
 
-.img-cont>img {
+.img-cont>div>img {
     width: 100%;
+}
+
+img[src$='.png'], img[src$='.gif'] {
+    border-radius: 25px;
+}
+
+.onexone>*{
+    aspect-ratio: 1 / 1;
+}
+
+.column2{
+    grid-column: span 2;
+}
+
+.column2>*{
+    aspect-ratio: 2 / 1;
+}
+
+.row2{
+    grid-row: span 2;
+}
+
+.row2>*{
+    aspect-ratio: 1 / 2;
+}
+
+.anim{
+    transition: 0.5s ease;
+    opacity: 0;
+}
+
+.anim-up{
+    transform: translateY(50px);
+}
+
+.anim-right{
+    transform: translatex(50px);
+}
+
+.anim-left{
+    transform: translatex(-50px);
+}
+
+.anim-delay{
+    transition-delay: 0.25s !important;
+}
+
+.animstart{
+    transition: 0.5s ease;
+    opacity: 1;
+    transform: translateY(0px) translateX(0px);
 }
 
 @media only screen and (min-width: 500px) {
@@ -464,16 +515,16 @@ p {
         grid-gap: 1rem;
     }
 
-    .img-cont>img {
+    .img-cont>div>img {
         object-fit: cover;
     }
 
-    .img-cont>img:nth-child(1) {
+    .img-cont>div>img:nth-child(1) {
         grid-column-start: 1;
         grid-column-end: 3;
     }
 
-    .img-cont>img:nth-child(3) {
+    .img-cont>div>img:nth-child(3) {
         grid-row-start: 1;
         grid-row-end: 3;
         grid-column: 4;
@@ -561,3 +612,17 @@ p {
         width: 2000px;
     }
 }
+
+
+/* 
+cd/
+cd Local
+cd Nikolai
+cd Skole
+cd VG2
+cd IT
+cd VSCODEProjects
+cd PortfolioServer
+npm i
+node app.js
+ */
