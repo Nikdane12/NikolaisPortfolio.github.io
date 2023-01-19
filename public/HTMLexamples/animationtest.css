@@ -1,0 +1,27 @@
+:root{
+    --columns: auto auto auto auto;
+    --rows: auto auto auto auto;
+}
+
+body{
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.demo{
+    width: 20px;
+    height: 20px;
+    background-color: grey;
+}
+
+#wrapper{
+    width: 1000px;
+    /* display: grid;
+    grid-template-columns: auto auto auto auto auto;
+    */
+    display: flex;
+
+}
