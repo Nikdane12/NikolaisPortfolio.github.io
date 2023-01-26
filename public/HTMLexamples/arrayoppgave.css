@@ -1,0 +1,107 @@
+body {
+    background-color: whitesmoke;
+    color: #000;
+    font-family: 'Open Sans', sans-serif;
+}
+
+a, a:visited{
+    font-size: 15px;
+    color: #000;
+}
+
+.versionbutton{
+    padding: 10px;
+}
+
+.mainbody{
+    margin-top: 50px;
+    position: relative;
+    width: 80%;
+    left: 10%;
+}
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+}
+
+th{
+    padding: 12px 15px;
+    background-color: #2d353f;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+th:first-child{
+    border-radius: 4px 0 0 0;
+}
+
+th:last-child{
+    border-radius: 0 4px 0 0;
+}
+
+tr:last-child > td:first-child{
+    border-radius: 0 0 0 4px;
+}
+
+tr:last-child > td:last -child{
+    border-radius: 0 0 4px 0;
+}
+
+
+td {
+    padding: 12px 15px;
+    text-align: left;
+    color: black;
+}
+
+tr:nth-child(2n+1) > td{
+    background-color: lightblue;
+}
+
+tr:nth-child(1){
+    background-color: transparent;
+}
+
+input[type='text'], input[type='number'] {
+    padding: 12px 15px;
+    border: none;
+    border-radius: 4px;
+    margin: 8px 0;
+    background-color: #c8c8c8;
+    color: #232f3e;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.button {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.button:hover, .button:focus {
+    background-color: #409443
+}
+
+.right{
+    width: max-content;
+    float: right;
+}
+
+.left{
+    width: max-content;
+    float: left;
+}
+
+#back{
+    display: none;
+}
