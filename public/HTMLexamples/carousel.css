@@ -1,0 +1,38 @@
+body{
+    background-color: black;
+    width: 100vw;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+}
+
+#slider{
+    opacity: 0;
+    z-index: 999;
+    width: 100%;
+    top: -10px;
+    left: -50%;
+    position: relative;
+}
+
+#carousel{
+    width: max-content;
+    position: relative;
+    top: 60%;
+    left: 60%;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    transition: ease 0.3s;
+}
+
+.pic > img{
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+p{
+    color: white;
+    font-size: 10px;
+}
