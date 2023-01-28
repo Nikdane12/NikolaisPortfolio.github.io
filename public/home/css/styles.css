@@ -457,11 +457,16 @@ p {
 }
 
 img[src$='.png'], img[src$='.gif'] {
+    display: block;
     border-radius: 25px;
 }
 
 .onexone>*{
     aspect-ratio: 1 / 1;
+}
+
+.onexone{
+    height: max-content;
 }
 
 .column2{

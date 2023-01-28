@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body onload = "guessoutput(lownum, highnum); outputstuff()">
+    <h1>Guess!</h1>
+    <button onclick="reset()" style="float: right">Reset</button>
+    <span id="output"></span>
+    <br>
+    <button onclick="higher()" class="button">Higher</button>
+    <button onclick="lower()" class="button">Lower</button>
+    <button onclick="right()" class="button">Correct</button>
+
+    <span style="float: left;">My number is:</span>
+    <div id="times"></div>
+
+
+</body>
+<script>
+    let guessoutput = document.getElementById('output')
+    let numberofguessesoutput = document.getElementById('times')
+    let randomnum
+    let times = 0
+    let lownum = 0
+    let highnum = 100
+
+    const outputstuff = () => {
+        guessoutput.innerHTML = `Is your number: ${randomnum}?`
+    }
+
+    const guess = (min, max) => {
+        randomnum = Math.floor(Math.random() * (max - min) + min)
+        numberofguessesoutput.innerHTML = "Guessed " + ++times + " time" + (times > 1 ? "s" : "") + "."
+        if(times >=  7){
+            document.querySelectorAll(".button").forEach((e) => e.disabled = true)
+        }
+        else{
+            document.querySelectorAll(".button").forEach((e) => e.disabled = false)            
+        }
+        outputstuff()
+    }
+
+    const higher = () => {
+        lownum = randomnum
+        guessoutput(lownum, highnum)
+    }
+
+    const lower = () => {
+        highnum = randomnum
+        guessoutput(lownum, highnum)
+    }
+
+    const right = () => {
+        guessoutput.innerHTML = `I knew your number was ${randomnum} all along.`
+    }
+
+    const reset = () => {
+        lownum = 0
+        hightnum = 100
+        times = 0
+        guessoutput(lownum, highnum)
+    }
+</script>
+</html>
