@@ -8,7 +8,7 @@
     <title>Document</title>
 </head>
 
-<body onload = "guessoutput(lownum, highnum); outputstuff()">
+<body onload = "guess(lownum, highnum); outputstuff()">
     <h1>Guess!</h1>
     <button onclick="reset()" style="float: right">Reset</button>
     <span id="output"></span>
@@ -48,23 +48,24 @@
 
     const higher = () => {
         lownum = randomnum
-        guessoutput(lownum, highnum)
+        guess(lownum, highnum)
     }
 
     const lower = () => {
         highnum = randomnum
-        guessoutput(lownum, highnum)
+        guess(lownum, highnum)
     }
 
     const right = () => {
         guessoutput.innerHTML = `I knew your number was ${randomnum} all along.`
+        document.querySelectorAll(".button").forEach((e) => e.disabled = true)        
     }
 
     const reset = () => {
         lownum = 0
         hightnum = 100
         times = 0
-        guessoutput(lownum, highnum)
+        guess(lownum, highnum)
     }
 </script>
 </html>
