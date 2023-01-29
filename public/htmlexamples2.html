@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/code.js"></script>
+    <link rel="stylesheet" href="/home/css/styles.css">
+    <title>Nikolai's HTML Examples</title>
+    <link rel="icon" href="/home/favicon.ico" />
+    <meta name="viewport" content="width=device-width"/>
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <div class="sidemenu">
+            <div class="menubutton" onclick="tglMenu()"></div>
+                <div id="menux"></div>
+            <ul id="menubox">
+                <li><a class="menu__item" href="htmlprojects.html">HTML Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">HTML Examples</a></li>
+                <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+            </ul>
+        </div>
+        <a href="/" class="homelink">
+            <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tgl()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        
+    </div>
+<div id="mainbodyforcards">
+    <div class="title">HTML Examples</div>
+    <!-- <div class="card-cont">
+        <div class="card">
+            <a href="/HTMLexamples/exampleparallax.html" target="_blank"><img src="home/img/Practice1.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/radialarray.html" target="_blank"><img src="home/img/RadialArray.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/kalkulator.html" target="_blank"><img src="home/img/Kalkulator.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/sparing.html" target="_blank"><img src="home/img/Sparing.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/quiz.html" target="_blank"><img src="home/img/quiz.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/animationtest.html" target="_blank"><img src="home/img/animationtest.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/arrayoppgave.html" target="_blank"><img src="home/img/Array_Oppgave.png" class="cardimg"></a>
+        </div>
+        <div class="card">
+            <a href="/HTMLexamples/carousel.html" target="_blank"><img src="home/img/Carousel.png" class="cardimg"></a>
+        </div>
+        
+    </div> -->
+    <div id="iframecont">
+        <iframe src="/HTMLexamples/exampleparallax.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/radialarray.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/kalkulator.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/sparing.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/quiz.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/animationtest.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/arrayoppgave.html" frameBorder="0"></iframe>
+        <iframe src="/HTMLexamples/carousel.html" frameBorder="0"></iframe>
+    </div>
+</div>
+</body>

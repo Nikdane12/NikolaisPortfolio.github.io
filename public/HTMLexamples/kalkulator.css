@@ -1,4 +1,9 @@
-body{color:white;font-size:40px;font-family: Tahoma;}
+body{
+    color:white;
+    font-size:40px;
+    font-family: Tahoma;
+    background-color: white;
+}
 
 #button-cont{
     width: 300px;

@@ -2,6 +2,7 @@ body {
     width: 100vw;
     height: 100vh;
     margin: 10px;
+    background-color: white;
     overflow: hidden;
     display: grid;
     grid-template-areas: 'total dist options' 'button button button' 'cont cont cont';

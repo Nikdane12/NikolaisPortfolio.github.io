@@ -11,7 +11,6 @@ const divs = []
             divs.forEach(element =>{
                 element.style.left = `${xoffset * (element.offsetWidth-w)}px`
                 element.style.top = `${yper * (element.offsetHeight-h)}px`
-                console.log(3)
             
             })
 
@@ -22,10 +21,8 @@ const divs = []
             divs.push(document.getElementById("px_2"))
             divs.push(document.getElementById("px_3"))
             const m = document.getElementById("mousecapture")
-            console.log(m)
             m.onmousemove = e => setMouse(e.offsetX, e.offsetY, e.target.offsetWidth, e.target.offsetHeight)
             setMouse(m.offsetWidth / 2, m.offsetHeight / 2, m.offsetWidth, m.offsetHeight)
-            console.log(4)
         }
 
  

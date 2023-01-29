@@ -1,7 +1,6 @@
 let wrapper = document.getElementById('wrapper')
-
 let columns = 0, rows = 0, toggled = false
-
+const myPath = anime.path('path');
 const toggle = () => {
   toggled = !toggled
 }
@@ -15,7 +14,7 @@ const click = index => {
   else{
     document.body.classList.remove('toggled')
   }
-  let tiles = anime({
+  anime({
     targets: '.tile',
     scale: {
       value: toggled ? 0 : 1,
@@ -51,6 +50,25 @@ const click = index => {
       delay: anime.stagger(200, { start: 30 * Math.max(columns, rows) + 100})
     },
   })
+  let loadingcircles = document.getElementsByClassName('circle')
+  let loading = anime.timeline({
+    easing: 'linear',
+    duration: 750,
+    loop: true,
+  })
+  loading
+  .add({
+    targets: loadingcircles[0],
+    easing: 'easeInOutSine',
+    translateX: myPath('x'),
+    translateY: myPath('y'),
+  })
+  .add({
+    targets: [loadingcircles[1], loadingcircles[2]],
+    translateX: -20,
+    delay: anime.stagger(100, 200)
+  })
+
 }
 
 

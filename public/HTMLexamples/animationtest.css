@@ -2,6 +2,7 @@ body{
     height: 100vh;
     overflow: hidden;
     margin: 0px;
+    background-color: white;
 }
 
 #wrapper {
@@ -49,4 +50,25 @@ body.toggled > #wrapper{
 
   .words{
     font-size: 2rem;
+  }
+
+  .loading{
+    width: 100px;
+    height: 100px;
+    display: flex;
+  }
+
+  .circle{
+    width: 20px;
+    height: 20px;
+    border-radius: 40px;
+    background-color: red;
+    position: absolute;
+  }
+
+  .curve{
+    stroke: black;
+    fill: none;
+    stroke-width: 1px;
+    height: 50px;
   }
