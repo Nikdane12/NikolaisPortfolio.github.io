@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blocks</title>
+    <style>
+        body {
+            background-color: rgb(38, 38, 50);
+            margin: 0;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: max-content;
+            border: solid 1px green;
+
+        }
+
+        #blockcont {
+            display: grid;
+            grid-template-columns: repeat(var(--columns), auto) ;
+        }
+
+        .singleblock,
+        #mainblock {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(125, 125, 125, 0.1);
+            border: solid 2px rgba(125, 125, 125, 0.1);
+        }
+
+        .singleblock:nth-child(-2n+8), 
+.singleblock:nth-child(8) ~ .singleblock:nth-child(-2n+15), 
+.singleblock:nth-child(16) ~ .singleblock:nth-child(-2n+24),
+.singleblock:nth-child(24) ~ .singleblock:nth-child(-2n+31),
+.singleblock:nth-child(32) ~ .singleblock:nth-child(-2n+40),
+.singleblock:nth-child(40) ~ .singleblock:nth-child(-2n+47),
+.singleblock:nth-child(48) ~ .singleblock:nth-child(-2n+56),
+.singleblock:nth-child(56) ~ .singleblock:nth-child(-2n+63) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+        #mainblock {
+            position: absolute;
+            /* transition: .75s ease-in-out; */
+        }
+
+        .singleblock:hover {
+            filter: brightness(0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div id="mainblock"></div>
+        <div id="blockcont"></div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
+<script>
+    let blockcont = document.getElementById('blockcont')
+    let mainblock = document.getElementById('mainblock')
+    let rows = 8
+    let columns = 8
+
+    const createTile = index => {
+        const singleblock = document.createElement("div")
+        singleblock.classList.add("singleblock")
+        singleblock.onclick = e => moveto(index, true)
+        return singleblock
+    }
+
+    const createTiles = quantity => {
+        Array.from(Array(quantity)).map((tile, index) => {
+            blockcont.appendChild(createTile(index))
+        })
+        blockcont.style.setProperty("--columns", Math.sqrt(quantity))
+    }
+
+    createTiles(rows * columns) //only root numbers
+
+    const moveto = (index, animTF) => {
+        const wrapperOffset = blockcont.offsetHeight
+        const clickblock = document.getElementsByClassName('singleblock')[index]
+        const wrapperPosX = blockcont.getBoundingClientRect().left
+        const positionX = clickblock.getBoundingClientRect().left
+        const distanceX = -(wrapperPosX - positionX)
+        const wrapperPosY = blockcont.getBoundingClientRect().top
+        const positionY = clickblock.getBoundingClientRect().top
+        const distanceY = -(wrapperPosY - positionY)
+        // anime({
+        //     targets: mainblock,
+        //     translateY: '100px',
+        //     easing: 'easeInSine',
+        //     duration: 500,
+        // })
+        if (animTF) {
+            anime({
+                targets: mainblock,
+                backgroundColor: ['rgba(125, 125, 125, 0.1)', 'rgba(255, 185, 31, 0.5)', 'rgba(125, 125, 125, 0.1)'],
+                easing: 'easeInOutQuad',
+                duration: 1500,
+                translateX: {
+                    value: distanceX,
+                    easing: 'easeInSine',
+                    duration: 750
+                },
+                translateY: {
+                    value: distanceY,
+                    easing: 'easeInSine',
+                    duration: 750
+                },
+            })
+            // mainblock.style.transform = `translate(${distanceX}px, ${distanceY}px)`
+            // mainblock.style.backgroundColor = 'rgba(125, 125, 125, 0.1)'
+            // setTimeout(() => {mainblock.style.backgroundColor ='rgba(255, 206, 31, 0.5)'}, 500)
+            // setTimeout(() => {mainblock.style.backgroundColor ='rgba(125, 125, 125, 0.1)'}, 1000)
+
+        }
+        else {
+            anime({
+                targets: mainblock,
+                easing: 'steps(1)',
+                duration: 750,
+                translateX: distanceX,
+                translateY: distanceY,
+            })
+
+
+        }
+
+
+    }
+
+    moveto(0, false)
+
+</script>
+
+</html>

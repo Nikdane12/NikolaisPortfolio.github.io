@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChessJS</title>
+    <style>
+        body {
+            background-color: rgb(38, 38, 50);
+            /* background-color: rgb(177, 177, 181); */
+            margin: 0;
+        }
+
+        #wrapper {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: max-content;
+            height: max-content;
+            border: solid 1px green;
+
+        }
+
+        #blockcont {
+            display: grid;
+            grid-template-columns: repeat(var(--columns), auto) ;
+        }
+
+        .singleblock{
+            position: relative;
+            width: 50px;
+            height: 50px;
+            background-color: rgba(125, 125, 125, 0.1);
+            border: solid 2px rgba(125, 125, 125, 0.1);
+        }
+
+        .singleblock:nth-child(-2n+8), 
+.singleblock:nth-child(8) ~ .singleblock:nth-child(-2n+15), 
+.singleblock:nth-child(16) ~ .singleblock:nth-child(-2n+24),
+.singleblock:nth-child(24) ~ .singleblock:nth-child(-2n+31),
+.singleblock:nth-child(32) ~ .singleblock:nth-child(-2n+40),
+.singleblock:nth-child(40) ~ .singleblock:nth-child(-2n+47),
+.singleblock:nth-child(48) ~ .singleblock:nth-child(-2n+56),
+.singleblock:nth-child(56) ~ .singleblock:nth-child(-2n+63) {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+        .singleblock:hover {
+            filter: brightness(0.5);
+        }
+
+        #pieceholder{
+            position: absolute;
+        }
+
+        .piece, .Gdotcont{
+            position: fixed;
+            pointer-events: none; 
+            z-index: 999;
+            transition: 0.5s ease;
+            width: 50px;
+            height: 50px;
+            top: 0px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .Gdotcont{
+            transition: none !important;
+        }
+
+        .greendot{
+            width: 25px;
+            height: 25px;
+            background-color: rgba(0, 255, 0, 0.2);
+            border-radius: 50px;
+        }
+
+        .sidestuff{
+            position: relative;
+        }
+
+        .sidestuff>*{
+            display: flex;
+            justify-content: space-around;
+
+        }
+        .left{
+            flex-direction: column;
+            position: absolute;
+            height: 427px;
+            width: 18px;
+            left: -18px;
+            text-orientation: upright;
+
+        }
+
+        .top{
+            position: absolute;
+            width: 100%;
+            top: -22px;
+        }
+
+        .piece{
+            background-repeat: no-repeat;
+            background-position: 50%, 0%;
+            background-size: 40%;
+        }
+
+        .q.piece, .k.piece{
+            background-size: 60%;
+        }
+
+        .piece.white{
+            filter: invert(1);
+        }
+
+        .p.piece{
+            background-image: url(/chess/SVG/pawn.svg);
+        }
+        .b.piece{
+            background-image: url(/chess/SVG/bishop.svg);
+        }
+        .k.piece{
+            background-image: url(/chess/SVG/king.svg);
+        }
+        .n.piece{
+            background-image: url(/chess/SVG/knight.svg);
+            background-size: 40%;
+        }
+        .q.piece{
+            background-image: url(/chess/SVG/queen.svg);
+        }
+        .r.piece{
+            background-image: url(/chess/SVG/rook.svg);
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <div class="sidestuff">
+            <div class="left"><div>1</div> <div>2</div> <div>3</div> <div>4</div> <div>5</div> <div>6</div> <div>7</div> <div>8</div></div>
+            <div class="top"><div>A</div> <div>B</div> <div>C</div> <div>D</div> <div>E</div> <div>F</div> <div>G</div> <div>H</div></div>
+        </div>
+        <div id="blockcont"></div>
+    </div>
+    <div id="pieceholder"></div>
+    <div id="dotholder"></div>
+
+    
+</body>
+<script src="/home/js/svg-inject.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/animejs@3.0.1/lib/anime.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chess.js@0.10.2/chess.min.js"></script>
+<script src="/HTMLprojects/chess/chessJS.js"></script>
+
+
+</html>

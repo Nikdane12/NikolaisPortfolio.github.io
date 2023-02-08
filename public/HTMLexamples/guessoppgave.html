@@ -5,11 +5,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Guess!</title>
 </head>
 
-<body onload = "guess(lownum, highnum); outputstuff()">
-    <h1>Guess!</h1>
+<body onload="guess(lownum, highnum)">
+    <h1>Guess!
+        <span>1-100</span>
+    </h1>
     <button onclick="reset()" style="float: right">Reset</button>
     <span id="output"></span>
     <br>
@@ -29,21 +31,21 @@
     let times = 0
     let lownum = 0
     let highnum = 100
+    const oglownum = lownum
+    const oghighnum = highnum
 
-    const outputstuff = () => {
-        guessoutput.innerHTML = `Is your number: ${randomnum}?`
-    }
+    const gitrandom = (min, max) => Math.ceil(Math.random() * (max - min) + min)
 
-    const guess = (min, max) => {
-        randomnum = Math.floor(Math.random() * (max - min) + min)
+    const guess = (lownum, highnum) => {
+        randomnum = gitrandom(lownum, highnum)
         numberofguessesoutput.innerHTML = "Guessed " + ++times + " time" + (times > 1 ? "s" : "") + "."
-        if(times >=  7){
+        if (times >= 7) {
             document.querySelectorAll(".button").forEach((e) => e.disabled = true)
         }
-        else{
-            document.querySelectorAll(".button").forEach((e) => e.disabled = false)            
+        else {
+            document.querySelectorAll(".button").forEach((e) => e.disabled = false)
         }
-        outputstuff()
+        guessoutput.innerHTML = `Is your number: ${randomnum}?`
     }
 
     const higher = () => {
@@ -58,12 +60,12 @@
 
     const right = () => {
         guessoutput.innerHTML = `I knew your number was ${randomnum} all along.`
-        document.querySelectorAll(".button").forEach((e) => e.disabled = true)        
+        document.querySelectorAll(".button").forEach((e) => e.disabled = true)
     }
 
     const reset = () => {
-        lownum = 0
-        hightnum = 100
+        lownum = oglownum
+        hightnum = oghighnum
         times = 0
         guess(lownum, highnum)
     }

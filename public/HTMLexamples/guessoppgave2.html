@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess2!</title>
+</head>
+
+<body onload="guess(lownum, highnum)">
+    <h1>Guess!
+        <span>1-100</span>
+    </h1>
+    <button onclick="reset()" style="float: right">Reset</button>
+    <span style="float: left;">Er tallet ditt:</span>
+    <input id="numinput" type="number" style="width:3rem"><span>?</span>
+    <button class="button" onclick="submit()">submit</button>
+    <br>
+    <div id="output"></div>
+
+    <div id="times"></div>
+
+
+</body>
+<script>
+    let numberinput = document.getElementById('numinput')
+    let guessoutput = document.getElementById('output')
+    let numberofguessesoutput = document.getElementById('times')
+    let randomnum
+    let times = 0
+    let lownum = 0
+    let highnum = 100
+
+    const gitrandom = (min, max) => Math.ceil(Math.random() * (max - min) + min)
+
+    const guess = (lownum, highnum) => {
+        guessoutput.innerHTML = ""
+        guessoutput.style.color = "black"
+        numberofguessesoutput.innerHTML = ""
+        numberinput.value = ""
+        randomnum = gitrandom(lownum, highnum)
+    }
+
+    const submit = () => {
+        if(numberinput.value < randomnum){
+            guessoutput.innerHTML = `Nei, for lavt tall`
+        }
+        if(numberinput.value > randomnum){
+            guessoutput.innerHTML = `Nei, for høyt tall`
+        }
+        if(numberinput.value == randomnum){
+            guessoutput.innerHTML = `Ja!`
+            guessoutput.style.border = "solid 2px green"
+        }
+        if (times == 6) {
+            document.querySelectorAll(".button").forEach((e) => e.disabled = true)
+            guessoutput.innerHTML = `Ops! Du har brukt alle gjetninger`
+            numberofguessesoutput.innerHTML = "Gjettet 7 ganger. Du har 0 ganger."
+        }
+        else {
+            document.querySelectorAll(".button").forEach((e) => e.disabled = false)
+            numberofguessesoutput.innerHTML = "Gjettet " + ++times + " gang" + (times > 1 ? "er" : "") + ". Du har " + (7 -times) + " ganger."
+        }
+        numberinput.value = ""
+    }
+
+    const reset = () => {
+        times = 0
+        guess(lownum, highnum)
+    }
+</script>
+</html>
