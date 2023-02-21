@@ -8,9 +8,10 @@
     <title>ChessJS</title>
     <style>
         body {
-            background-color: rgb(38, 38, 50);
-            /* background-color: rgb(177, 177, 181); */
+            /* background-color: rgb(38, 38, 50); */
+            background-color: rgb(177, 177, 181);
             margin: 0;
+            color: white;
         }
 
         #wrapper {
@@ -20,7 +21,7 @@
             transform: translate(-50%, -50%);
             width: max-content;
             height: max-content;
-            border: solid 1px green;
+            border: solid 1px rgba(255, 255, 255, 0.3);
 
         }
 
@@ -138,10 +139,54 @@
         .r.piece{
             background-image: url(/chess/SVG/rook.svg);
         }
+
+        .spinner-cont{
+            top: -2%;
+            left: 2%; 
+            position: absolute;
+        }
+
+        #spinner{
+            background: -moz-linear-gradient(180deg, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%);
+            background: -webkit-linear-gradient(180deg, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%);
+            background: linear-gradient(180deg, rgba(255,255,255,1) 50%, rgba(0,0,0,1) 50%);
+
+            width: 50px;
+            height: 50px;
+            top: -2%;
+            left: 2%; 
+            border-radius: 200px;
+            transform: rotate(180deg);
+            transition: 0.3s ease;
+        }
+
+        .pointer{
+            position: absolute;
+            top: 90%;
+            left: calc(50% - 10px);
+            margin-top: -10px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent #ff0000 transparent;
+        }
+
+        .button{
+            float: right;
+            width: 100px;
+            height: 30px;
+            margin: 10px;
+            background-color: rgba(128, 128, 128, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid 2px white;
+            border-radius: 25px;
+        }
+
     </style>
 </head>
 
-<body>
+<body onload="startup()">
     <div id="wrapper">
         <div class="sidestuff">
             <div class="left"><div>1</div> <div>2</div> <div>3</div> <div>4</div> <div>5</div> <div>6</div> <div>7</div> <div>8</div></div>
@@ -151,6 +196,12 @@
     </div>
     <div id="pieceholder"></div>
     <div id="dotholder"></div>
+    <div class="spinner-cont">
+        <div id="spinner"></div>
+        <div class="pointer"></div>
+    </div>
+    <div class="button" onclick="reset()"><p>Reset</p></div>
+
 
     
 </body>
