@@ -1,7 +1,7 @@
 const networks = require('./networks')
 const express = require('express')
-// const { default: axios } = require('axios')
-const axios = require('axios')
+const { default: axios } = require('axios')
+// const axios = require('axios')
 const port = 88
 let hostname = networks.wifi?.address
 
@@ -71,11 +71,21 @@ const newtonotflix = [
 
 
 const getFilms = async (imdbIds, addProgress) => {
+    let headers = {
+        'Accept': 'application/json',
+        'Accept-Encoding': 'identity'
+    }
 
     const films = []
 
     for (var id of imdbIds) {
-        const response = await axios.get(`https://www.omdbapi.com/?i=tt10954984&apikey=99ec1739`)
+        let response
+        try {
+            response = await axios.get(`https://www.omdbapi.com/?i=${id}&apikey=99ec1739`, {headers})
+
+        } catch (error) {
+            console.log(error);
+        }
         
         var filmProgress
 

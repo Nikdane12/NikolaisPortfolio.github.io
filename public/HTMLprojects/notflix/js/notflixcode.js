@@ -3,7 +3,7 @@ let filmPics
 
 const main = async () => {
 
-    const slkdncfilmPics = await axios.get('http://10.144.32.198:88/getpics')
+    const slkdncfilmPics = await axios.get('http://109.247.40.92/getpics')
     filmPics = slkdncfilmPics.data
     const mainbody = document.getElementById('mainbody')
 
