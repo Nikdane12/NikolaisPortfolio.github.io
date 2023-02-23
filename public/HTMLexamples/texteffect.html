@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Effect</title>
+    <script src="/HTMLexamples/texteffect.js"></script>
+
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Major+Mono+Display&display=swap');    
+    body{
+        margin: 0;
+        background-color: rgb(38, 38, 38);
+        
+    }
+    #mainbody{
+        /* display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center; */
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        grid-template-rows: repeat(6, 1fr);
+        /* gap: 10px; */
+        width: 100vw;
+        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
+    }
+
+    .glitchtexteffect{
+        font-family: 'Major Mono Display', monospace;
+        font-size: 32px;
+        color: white;
+        /* color: black; */
+        padding: 10px 15px;
+        border-radius: 5px;
+        border: solid 2px white;
+        width: max-content;
+        text-align: center;
+        height: min-content;
+    }
+
+    .glitchtexteffect.orange{
+        background-image: -moz-linear-gradient(-90deg, rgba(255,255,255,1) 50%, #ffe600 50%);
+        background-image: -webkit-linear-gradient(-90deg, rgba(255,255,255,1) 50%, #ffe600 50%);
+        background-image: linear-gradient(-90deg, rgba(255,255,255,1) 50%, #ffe600 50%);
+        background-size: 200%;
+        background-position: 95% 0%;
+        color: black;
+        border: none;
+        border-radius: 0;
+        transition: 0.5s ease;
+    }
+
+    .glitchtexteffect.orange:hover{
+        background-position: 5% 0%;
+        transition: 0.5s ease;
+        transition-delay: 0.2s;
+    }
+
+    .glitchtexteffect.littleorange{
+        background-image: -moz-linear-gradient(-90deg, rgba(255,255,255,0) 50%, #ffe600 50%);
+        background-image: -webkit-linear-gradient(-90deg, rgba(255,255,255,0) 50%, #ffe600 50%);
+        background-image: linear-gradient(-90deg, rgba(255,255,255,0) 50%, #ffe600 50%);
+        background-size: 200%;
+        background-position: 95% 0%;
+        border: none;
+        border-radius: 0;
+        transition: 0.5s ease;
+    }
+
+    .glitchtexteffect.littleorange:hover{
+        background-position: 0% 0%;
+        color: black;
+        transition: 0.5s ease;
+        transition-delay: 0.2s;
+    }
+
+    /* .glitchtexteffect:hover, .glitchtexteffect:focus{
+        background-color: black;
+        color: white;
+    } */
+
+    @keyframes lines-pan {
+        from {
+            background-position: 0% 0%;
+        }
+        to {
+            background-position: 200% 200%;
+        }
+    }
+
+    #line-cont{
+        overflow: hidden;
+        position: absolute;
+        width: 100vw;
+        height: 100vh;
+        width: 100dvw;
+        height: 100dvh;
+        top: 0;
+        z-index: -1;
+    }
+
+    .line{
+        position: absolute;
+        animation: lines-pan 10s linear infinite;
+        background-size: 200% 200%;
+        background-repeat: repeat;
+        transition: 0.5s ease;
+        opacity: 0.5;
+    }
+
+    .line.vertical{
+        background-image: -moz-linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        background-image: -webkit-linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        background-image: linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        width: 2px;
+        height: 100vh;
+        top: 0;
+    }
+
+    .line.horizontal{
+        background-image: -moz-linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        background-image: -webkit-linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        background-image: linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        width: 100vw;
+        height: 2px;
+    }
+    .line.vertical#left{left: 10%;}
+    .line.vertical#right{left: 90%;}
+    .line.horizontal#top{top: 10%;}
+    .line.horizontal#bottom{top: 90%;}
+
+</style>
+<body onload="startup()">
+    <div id="line-cont"></div>
+    <div id="mainbody">
+        <div class="glitchtexteffect orange" style="grid-area: 2 / 5 / 3 / 7;" tabindex="0" value="projects">projects</div>
+        <div class="glitchtexteffect littleorange" style="grid-area: 3 / 2 / 4 / 4;" tabindex="0" value="examples">examples</div>
+        <div class="glitchtexteffect" style="grid-area: 5 / 4 / 6 / 6;" tabindex="0" value="design">design</div>
+    </div>
+    
+    
+    <!-- <div id="test" style="display: flex; height: 1000px"></div> -->
+</body>
+</html>
