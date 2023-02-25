@@ -36,11 +36,12 @@
         color: white;
         /* color: black; */
         padding: 10px 15px;
-        border-radius: 5px;
-        border: solid 2px white;
+        border: solid 1px white;
         width: max-content;
         text-align: center;
         height: min-content;
+        transition: 0.5s ease;
+
     }
 
     .glitchtexteffect.orange{
@@ -51,8 +52,6 @@
         background-position: 95% 0%;
         color: black;
         border: none;
-        border-radius: 0;
-        transition: 0.5s ease;
     }
 
     .glitchtexteffect.orange:hover{
@@ -68,13 +67,17 @@
         background-size: 200%;
         background-position: 95% 0%;
         border: none;
-        border-radius: 0;
-        transition: 0.5s ease;
     }
 
     .glitchtexteffect.littleorange:hover{
         background-position: 0% 0%;
         color: black;
+        transition: 0.5s ease;
+        transition-delay: 0.2s;
+    }
+
+    .glitchtexteffect.border:hover{
+        border-color: rgba(255,255,255,0);
         transition: 0.5s ease;
         transition-delay: 0.2s;
     }
@@ -106,26 +109,30 @@
 
     .line{
         position: absolute;
-        animation: lines-pan 10s linear infinite;
+        animation: lines-pan 18s linear infinite;
         background-size: 200% 200%;
         background-repeat: repeat;
         transition: 0.5s ease;
         opacity: 0.5;
     }
 
+    .line:nth-child(2n){animation-delay: 0.2s;animation-duration: 16s;}
+    .line:nth-child(3n){animation-delay: 0.4s;animation-duration: 14s;animation-direction: reverse;}
+
+
     .line.vertical{
-        background-image: -moz-linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
-        background-image: -webkit-linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
-        background-image: linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        background-image: -moz-linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 100%);
+        background-image: -webkit-linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 100%);
+        background-image: linear-gradient(0deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 100%);
         width: 2px;
         height: 100vh;
         top: 0;
     }
 
     .line.horizontal{
-        background-image: -moz-linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
-        background-image: -webkit-linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
-        background-image: linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 50%, rgba(76,76,76,1) 100%);
+        background-image: -moz-linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 100%);
+        background-image: -webkit-linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 100%);
+        background-image: linear-gradient(90deg, rgba(76,76,76,1) 0%, rgba(38, 38, 38) 100%);
         width: 100vw;
         height: 2px;
     }
@@ -140,7 +147,7 @@
     <div id="mainbody">
         <div class="glitchtexteffect orange" style="grid-area: 2 / 5 / 3 / 7;" tabindex="0" value="projects">projects</div>
         <div class="glitchtexteffect littleorange" style="grid-area: 3 / 2 / 4 / 4;" tabindex="0" value="examples">examples</div>
-        <div class="glitchtexteffect" style="grid-area: 5 / 4 / 6 / 6;" tabindex="0" value="design">design</div>
+        <div class="glitchtexteffect border" style="grid-area: 5 / 4 / 6 / 6;" tabindex="0" value="design">design</div>
     </div>
     
     
