@@ -1,4 +1,5 @@
 .vscode/
+config.local.js
 
 # Logs
 logs

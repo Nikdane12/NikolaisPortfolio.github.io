@@ -2,7 +2,9 @@ const networks = require('./networks')
 const express = require('express')
 const { default: axios } = require('axios')
 // const axios = require('axios')
-const port = 88
+const config = require('./config')
+const portfolio = config.getApp('portfolio')
+const port = portfolio.port
 let hostname = networks.wifi?.address
 
 if (typeof hostname === 'undefined') {
@@ -157,7 +159,7 @@ app.get('/getpics', async (req, res) => {
 const server = app.listen(port, hostname)
 
 const sayHello = async () => {
-    console.log(`INFO: Server listening on ${hostname}:${port}, Pid: ${process.pid}`)
+    console.log(`${portfolio.name} listening on ${hostname}:${port}, Pid: ${process.pid}`)
     filmList = await PreloadFilmList()
 }
 
