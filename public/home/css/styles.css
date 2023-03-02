@@ -29,7 +29,7 @@
     font-family: Billock;
     src: url(/home/fonts/BillockRegular-7BMGR.ttf);
 }
-
+@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;700&display=swap');
 /* ALL ICONS HERE!!!! (REMEMBER TO PUT ICON NAME AND "icon" IN CLASS OF SVG CODE WITH A SPACE INBETWEEN!!! ex: class="name icon")*/
 
 .icon {
@@ -77,6 +77,7 @@ body {
     overflow-x: hidden;
     box-sizing: border-box;
     scrollbar-color: rgb(var(--color1)) rgb(var(--color2));
+    font-family: 'Hanken Grotesk', sans-serif;
 }
 
 #bar {
@@ -258,6 +259,8 @@ body {
 body>div:nth-child(2) {
     margin-top: 70px;
 }
+body>div:last-child{
+}
 
 #mainbody {
     margin: 0px 5vw;
@@ -427,16 +430,25 @@ p {
 .card-cont {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: 50px 0px;
     justify-content: center;
 }
 
 .card {
     width: 300px;
-    height: 200px;
-    border-radius: 25px;
+    height: max-content;
+    border-radius: 35px;
     overflow: hidden;
-    border: 2px solid rgb(var(--textbasic));
+    /* background-color: rgb(var(--color1)); */
+    padding: 10px;
+    position: relative;
+    display: grid;
+    grid-template-areas: 'link link' 'title tags' 'date date';
+}
+
+.card>a{
+    position: relative;
+    grid-area: link;
 }
 
 .card>a>img {
@@ -444,6 +456,54 @@ p {
     object-fit: cover;
     width: 300px;
     height: 200px;
+}
+
+.cardtitle{
+    grid-area: title;
+    font-weight: 700;
+    padding-top: 11px;
+}
+.carddate{
+    grid-area: date;
+    font-size: 12px;
+    font-weight: 300;
+}
+
+.cardtitle, .carddate{
+    color: rgb(var(--textbasic));
+    padding-left: 10px;
+}
+
+.tags-cont{
+    position: relative;
+    justify-content: flex-end;
+    width: auto;
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    right: 10px;
+    grid-area: tags;
+}
+
+.tag>img{
+    background-color: rgb(230, 230, 230);
+}
+.tag-non{
+    color: rgb(var(--textbasic));
+    background-color: rgba(var(--color2), 0.7);
+    border-radius: 3px;
+    font-family: 'Hanken Grotesk', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 5px;
+    padding-top: 6px;
+}
+
+.tag>svg{
+    display: block;
+    width: 25px;
+    height: 25px;
+
 }
 
 .svg-cont {
