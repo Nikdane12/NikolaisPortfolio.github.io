@@ -13,10 +13,10 @@
     "requireadmin": "powershell ./scripts/requireadmin.ps1",
     "requirejava": "powershell ./scripts/requirejava.ps1",
 
-    "prewininstall": "npm run requireadmin && npm install node-windows -g && npm link node-windows",
-    "wininstall": "npx --yes run-func ./scripts/installer.js Install bodws",
+    "prewininstall": "npm run requireadmin && npm install node-windows@1.0.0-beta.8 -g && npm link node-windows",
+    "wininstall": "npx --yes run-func ./scripts/installer.js Install portfolio",
     "prewinuninstall": "npm run requireadmin",
-    "winuninstall": "npx --yes run-func ./scripts/installer.js Uninstall bodws"
+    "winuninstall": "npx --yes run-func ./scripts/installer.js Uninstall portfolio"
     
   },
   "keywords": [],
