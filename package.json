@@ -4,20 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    
     "test": "echo \"Error: no test specified\" && exit 1",
-
     "start": "node --max-old-space-size=4096 app",
     "install": "echo: && echo ***** && echo Note: To install as windows service, \"npm run wininstall --silent\" && echo ***** && echo:",
-
     "requireadmin": "powershell ./scripts/requireadmin.ps1",
     "requirejava": "powershell ./scripts/requirejava.ps1",
-
     "prewininstall": "npm run requireadmin && npm install node-windows@1.0.0-beta.8 -g && npm link node-windows",
     "wininstall": "npx --yes run-func ./scripts/installer.js Install portfolio",
     "prewinuninstall": "npm run requireadmin",
     "winuninstall": "npx --yes run-func ./scripts/installer.js Uninstall portfolio"
-    
   },
   "keywords": [],
   "author": "",
@@ -26,6 +21,7 @@
     "animejs": "^3.2.1",
     "axios": "^1.2.0",
     "chess.js": "^1.0.0-beta.2",
-    "express": "^4.18.1"
+    "express": "^4.18.1",
+    "three": "^0.150.1"
   }
 }
