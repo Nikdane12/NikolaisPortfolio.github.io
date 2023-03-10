@@ -16,6 +16,7 @@ const HTMLexamples = {
     title: 'HTML Examples', 
     group: 'HTMLexamples',
     cards: [
+        { name: 'Three.js Shaders', image: 'fox.png', link: 'threeJS2', datecreated: '06.03.23', tags: ['JS', 'TEST', 'LIBRARY']},
         { name: 'Three.js', image: 'threejsapp.png', link: 'threeJS', datecreated: '04.03.23', tags: ['JS', 'TEST', 'LIBRARY']},
         { name: 'Text Effect', image: 'TextEffect.png', link: 'texteffect', datecreated: '21.02.23', tags: ['JS', 'EXAMPLE']},
         { name: 'Blocks', image: 'blocks.png', link: 'blocks', datecreated: '01.02.23', tags: ['JS', 'TEST'],},
