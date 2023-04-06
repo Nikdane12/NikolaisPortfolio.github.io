@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Canvas Oppgave</title>
+
+    <style>
+        canvas {
+            background-color: lightblue;
+        }
+    </style>
+</head>
+<body>
+    <button id="button">Kast</button>
+    <canvas id="canvas" width = "350" height="220"></canvas>
+    
+    <script>
+
+        let button = document.getElementById('button')
+        let canvas = document.getElementById("canvas");
+
+        const program = () => {
+            let context = canvas.getContext("2d");
+            context.clearRect(0, 0, 350, 220)
+            let array = [0,0,0,0,0,0]
+            let dicesides = 6
+
+            const total = 50
+
+            for(let i = 0; i < total; i++){
+                array[Math.floor(Math.random() * 6)]++
+            }
+
+            console.log(array);
+
+            for(let i = 0; i < dicesides; i++){
+                context.fillStyle = "blue"
+                context.fillRect(50 + i*35, 170, 30, array[i] * (-10))
+                context.fillStyle = "black"
+                context.font = "12px 'Century Gothic' "
+                context.fillText( (i+1) + " ere", 50 + i* 35, 183)
+
+                let height = 170 - (array[i]*10 + 5)
+                context.fillText(array[i], 60 + i*35, height)
+            }
+        }
+
+        button.addEventListener("click", program)
+
+    </script>
+    
+</body>
+</html>

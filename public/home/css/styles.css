@@ -506,13 +506,17 @@ p {
 
 }
 
-.svg-cont {
+.svg-cont, .img-cont{
     width: 80%;
+    margin: 40px auto;
+    margin-top: 0px;
+}
+
+.svg-cont {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
     gap: 40px;
-    margin: auto;
 }
 
 .svg-cont>div>* {
@@ -521,9 +525,7 @@ p {
 }
 
 .img-cont {
-    width: 80%;
     height: max-content;
-    margin: auto;
     display: flex;
     flex-direction: column;
     gap: 10px;
@@ -591,7 +593,6 @@ img[src$='.png'], img[src$='.gif'] {
 
 @media only screen and (min-width: 500px) {
     .img-cont {
-        margin: auto;
         display: grid;
         grid-template-columns: auto auto auto auto;
         grid-gap: 1rem;

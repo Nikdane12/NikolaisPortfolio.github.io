@@ -2,6 +2,7 @@ const HTMLprojects = {
     title: 'HTML Projects', 
     group: 'HTMLprojects',
     cards: [
+        { name: 'Character Creator', image: 'viking_scene_cycles_Small.png', link: 'viking', datecreated: '21.02.23', tags: ['JS', 'LIBRARY'],},
         { name: 'Chess App', image: 'ChessThumbnail.png', link: 'chessjs', datecreated: '07.02.23', tags: ['JS', 'LIBRARY'],},
         { name: 'Julekalander', image: 'JulekalanderThumbnail.png', link: 'julekalander', datecreated: '06.12.22', tags: ['JS', 'SCHOOL'],},
         { name: 'Weather App', image: 'WeatherAppThumbnail.png', link: 'weather', datecreated: '29.11.22', tags: ['JS', 'API'],},
