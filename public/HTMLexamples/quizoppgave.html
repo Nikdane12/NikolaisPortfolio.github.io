@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1 id="quiztitle">title</h1>
+    <div id="quizdesc">desc</div>
+    <div class="quizbuttonscont">
+        <button id="startbutton" class="quizbuttons">Start</button>
+    </div>
+    <div id="allcont"></div>
+    <div id="modalcont"></div>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@200;300;400&display=swap');
+
+    body {
+        font-family: 'Roboto', sans-serif;
+        margin: 0;
+    }
+
+    h1,
+    #allcont,
+    #quizdesc {
+        margin-left: 20px;
+        margin-bottom: 0px;
+    }
+
+    #quizdesc {
+        font-weight: 200;
+    }
+
+    #allcont {
+        margin-top: 20px;
+    }
+
+    .quizbuttonscont {
+        position: relative;
+        width: 40%;
+        left: 30%;
+        display: grid;
+        gap: 20px;
+    }
+
+    .quizbuttons {
+        height: 50px;
+        width: 100px;
+        font-size: 20px;
+
+        place-self: center;
+    }
+
+    .questionCont {
+        margin: 30px 0px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .submitbutton {
+        width: max-content;
+    }
+
+    .imagescont {
+        display: flex;
+        gap: 10px;
+    }
+
+    .questionImage {
+        width: 100px;
+    }
+
+    .answer {
+        position: relative;
+        width: 200px;
+        height: 20px;
+        margin-top: 10px;
+        /* margin-left: 20px; */
+        border-radius: 10px;
+        padding: 10px;
+        font-weight: 300;
+        cursor: pointer;
+        border-radius: 10px;
+        border: solid black 1px;
+    }
+
+    /* .answer::before{
+        content: '';
+        position: absolute;
+        width: 10px;
+        height: 10px;
+        
+        left: -20px;
+        top: 15px;
+        cursor: auto;
+    } */
+    .answerCont {
+        margin-bottom: 20px;
+    }
+
+    #modalcont {
+        display: grid;
+    }
+
+    #modalcont.active {
+        width: 100%;
+        height: max-content;
+        min-height: 100%;
+        inset: 0;
+        position: absolute;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .modal {
+        margin: 30px;
+        place-self: center;
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: max-content;
+        background-color: white;
+        border-radius: 25px;
+        padding: 25px;
+    }
+
+    .modaltitle {
+        font-size: 30px;
+    }
+
+    .scoretext {
+        font-weight: 300;
+    }
+
+    button {
+        cursor: pointer;
+        ;
+        appearance: none;
+        background-color: transparent;
+        border: solid black 1px;
+        border-radius: 5px;
+    }
+</style>
+<script>
+    const questiondata = {
+        title: 'Quiz',
+        desc: 'Quiz',
+        data: [
+
+            {
+                question: 'Hva er skalarprodukt av vektorer?',
+                type: 'input',
+                answers: [
+                    { text: '66', correct: true, },
+                ],
+                images: ['https://www.mathsisfun.com/algebra/images/dot-product-ex1.gif']
+            },
+            {
+                question: 'Hvor gammle er du?',
+                type: 'response',
+                images: []
+            },
+            {
+                question: 'Hva betyr skilten?',
+                type: 'multichoice',
+                answers: [
+                    { text: 'Fareskilt', correct: false, },
+                    { text: 'Opplysningsskilt', correct: false, },
+                    { text: 'Vikepliktskilt', correct: true, },
+                    { text: 'Forbudsskilt', correct: true, },
+                ],
+                images: ['http://www.trafikkskilt.no/images/forbudsskilt/forbudt_motorvogn.jpg',]
+            },
+            {
+                question: 'Hva er Arealsetningen?',
+                type: 'multichoice',
+                answers: [
+                    { text: '1/2 * (a * b * SinC)', correct: true, },
+                    { text: 'b^2 + c^2 - 2*  b * c * CosA', correct: false, },
+                    { text: 'SinA/a = SinB/b = SinC/c', correct: false, },
+                ],
+                images: ['https://www.mathsisfun.com/algebra/images/dot-product-ex1.gif']
+            },
+
+        ]
+    }
+</script>
+<script>
+    let response = {
+        data: [],
+    }
+    const data = questiondata.data
+    let quiztitle = document.getElementById('quiztitle')
+    let quizdesc = document.getElementById('quizdesc')
+    let startbutton = document.getElementById('startbutton')
+    let allcont = document.getElementById('allcont')
+    let modalcont = document.getElementById('modalcont')
+    let questionnum = 0
+    let score = 0
+    let scoretotal = data.length
+
+    document.title = questiondata.title
+    quiztitle.innerText = questiondata.title
+    quizdesc.innerText = questiondata.desc
+
+    const openmodal = (msg, content, buttons) => {
+        modalcont.classList.add('active')
+        const modal = document.createElement('div')
+        modal.classList.add('modal')
+
+        const modaltitle = document.createElement('div')
+        modaltitle.textContent = msg
+        modal.appendChild(modaltitle)
+        modaltitle.classList.add('modaltitle')
+
+        const modalcontent = document.createElement('div')
+        modalcontent.appendChild(content)
+        modal.appendChild(modalcontent)
+        modalcontent.classList.add('modalcontent')
+
+        const buttonscont = document.createElement('div')
+        buttons.forEach(object => {
+            const button = document.createElement('button')
+            button.textContent = object.text
+            button.addEventListener('click', object.action)
+            buttonscont.appendChild(button)
+        });
+        modal.appendChild(buttonscont)
+        buttonscont.classList.add('buttonscont')
+
+        modalcont.appendChild(modal)
+        document.body.appendChild(modalcont)
+    }
+
+    const closemodal = () => {
+        modalcont.classList.remove('active')
+        removechildren(modalcont)
+    }
+
+    const savedata = (question, useranswer, correct, correctAnswers) => {
+        response.data.push({ question, useranswer, correct, correctAnswers })
+    }
+
+    const nextquestion = () => {
+        closemodal()
+        questionnum++
+        removechildren(allcont)
+        if (data.length > questionnum) {
+            allcont.appendChild(createQuestion(data[questionnum]))
+        }
+        else {
+            finishquiz()
+        }
+    }
+
+    const removechildren = (cont) => {
+        while (cont.hasChildNodes()) {
+            cont.removeChild(cont.childNodes[0])
+        }
+    }
+
+    const revealquizbuttons = (toggle) => {
+        const buttons = document.querySelectorAll('.quizbuttons')
+        buttons.forEach(element => {
+            element.style.display = toggle ? '' : 'none'
+        });
+    }
+
+    const finishquiz = () => {
+        removechildren(allcont)
+        const reviewpage = document.createElement('div')
+        reviewpage.classList.add('reviewpage')
+
+
+        const scoretext = document.createElement('div')
+        scoretext.classList.add('scoretext')
+        scoretext.appendChild(document.createTextNode('Score: ' + score + '/' + scoretotal))
+        reviewpage.appendChild(scoretext)
+        console.log(response); 
+        response.data.forEach(object => {
+            reviewpage.appendChild(questionReview(object.useranswer, object.correctAnswers, object.question))
+        })
+        openmodal('Congratulations!', reviewpage, [{ text: 'Restart', action: restartquiz }])
+    }
+
+    const restartquiz = () => {
+        closemodal()
+        removechildren(allcont)
+        revealquizbuttons(true)
+        score = 0
+        response = {
+            data: [],
+        }
+    }
+
+    const checkAnswer = (userAnswer) => {
+        let correct = null
+        let correctAnswers = data[questionnum].answers.filter(x => x.correct == true).map(x => x.text)
+        switch (data[questionnum].type) {
+            case 'multichoice':
+                if (correctAnswers.includes(userAnswer)) {
+                    rightAnswer(userAnswer, correctAnswers)
+                    correct = true
+                }
+                else {
+                    wrongAnswer(userAnswer, correctAnswers)
+                    correct = false
+                }
+                savedata(data[questionnum], userAnswer, correct, correctAnswers)
+                break;
+            case 'input':
+                    if (correctAnswers.includes(userAnswer)) {
+                        rightAnswer(userAnswer, correctAnswers)
+                        correct = true
+                    }
+                    else {
+                        wrongAnswer(userAnswer, correctAnswers)
+                        correct = false
+                    }
+                    savedata(data[questionnum], userAnswer, correct, correctAnswers)
+                break;
+            case 'response':
+                    nutralAnswer(userAnswer)
+                    savedata(data[questionnum], userAnswer, null, null)
+                break;
+            default:
+                console.log('Cannot check answer for:', userAnswer);
+                break;
+        }
+
+    }
+
+    const questionReview = (userAnswer, correctAnswers, object) => {
+        const questionCont = document.createElement('div')
+        questionCont.classList.add('questionCont')
+
+        const question = document.createElement('div')
+        question.appendChild(document.createTextNode(object.question))
+        question.classList.add('question')
+        questionCont.appendChild(question)
+
+        const imagescont = document.createElement('div')
+        imagescont.classList.add('imagescont')
+        object.images.forEach(element => {
+            const questionImage = document.createElement('img')
+            questionImage.src = element
+            questionImage.classList.add('questionImage')
+            imagescont.appendChild(questionImage)
+        })
+        questionCont.appendChild(imagescont)
+
+        const answerCont = document.createElement('div')
+        const useranswer = document.createElement('div')
+        useranswer.appendChild(document.createTextNode(userAnswer))
+        useranswer.classList.add('answer')
+        useranswer.style.border = 'solid 1px grey'
+        answerCont.appendChild(useranswer)
+        if(correctAnswers){
+            correctAnswers.forEach(text => {
+                const answer = document.createElement('div')
+                answer.appendChild(document.createTextNode(text))
+                answer.classList.add('answer')
+                answer.style.border = 'solid 4px green'
+
+                answerCont.appendChild(answer)
+            })
+        }
+        answerCont.classList.add('answerCont')
+        questionCont.appendChild(answerCont)
+        return questionCont
+    }
+
+    const rightAnswer = (userAnswer, correctAnswers) => {
+        score += 1
+        const modalstuff = questionReview(userAnswer, correctAnswers, data[questionnum])
+        openmodal('Correct!', modalstuff, [{ text: 'NEXT', action: nextquestion }])
+    }
+    const wrongAnswer = (userAnswer, correctAnswers) => {
+        score += 0
+        const modalstuff = questionReview(userAnswer, correctAnswers, data[questionnum])
+        openmodal('Wrong!', modalstuff, [{ text: 'NEXT', action: nextquestion }])
+    }
+
+    const nutralAnswer = (userinput) => {
+        score += 0
+        scoretotal += -1
+        const modalstuff = questionReview(userinput, [], data[questionnum])
+        openmodal('Submitted', modalstuff, [{ text: 'NEXT', action: nextquestion }])
+    }
+
+    const startquiz = () => {
+        revealquizbuttons(false)
+        questionnum = 0
+        allcont.appendChild(createQuestion(data[0]))
+    }
+
+    const createQuestion = (object) => {
+        let question = null
+        switch (object.type) {
+            case 'multichoice':
+                question = createMultichoice(object)
+                break;
+            case 'input':
+                question = createInput(object)
+                break;
+            case 'response':
+                question = createResponse(object)
+                break;
+            default:
+                console.log('Cannot create question for:', object);
+                break;
+        }
+        return question
+    }
+
+
+    const createMultichoice = (object) => {
+        const questionCont = document.createElement('div')
+        questionCont.classList.add('questionCont')
+
+        const question = document.createElement('div')
+        question.appendChild(document.createTextNode(object.question))
+        question.classList.add('question')
+        questionCont.appendChild(question)
+
+        const imagescont = document.createElement('div')
+        imagescont.classList.add('imagescont')
+        object.images.forEach(element => {
+            const questionImage = document.createElement('img')
+            questionImage.src = element
+            questionImage.classList.add('questionImage')
+            imagescont.appendChild(questionImage)
+        })
+        questionCont.appendChild(imagescont)
+
+        const answerCont = document.createElement('div')
+        object.answers.forEach(element => {
+            const answer = document.createElement('div')
+            answer.appendChild(document.createTextNode(element.text))
+            answer.classList.add('answer')
+
+            answerCont.appendChild(answer)
+            answer.addEventListener('click', function () { checkAnswer(element.text) })
+        });
+        answerCont.classList.add('answerCont')
+        questionCont.appendChild(answerCont)
+        return questionCont
+    }
+
+
+
+    const createInput = (object) => {
+        const questionCont = document.createElement('div')
+        questionCont.classList.add('questionCont')
+
+        const question = document.createElement('div')
+        question.appendChild(document.createTextNode(object.question))
+        question.classList.add('question')
+        questionCont.appendChild(question)
+
+        const imagescont = document.createElement('div')
+        imagescont.classList.add('imagescont')
+        object.images.forEach(element => {
+            const questionImage = document.createElement('img')
+            questionImage.src = element
+            questionImage.classList.add('questionImage')
+            imagescont.appendChild(questionImage)
+        })
+        questionCont.appendChild(imagescont)
+
+        const answerCont = document.createElement('div')
+        answerCont.classList.add('answerCont')
+
+        const answerinput = document.createElement('input')
+        answerinput.type = 'text'
+        answerinput.classList.add('answerinput')
+        answerCont.appendChild(answerinput)
+
+        questionCont.appendChild(answerCont)
+
+        const submitbutton = document.createElement('button')
+        submitbutton.classList.add('submitbutton')
+        submitbutton.appendChild(document.createTextNode('Submit'))
+        submitbutton.addEventListener('click', function () {
+            if (answerinput.value.length <= 0) {
+                answerinput.style.border = 'solid 2px red'
+            }
+            else {
+                checkAnswer(answerinput.value)
+            }
+        })
+        questionCont.appendChild(submitbutton)
+
+        return questionCont
+    }
+
+    const createResponse = () => {
+        
+    }
+
+    startbutton.addEventListener('click', startquiz)
+
+
+</script>
+
+</html>
