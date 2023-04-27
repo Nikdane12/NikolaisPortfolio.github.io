@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Oppgave 1</h2>
+    <input id="a" type="text">
+    <input id="b" type="text">
+    <input id="h" type="text">
+    <button id="beregne">beregne</button>
+    <div id="O1output"></div>
+    <h2>Oppgave 2</h2>
+    <div id="O2output"></div>
+
+</body>
+<script>
+    // Oppggave 1
+    let ainput = document.getElementById('a')
+    let binput = document.getElementById('b')
+    let hinput = document.getElementById('h')
+    let O1output = document.getElementById('O1output')
+
+    const arealTrapes = (a, b, h) => {
+        O1output.innerText = "Arealet av trapeset blir: " + ((a + b)*h)/2
+    }
+
+    document.getElementById('beregne').addEventListener('click', () => {arealTrapes(ainput.value,binput.value, hinput.value)})
+
+    // Oppggave 2
+
+    let aarstall = []
+    let skuddaar = []
+    let O2output = document.getElementById('O2output')
+
+    const fyllAarstall = (minaar, maksaar) => {
+        for(var x = minaar; x < maksaar + 1; x++){
+            aarstall.push(x)
+        }
+        console.log(aarstall);
+    }
+    fyllAarstall(1900, 2200)
+
+    const leggiskuddaar = () => {
+        for(var x = 0; x < aarstall.length; x++){
+            if(aarstall[x] % 4 === 0){
+                skuddaar.push(aarstall[x])
+            }
+        }
+        console.log(skuddaar);
+    }
+    leggiskuddaar()
+
+    const skriverut = (start, slutt) => {
+        for(var x = 0; x < skuddaar.length; x++){
+            if(skuddaar[x] >= start && skuddaar[x] <= slutt){
+                O2output.innerHTML += `<p>Hurra! I år ${skuddaar[x]} kan du feire bursdag!</p>`
+            }
+        }
+    }
+    skriverut(2004, 2096)
+</script>
+</html>
