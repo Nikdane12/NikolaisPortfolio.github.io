@@ -6,7 +6,8 @@
     --color2: 200, 200, 200;
     --color3: 160, 160, 160;
 
-    --lgfont: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    --lgfont: 'Public Sans', sans-serif;
+
 
     --moondisplay: initial;
     --sundisplay: none;
@@ -29,7 +30,7 @@
     font-family: Billock;
     src: url(/home/fonts/BillockRegular-7BMGR.ttf);
 }
-@import url('https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@200;400;600&display=swap');
 /* ALL ICONS HERE!!!! (REMEMBER TO PUT ICON NAME AND "icon" IN CLASS OF SVG CODE WITH A SPACE INBETWEEN!!! ex: class="name icon")*/
 
 .icon {
@@ -73,11 +74,10 @@ body {
     font-family: courier;
     margin: 0px;
     width: 100vw;
-    height: 100vh;
     overflow-x: hidden;
     box-sizing: border-box;
     scrollbar-color: rgb(var(--color1)) rgb(var(--color2));
-    font-family: 'Hanken Grotesk', sans-serif;
+    font-family: 'Public Sans', sans-serif;
 }
 
 #bar {
@@ -245,11 +245,10 @@ body {
     transition-duration: .25s;
 }
 
-.menu__item:after,
-.page::before {
+/* .page::before {
     content: '\00FFEB   ';
     font-family: Arial, Helvetica, sans-serif;
-}
+} */
 
 .menu__item:hover,
 .menu__item:focus {
@@ -259,19 +258,31 @@ body {
 body>div:nth-child(2) {
     margin-top: 70px;
 }
-body>div:last-child{
-}
 
-#mainbody {
+#mainbody, #aboutbody {
     margin: 0px 5vw;
     margin-top: 100px;
-    width: calc(100% - 50px);
+    width: 90%;
     height: 60vh;
-    display: grid;
-    gap: 10%;
-    grid-template-areas: 'NAD stuff' 'image1 image1';
 }
 
+#mainbody{
+    display: grid;
+    gap: 5%;
+    grid-template-areas: 'NAD home-text' 'image1 image1';
+}
+
+#aboutbody{
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.about-title{
+    color: rgb(var(--textbasic));
+    font-family: var(--lgfont);
+    font-size: 40px;
+}
 
 
 .pages-cont,
@@ -282,18 +293,17 @@ body>div:last-child{
 
 
 .pages-cont {
-    width: 400px;
-    height: 70%;
-    position: fixed;
+    display: none;
     left: 20px;
     top: 15%;
-    display: flex;
     flex-direction: column;
     justify-content: space-around;
+    grid-area: links;
 }
 
 .page {
     width: max-content;
+    height: max-content;
     box-sizing: border-box;
     color: rgb(var(--textbasic));
     font-size: 40px;
@@ -303,7 +313,7 @@ body>div:last-child{
     transition: 0.5s ease;
 }
 
-.page:hover,
+/* .page:hover,
 .page:focus {
     border-bottom: 2px solid rgb(var(--textbasic));
     transform: translateX(50px);
@@ -315,8 +325,9 @@ body>div:last-child{
     position: relative;
     display: inline-block;
     font-size: 50px;
-    bottom: 5px;
+    bottom: 12px;
     left: 10px;
+    box-sizing: unset;
     transform: translateX(-100%);
     opacity: 0;
     transition: 0.5s ease;
@@ -326,7 +337,7 @@ body>div:last-child{
 .page:focus::before {
     opacity: 1;
     transition: 0.5s ease;
-}
+} */
 
 .name-cont {
     position: relative;
@@ -348,9 +359,7 @@ body>div:last-child{
 
 .exampleimage>img {
     position: relative;
-    height: 125%;
-    left: -20%;
-    top: -20%;
+    width: 100%;
     object-fit: cover;
 }
 
@@ -359,11 +368,31 @@ body>div:last-child{
     height: 100%;
 }
 
-.stuff {
+.home-text, .about-text {
     color: rgb(var(--textbasic));
     font-size: 20px;
     font-family: var(--lgfont);
-    grid-area: stuff;
+    grid-area: home-text;
+}
+
+.about-cont{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.contact-links{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.contact-link{
+    display: flex;
+    gap: 10px;
+}
+
+.contact-icon{
+    height: max-content;
 }
 
 a {
@@ -377,9 +406,11 @@ p {
 
 @media only screen and (min-width: 500px) {
 
-    .pages-cont,
-    .page {
+    .pages-cont {
         display: flex;
+    }
+    .page{
+        display: block;
     }
 
     .sidemenu,
@@ -391,12 +422,26 @@ p {
         display: none;
     }
 
-    #mainbody {
+    #mainbody, #aboutbody {
         position: relative;
+        width: 80vw;
+        margin: auto;
+        margin-top: 100px;
+    }
+    #mainbody{
+        grid-template-areas: 'links image1 NAD' 'links image1 home-text';
+    }
+
+    #aboutbody{
         width: 60vw;
-        margin-right: 5vw;
-        margin-left: auto;
-        grid-template-areas: 'image1 NAD' 'image1 stuff';
+    }
+
+    .about-text{
+        margin-bottom: 10px;
+    }
+
+    .contact-links{
+        gap: 20px;
     }
 
     .exampleimage {
@@ -404,14 +449,10 @@ p {
         border-radius: 200px 0px 200px 0px;
     }
 
-    .exampleimage>img {
-        left: -50%;
-    }
-
-    .stuff {
+    .home-text {
         font-size: 30px;
     }
-
+    
 }
 
 .title {
@@ -630,82 +671,6 @@ img[src$='.png'], img[src$='.gif'] {
     } */
 }
 
-#pagenotfound{
-    margin-top: 50px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    background-color: black;
-    overflow: hidden;
-    gap: 500px;
-}
 
-.pagenotfound-typeface{
-    transform: translatey(50px);
-}
-
-.pagenotfound-typeface, .pagenotfound-desc{
-    position: relative;
-    color: white;
-    font-size: 200px;
-    font-family: var(--lgfont);
-}
-
-.pagenotfound-desc{
-    font-size: 20px;
-    transform: translatey(-400px);
-}
-
-.pagenotfound-light{
-    position: absolute;
-    width: 1260px;
-    height: auto;
-    transform-origin: 50% -500%;
-    animation: swing 5s ease-in-out infinite alternate;
-}
-
-  @-webkit-keyframes swing {
-    0% {
-      transform: rotate(2deg) translateY(-40%);
-    }
-    100% {
-      transform: rotate(-2deg) translateY(-40%);
-    }
-  }
-  
-  @keyframes swing {
-    0% {
-        transform: rotate(2deg) translateY(-40%);
-      }
-      100% {
-        transform: rotate(-2deg) translateY(-40%);
-      }
-  }
 
   
-@media only screen and (min-width: 500px) {
-    .pagenotfound-typeface, .pagenotfound-desc{
-        font-size: 400px;
-    }
-    .pagenotfound-desc{
-        font-size: 40px;
-        transform: translatey(-500px);
-    }
-    .pagenotfound-light{
-        width: 2000px;
-    }
-}
-
-
-/* 
-cd/
-cd Local
-cd Nikolai
-cd Skole
-cd VG2
-cd IT
-cd VSCODEProjects
-cd PortfolioServer
-npm i
-node app.js
- */

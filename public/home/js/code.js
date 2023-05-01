@@ -1,10 +1,12 @@
+let mainbody
+let bar
 let menubox
 let menux
 let menustate
 let anim
 let currentTheme = localStorage.getItem('theme') ?? 'light'
 
-const tgl = () => {
+const tglTheme = () => {
   currentTheme = currentTheme == 'dark' ? 'light' : 'dark'
   document.documentElement.setAttribute('data-theme', currentTheme)
   localStorage.setItem('theme', currentTheme)
@@ -13,10 +15,12 @@ document.documentElement.setAttribute('data-theme', currentTheme)
 
 
 const Start = () => {
-  bar = document.getElementById("bar")
+  mainbody = document.getElementById('mainbody')
+  mainbodyforcards = document.getElementById('mainbodyforcards')
+  bar = document.getElementById('bar')
   menubox = document.getElementById('menubox')
   menux = document.getElementById('menux')
-  anim = document.getElementsByClassName("anim");
+  anim = document.getElementsByClassName('anim');
   menux.classList.remove('open')
   animate()
   window.onscroll = animate
@@ -27,12 +31,15 @@ const tglMenu = () => {
   if (menustate == 'open') {
     menubox.style.left = `0px`
     menux.classList.add('open')
+    if(mainbody){mainbody.addEventListener("click", tglMenu)}
+    if(mainbodyforcards){mainbodyforcards.addEventListener("click", tglMenu)}
   }
   else {
     menubox.style.left = ``
     menux.classList.remove('open')
+    if(mainbody){mainbody.removeEventListener("click", tglMenu)}
+    if(mainbodyforcards){mainbodyforcards.removeEventListener("click", tglMenu)}
   }
-
 }
 
 const animate = () => {

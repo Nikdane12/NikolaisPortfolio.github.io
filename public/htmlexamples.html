@@ -14,18 +14,19 @@
     <div id="bar">
         <div class="sidemenu">
             <div class="menubutton" onclick="tglMenu()"></div>
-            <div id="menux"></div>
+                <div id="menux"></div>
             <ul id="menubox">
-                <li><a class="menu__item" href="htmlprojects.html">HTML Projects</a></li>
-                <li><a class="menu__item" href="htmlexamples.html">HTML Examples</a></li>
                 <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+                <li><a class="menu__item" href="htmlprojects.html">Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">Examples</a></li>
+                <li><a class="menu__item" href="about.html">About</a></li>
             </ul>
         </div>
         <a href="/" class="homelink">
             <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
         </a>
         <div class="themecont">
-            <button id="theme-switch" class="theme-switch" onclick="tgl()" value="light">
+            <button id="theme-switch" class="theme-switch" onclick="tglTheme()" value="light">
                 <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
                 <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
             </button>

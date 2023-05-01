@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html data-theme="light">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/code.js"></script>
+    <link rel="stylesheet" href="/home/css/styles.css">
+    <title>Nikolai's Portfolio</title>
+    <link rel="icon" href="/home/favicon.ico" />
+    <meta name="viewport" content="width=device-width"/>
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <div class="sidemenu">
+            <div class="menubutton" onclick="tglMenu()"></div>
+                <div id="menux"></div>
+            <ul id="menubox">
+                <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+                <li><a class="menu__item" href="htmlprojects.html">Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">Examples</a></li>
+                <li><a class="menu__item" href="about.html">About</a></li>
+            </ul>
+        </div>
+        <a href="/" class="homelink">
+            <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tglTheme()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        
+    </div>
+
+    <div id="aboutbody">
+        <div class="about-cont">
+            <div class="about-title">About Me</div>
+            <div class="about-text">
+                Hey, I'm a frontend developer and graphic designer based in Norway. 
+                I specialize in creating beautiful and functional user interfaces. 
+                When I'm not designing, you can find me flying drones for fun and exploring Norway's natural beauty. 
+                I'm always looking to expand my skills and take on new challenges, so let's chat about a project!
+            </div>
+        </div>
+        <div class="about-cont">
+            <div class="about-title">Contact Me</div>
+            <div class="about-text">If you'd like to see more of my work or keep up with what I'm up to, feel free to get in touch.</div>
+            <div class="contact-links">
+                <a class="contact-link" href="mailto: nikolai.dickens00@gmail.com">
+                    <div class="contact-icon"><img src="/home/img/EmailIcon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+                    <div class="contact-text">Send me an email: <br><strong>nikolai.dickens00@gmail.com</strong></div>
+                </a>
+                <a class="contact-link" href="https://www.instagram.com/nikdane12/" target="_blank">
+                    <div class="contact-icon"><img src="/home/img/InstagramIcon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+                    <div class="contact-text">Follow me: <br> <strong>@nikdane12</strong></div>
+                </a>
+            </div>
+        </div>
+        
+    </div>
+</body>
+</html>
