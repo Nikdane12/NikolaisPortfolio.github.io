@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Cube stuff</title>
+  <style>
+    body {
+      margin: 0;
+    }
+  </style>
+</head>
+
+<body style="margin: 0;overflow: hidden;">
+  <script async src="https://unpkg.com/es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+  <script type="importmap">
+        {
+          "imports": {
+            "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/"
+          }
+        }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.127/examples/js/loaders/EXRLoader.js"></script>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+    import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+    import { AsciiEffect } from 'three/addons/effects/AsciiEffect.js';
+    import { GUI } from 'three/addons/libs/lil-gui.module.min.js';
+    import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
+
+    const scene = new THREE.Scene()
+    const gui = new GUI();
+
+    const textureLoader = new THREE.TextureLoader()
+    const sizes = {
+      width: window.innerWidth,
+      height: window.innerHeight
+    }
+
+    window.addEventListener('resize', () => {
+      // Update sizes
+      sizes.width = window.innerWidth
+      sizes.height = window.innerHeight
+
+      // Update camera
+      camera.aspect = sizes.width / sizes.height
+      camera.updateProjectionMatrix()
+
+      // Update renderer
+      renderer.setSize(sizes.width, sizes.height)
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    })
+
+    // const camera = new THREE.OrthographicCamera( sizes.width / - 2, sizes.width / 2, sizes.height / 2, sizes.height / - 2, 1, 1000 );
+    // scene.add( camera );
+    const camsize = 50
+    const camera = new THREE.OrthographicCamera(sizes.width / - camsize, sizes.width / camsize, sizes.height / camsize, sizes.height / - camsize, 1, 100)
+    camera.position.set(10, 10, 10)
+    // camera.rotation.set(0, 45, 45)
+    scene.add(camera)
+
+    const renderer = new THREE.WebGLRenderer()
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0xffffff);
+    renderer.shadowMap.enabled = true;
+
+    const loader = new GLTFLoader();
+    const raycaster = new THREE.Raycaster();
+    const pointer = new THREE.Vector2();
+
+    let controls
+    let INTERSECTED;
+
+
+    document.addEventListener('mousemove', onPointerMove);
+
+    function onPointerMove(event) {
+      pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+      pointer.y = - (event.clientY / window.innerHeight) * 2 + 1;
+    }
+
+
+    const startup = () => {
+      document.body.appendChild(renderer.domElement);
+
+      addObjects()
+
+      function updateLight() {
+        helper.update();
+      }
+
+
+
+      const AmbientLight = new THREE.AmbientLight(0xFFFFFF, 0.2);
+      scene.add(AmbientLight);
+
+      const color = 0xFFFFFF;
+      const intensity = 1;
+      const light = new THREE.PointLight(color, intensity);
+      light.castShadow = true;
+      scene.add(light);
+
+      const helper = new THREE.PointLightHelper(light);
+      scene.add(helper);
+
+      const lightFolder = gui.addFolder('Light')
+      lightFolder.add(light, 'intensity', 0, 2, 0.01);
+      lightFolder.add(light, 'distance', 0, 40).onChange(updateLight);
+      lightFolder.add(light.position, 'x', -11, 11);
+      lightFolder.add(light.position, 'z', -11, 11);
+      lightFolder.add(light.position, 'y', -21, 21);
+
+
+      controls = new OrbitControls(camera, renderer.domElement)
+      controls.enableDamping = true
+    }
+
+
+    const highlightMaterial = new THREE.ShaderMaterial({
+      uniforms: {
+        u_resolution: { value: new THREE.Vector2() },
+        u_time: { value: 0 },
+        u_gradientStartColor: { value: new THREE.Color(1, 0, 0) },
+        u_gradientEndColor: { value: new THREE.Color(0, 0, 1) },
+      },
+      vertexShader: `
+    varying vec2 vUv;
+
+    void main() {
+      vUv = uv;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+      fragmentShader: `
+  uniform vec2 u_resolution;
+uniform float u_time;
+uniform vec3 u_gradientStartColor;
+uniform vec3 u_gradientEndColor;
+varying vec2 vUv;
+
+void main() {
+  // Calculate the distance from the center of the screen
+  vec2 center = u_resolution / 2.0;
+  float distance = length(vUv * u_resolution - center);
+
+  // Calculate the highlight color based on the distance and the gradient colors
+  vec3 color = mix(u_gradientStartColor, u_gradientEndColor, smoothstep(0.0, 0.2, distance));
+  gl_FragColor = vec4(color, 1.0);
+}
+  `
+    });
+
+    highlightMaterial.uniforms.u_resolution.value.x = renderer.domElement.width;
+    highlightMaterial.uniforms.u_resolution.value.y = renderer.domElement.height;
+
+
+
+    const addCube = (positionX, positionY, positionZ, size, radius, color) => {
+      // const boxGeometry = new THREE.BoxGeometry(8, 8, 8)
+      const material = new THREE.MeshLambertMaterial({ color: color });
+
+      // const cube = new THREE.Mesh(boxGeometry, material);
+      const geometry = new RoundedBoxGeometry(size, size, size, 3, radius)
+      const mesh = new THREE.Mesh(geometry, material)
+
+      mesh.position.set(positionX, positionY, positionZ)
+
+      mesh.receiveShadow = true;
+      mesh.castShadow = true;
+      scene.add(mesh);
+    }
+
+    // V1-----------------------------------------------------
+
+    // const addObjects = () => {
+
+
+    //   const distance = 5; // distance between objects
+    //   const size = 5; // size of objects
+    //   const radius = 1
+    //   const cubicArray = 1
+    //   const startX = -distance; // starting position for X
+    //   const startY = -distance; // starting position for Y
+    //   const startZ = -distance; // starting position for Z
+
+    //   for (let i = 0; i < cubicArray; i++) {
+    //     for (let j = 0; j < cubicArray; j++) {
+    //       for (let k = 0; k < cubicArray; k++) {
+    //         const posX = startX + i * distance;
+    //         const posY = startY + j * distance;
+    //         const posZ = startZ + k * distance;
+    //         addCube(posX, posY, posZ, size, radius);
+    //       }
+    //     }
+    //   }
+    // }
+
+    // V2----------------------------------------------
+
+    const addObjects = () => {
+      const distance = 10; // distance between objects
+      const size = 10; // size of objects
+      const radius = 1;
+      const cubicArray = 2; // cube array count
+
+      // calculate the starting position for the cube array
+      const startX = -(distance * (cubicArray - 1)) / 2; // centered at 0
+      const startY = -(distance * (cubicArray - 1)) / 2;
+      const startZ = -(distance * (cubicArray - 1)) / 2;
+
+      for (let i = 0; i < cubicArray; i++) {
+        for (let j = 0; j < cubicArray; j++) {
+          for (let k = 0; k < cubicArray; k++) {
+            const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+            const posX = startX + i * distance;
+            const posY = startY + j * distance;
+            const posZ = startZ + k * distance;
+            addCube(posX, posY, posZ, size, radius, color);
+          }
+        }
+      }
+    }
+
+    startup()
+
+    // V2-----------------------------------------------------------------
+
+    //     let currentScale = { x: 1, y: 1, z: 1 };
+
+    // const animate = () => {
+    //   requestAnimationFrame(animate);
+
+    //   highlightMaterial.uniforms.u_resolution.value.x = renderer.domElement.width;
+    //   highlightMaterial.uniforms.u_resolution.value.y = renderer.domElement.height;
+    //   highlightMaterial.uniforms.u_time.value += 0.1;
+
+    //   raycaster.setFromCamera(pointer, camera);
+
+    //   const intersects = raycaster.intersectObjects(scene.children, false);
+    //   if (intersects.length > 0) {
+    //     if (INTERSECTED != intersects[0].object) {
+    //       if (INTERSECTED) {
+    //         // Reset the scale of the previously highlighted object
+    //         currentScale = { x: 1, y: 1, z: 1 };
+    //       }
+    //       INTERSECTED = intersects[0].object;
+    //       // Scale the newly highlighted object
+    //       currentScale = { x: 0.1, y: 0.1, z: 0.1 };
+    //     }
+    //   } else {
+    //     if (INTERSECTED) {
+    //       // Reset the scale of the previously highlighted object
+    //       currentScale = { x: 1, y: 1, z: 1 };
+    //     }
+    //     INTERSECTED = null;
+    //   }
+
+    //   // Smoothly scale the highlighted object
+    //   const targetScale = { x: 0.1, y: 0.1, z: 0.1 };
+    //   currentScale = {
+    //     x: THREE.MathUtils.lerp(currentScale.x, targetScale.x, 0.1),
+    //     y: THREE.MathUtils.lerp(currentScale.y, targetScale.y, 0.1),
+    //     z: THREE.MathUtils.lerp(currentScale.z, targetScale.z, 0.1),
+    //   };
+    //   if (INTERSECTED) {
+    //     INTERSECTED.scale.set(currentScale.x, currentScale.y, currentScale.z);
+    //   }
+
+    //   renderer.render(scene, camera);
+    // };
+
+    // animate();
+
+    // V3-----------------------------------------------------------------
+
+    // const animate = () => {
+    //   requestAnimationFrame(animate);
+
+    //   highlightMaterial.uniforms.u_resolution.value.x = renderer.domElement.width;
+    //   highlightMaterial.uniforms.u_resolution.value.y = renderer.domElement.height;
+    //   highlightMaterial.uniforms.u_time.value += 0.1;
+
+    //   raycaster.setFromCamera(pointer, camera);
+
+    //   const intersects = raycaster.intersectObjects(scene.children, false);
+    //   if (intersects.length > 0) {
+    //     if (INTERSECTED != intersects[0].object) {
+    //       if (INTERSECTED) {
+    //         const position = INTERSECTED.position.clone();
+    //         const size = INTERSECTED.scale.clone().multiplyScalar(0.5);
+    //         const offset = size.clone().multiplyScalar(2.5);
+
+    //         scene.remove(INTERSECTED);
+
+    //         for (let x = 0; x < 2; x++) {
+    //           for (let y = 0; y < 2; y++) {
+    //             for (let z = 0; z < 2; z++) {
+    //               addCube(position.x + (x - 0.5) * offset.x, position.y + (y - 0.5) * offset.y, position.z + (z - 0.5) * offset.z, size, 0.5)
+    //             }
+    //           }
+    //         }
+    //       }
+    //       INTERSECTED = intersects[0].object;
+    //     }
+    //   } else {
+    //     if (INTERSECTED) {
+
+    //     }
+    //     INTERSECTED = null;
+    //   }
+
+    //   renderer.render(scene, camera);
+    // }
+
+
+    // animate()
+
+    // V1-----------------------------------------------------------------------
+    // const animate = () => {
+    //   requestAnimationFrame(animate);
+
+    //   highlightMaterial.uniforms.u_resolution.value.x = renderer.domElement.width;
+    //   highlightMaterial.uniforms.u_resolution.value.y = renderer.domElement.height;
+    //   highlightMaterial.uniforms.u_time.value += 0.1;
+
+    //   raycaster.setFromCamera(pointer, camera);
+
+    //   const intersects = raycaster.intersectObjects(scene.children, false);
+    //   if (intersects.length > 0) {
+    //     if (INTERSECTED != intersects[0].object) {
+    //       if (INTERSECTED) {
+    //         INTERSECTED.scale.set(1, 1, 1)
+    //         // INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex);// CHANGE COLOR
+    //       }
+    //       INTERSECTED = intersects[0].object;
+    //       // INTERSECTED.currentHex = INTERSECTED.material.emissive.getHex();// CHANGE COLOR
+    //       // INTERSECTED.material.emissive.setHex(0xff0000);// CHANGE COLOR
+    //       // scene.remove(INTERSECTED) //REMOVE
+    //       INTERSECTED.scale.set(0.1, 0.1, 0.1)
+    //     }
+    //   } else {
+    //     if (INTERSECTED) {
+    //       INTERSECTED.scale.set(1, 1, 1)
+    //       // INTERSECTED.material.emissive.setHex(INTERSECTED.currentHex)// CHANGE COLOR
+    //     }
+    //     INTERSECTED = null;
+    //   }
+
+    //   renderer.render(scene, camera);
+    // }
+
+
+    // animate()
+
+    // V4----------------------------------------------
+
+
+      const animate = () => {
+        requestAnimationFrame(animate);
+
+        highlightMaterial.uniforms.u_resolution.value.x = renderer.domElement.width;
+        highlightMaterial.uniforms.u_resolution.value.y = renderer.domElement.height;
+        highlightMaterial.uniforms.u_time.value += 0.1;
+
+        raycaster.setFromCamera(pointer, camera);
+
+        const intersects = raycaster.intersectObjects(scene.children, false);
+        if (intersects.length > 0) {
+          if (INTERSECTED !== intersects[0].object) {
+            if (INTERSECTED) {
+              const position = INTERSECTED.position.clone();
+              const size = INTERSECTED.scale.clone().multiplyScalar(10);;
+              const offset = size.clone().multiplyScalar(0.5);
+
+              // Remove the intersected cube
+              scene.remove(INTERSECTED);
+
+              // Add smaller cubes in its place
+              for (let i = 0, s = 1; i < 3; i++, s *= 0.5) {
+                const newSize = size.clone().multiplyScalar(s);
+              for (let x = 0; x < 2; x++) {
+                for (let y = 0; y < 2; y++) {
+                  for (let z = 0; z < 2; z++) {
+                    const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+                    addCube(position.x + (x - 0.5) * offset.x, position.y + (y - 0.5) * offset.y, position.z + (z - 0.5) * offset.z, size.x * 0.5, 1, color);
+                  }
+                }
+              }}
+            }
+            INTERSECTED = intersects[0].object;
+          }
+        } else {
+          if (INTERSECTED) {
+
+            scene.remove(INTERSECTED);
+
+          }
+          INTERSECTED = null;
+        }
+        renderer.render(scene, camera);
+      }
+
+
+      animate()
+
+    // V5------------------------------------------------------------------
+    // const animate = () => {
+    //   requestAnimationFrame(animate);
+
+    //   highlightMaterial.uniforms.u_resolution.value.x = renderer.domElement.width;
+    //   highlightMaterial.uniforms.u_resolution.value.y = renderer.domElement.height;
+    //   highlightMaterial.uniforms.u_time.value += 0.1;
+
+    //   raycaster.setFromCamera(pointer, camera);
+
+    //   const intersects = raycaster.intersectObjects(scene.children, false);
+    //   if (intersects.length > 0) {
+    //     if (INTERSECTED !== intersects[0].object) {
+    //       if (INTERSECTED) {
+    //         const position = INTERSECTED.position.clone();
+    //         const size = INTERSECTED.scale.clone().multiplyScalar(0.5);
+    //         const offset = size.clone().multiplyScalar(2.5);
+
+    //         // Remove the intersected cube
+    //         scene.remove(INTERSECTED);
+
+    //         // Add smaller cubes in its place
+    //         for (let x = 0; x < 2; x++) {
+    //           for (let y = 0; y < 2; y++) {
+    //             for (let z = 0; z < 2; z++) {
+    //                 addCube(position.x + (x - 0.5) * offset.x, position.y + (y - 0.5) * offset.y, position.z + (z - 0.5) * offset.z, size.x / 2, 1);
+                  
+    //             }
+    //           }
+    //         }
+    //       }
+    //       INTERSECTED = intersects[0].object;
+    //     }
+    //   } else {
+    //     if (INTERSECTED) {
+    //       if (!INTERSECTED.helperPointMap) {
+    //         scene.remove(INTERSECTED);
+    //       }
+    //     }
+    //     INTERSECTED = null;
+    //   }
+
+    //   renderer.render(scene, camera);
+    // };
+
+    // animate()
+
+
+
+  </script>
+  <div id="note" style="color: white; background-color: black;">Drag to Rotate</div>
+  <div id="reset" style="color: black; width: max-content; height: max-content;" onclick="addObjects()">Reset</div>
+</body>
+
+</html>

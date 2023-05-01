@@ -50,7 +50,7 @@ const createCards = (cardgroup) => {
         card.classList.add('card')
         const link = document.createElement('a')
         link.setAttribute('href', '/' + cardgroup.group + '/' + element.link + '.html')
-        link.setAttribute('target', '_blank')
+        // link.setAttribute('target', '_blank')
         const image = document.createElement('img')
         image.classList.add('cardimg')
         image.setAttribute('src', '/home/img/' + element.image)
