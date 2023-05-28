@@ -574,6 +574,7 @@ p {
 
 .img-cont>div>img {
     width: 100%;
+    height: 100%;
 }
 
 img[src$='.png'], img[src$='.gif'] {
@@ -630,6 +631,10 @@ img[src$='.png'], img[src$='.gif'] {
     transition: 0.5s ease;
     opacity: 1;
     transform: translateY(0px) translateX(0px);
+}
+
+.pixelated{
+    image-rendering: pixelated;
 }
 
 @media only screen and (min-width: 500px) {
