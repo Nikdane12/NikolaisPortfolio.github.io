@@ -572,9 +572,12 @@ p {
     gap: 10px;
 }
 
-.img-cont>div>img {
+.img-cont>div>img, .img-cont>div>video {
     width: 100%;
     height: 100%;
+    display: block;
+    object-fit: cover;
+    border-radius: 25px;
 }
 
 img[src$='.png'], img[src$='.gif'] {
