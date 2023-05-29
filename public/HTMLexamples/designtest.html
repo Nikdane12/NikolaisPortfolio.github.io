@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Test</title>
+</head>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@200;400;600&display=swap');
+
+    * {
+        font-family: 'Public Sans', sans-serif;
+        color: rgb(146, 146, 146);
+        font-weight: 400;
+        font-size: 40px;
+    }
+
+    body {
+        overflow-x: hidden;
+        margin: 0;
+        background-color: rgb(38, 38, 38);
+    }
+
+    #body1 {
+        display: grid;
+        grid-template-areas: 'header header' 'sidebar cont' 'sidebar footer';
+        height: 20vh;
+    }
+
+    .test {
+        grid-area: cont;
+        display: flex;
+        gap: 15px;
+      
+    }
+
+    .test>div, .testbox>.option{
+        font-size: 60px !important;
+    }
+
+    .testbox {
+        position: relative;
+        height: 70px;
+        width: 400px;
+        overflow: hidden;
+    }
+
+    .option {
+        font-weight: 600;
+        color: rgb(255, 255, 255);
+        position: absolute;
+        animation: move-up 4s ease-in-out infinite;
+    }
+
+    .option:nth-child(2) {
+        animation: move-up2 4s ease-in-out infinite;
+    }
+
+    .option:nth-child(3) {
+        animation: move-up3 4s ease-in-out infinite;
+    }
+
+    @keyframes move-up {
+        0% {
+            transform: translateY(0%);
+        }
+
+        33% {
+            transform: translateY(-100%);
+        }
+
+        33.1% {
+            transform: translateY(100%);
+        }
+
+        66% {
+            transform: translateY(100%);
+        }
+
+        100% {
+            transform: translateY(0px);
+        }
+    }
+
+    @keyframes move-up2 {
+        0% {
+            transform: translateY(100%);
+        }
+
+        33% {
+            transform: translateY(0%);
+        }
+
+        66% {
+            transform: translateY(-100%);
+        }
+
+        66.1% {
+            transform: translateY(100%);
+        }
+
+        100% {
+            transform: translateY(200%);
+        }
+    }
+
+    @keyframes move-up3 {
+        0% {
+            transform: translateY(200%);
+        }
+
+        33% {
+            transform: translateY(100%);
+        }
+
+        66% {
+            transform: translateY(0%);
+        }
+
+        99.9% {
+            transform: translateY(-100%);
+        }
+
+        100% {
+            transform: translateY(200%);
+        }
+    }
+
+    #body2 {
+        margin: 0;
+        height: 175vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .wrapper {
+        display: flex;
+    }
+
+    .cont {
+        width: 100px;
+        height: 100px;
+        overflow: hidden;
+        transition: 0.5s ease;
+    }
+
+    img {
+        width: 200px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .wrapper:hover .cont:not(:hover) {
+        opacity: 0.5;
+        transition: 0.5s ease;
+    }
+
+    .WIDTHwrapper {
+        position: relative;
+        width: 300px;
+        display: flex;
+    }
+
+    .WIDTHcont {
+        width: 100%;
+        overflow: hidden;
+        transition: 0.5s ease;
+    }
+
+    .WIDTHcont>img {
+        width: 300px;
+        height: 100px;
+    }
+
+    .WIDTHwrapper:hover .WIDTHcont:not(:hover) {
+        width: 30%;
+        transition: 0.5s ease;
+    }
+
+    #matrixwrapper {
+        overflow: hidden;
+    }
+
+
+    .matrix {
+        position: relative;
+        height: 100px;
+        width: 100%;
+        display: flex;
+        place-self: center;
+        gap: 0px;
+        left: -100px;
+    }
+
+    .matrixchild {
+        /*transform: matrix(scaleX(), skewY(), skewX(), scaleY(), translateX(), translateY())*/
+        transform: matrix(1, 1, -1, 1, 0, 0);
+    }
+
+    .buffer {
+        height: 500px;
+    }
+</style>
+
+<body>
+    <div id="body1">
+        <div class="test">
+            <div>I am a</div>
+            <div class="testbox">
+                <div class="option">Designer</div>
+                <div class="option">Programmer</div>
+                <div class="option">Artist</div>
+
+            </div>
+        </div>
+    </div>
+    <div id="body2">
+        HOVER
+        <div class="wrapper">
+            <div class="cont">
+                <img
+                    src="https://images.unsplash.com/photo-1683005528969-1d583c0141b9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60" />
+            </div>
+            <div class="cont">
+                <img
+                    src="https://images.unsplash.com/photo-1563283730-9a0dafc3c51f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80">
+            </div>
+            <div class="cont">
+                <img
+                    src="https://images.unsplash.com/photo-1682555479528-dc4561bbd7f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80">
+            </div>
+
+        </div>
+        HOVER
+        <div class="WIDTHwrapper">
+            <div class="WIDTHcont">
+                <img
+                    src="https://images.unsplash.com/photo-1683005528969-1d583c0141b9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60" />
+            </div>
+            <div class="WIDTHcont">
+                <img
+                    src="https://images.unsplash.com/photo-1563283730-9a0dafc3c51f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80">
+            </div>
+            <div class="WIDTHcont">
+                <img
+                    src="https://images.unsplash.com/photo-1682555479528-dc4561bbd7f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80">
+            </div>
+        </div>
+
+        <p>SCROLL</p>
+
+        <div id="matrixwrapper">
+            <div class="matrix">
+                <div class="matrixchild up">
+                    <img
+                        src="https://images.unsplash.com/photo-1683005528969-1d583c0141b9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60" />
+                </div>
+                <div class="matrixchild down">
+                    <img
+                        src="https://images.unsplash.com/photo-1563283730-9a0dafc3c51f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80">
+                </div>
+                <div class="matrixchild up">
+                    <img
+                        src="https://images.unsplash.com/photo-1682555479528-dc4561bbd7f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80">
+                </div>
+                <div class="matrixchild down">
+                    <img
+                        src="https://images.unsplash.com/photo-1683005528969-1d583c0141b9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60" />
+                </div>
+            </div>
+            <div class="matrix" style="left:100px; top:100px;">
+                <div class="matrixchild up">
+                    <img
+                        src="https://images.unsplash.com/photo-1682555479528-dc4561bbd7f0?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1332&q=80" />
+                </div>
+                <div class="matrixchild down">
+                    <img
+                        src="https://images.unsplash.com/photo-1683005528969-1d583c0141b9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHx0b3BpYy1mZWVkfDE5fDZzTVZqVExTa2VRfHxlbnwwfHx8fA%3D%3D&auto=format&fit=crop&w=600&q=60">
+                </div>
+                <div class="matrixchild up">
+                    <img
+                        src="https://images.unsplash.com/photo-1563283730-9a0dafc3c51f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80">
+                </div>
+
+                <div class="matrixchild down">
+                    <img
+                        src="https://images.unsplash.com/photo-1563283730-9a0dafc3c51f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1176&q=80">
+                </div>
+
+            </div>
+        </div>
+        <div class="buffer"></div>
+    </div>
+</body>
+<script>
+    let wrapper = document.getElementById("matrixwrapper")
+    let slider = document.getElementById("slider")
+    let up = document.querySelectorAll('.up')
+    let down = document.querySelectorAll('.down')
+
+
+    const move = (direction, value) => {
+        switch (direction) {
+            case 'down':
+                down.forEach(element => { element.style.transform = "matrix(1, 1, -1, 1," + value + "," + value + ")" });
+                break;
+            case 'up':
+                up.forEach(element => { element.style.transform = "matrix(1, 1, -1, 1,-" + value + ",-" + value + ")" });
+                break;
+            default:
+                break;
+        }
+    }
+    document.addEventListener('scroll', () => {
+        let ammount = (wrapper.getBoundingClientRect().top) * .1;
+        move('down', ammount);
+        move('up', ammount)
+    })
+
+
+
+
+</script>
+
+</html>
