@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/code.js"></script>
+    <link rel="stylesheet" href="/home/css/styles.css">
+    <link rel="icon" href="/home/favicon.ico" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikolai's Portfolio</title>
+    <meta name="description" content="Nikolai's Portfolio">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Portfolio, Nikolai, Webdev">
+    <meta name="author" content="Nikolai Dickens">
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <div class="sidemenu">
+            <div class="menubutton" onclick="tglMenu()"></div>
+                <div id="menux"></div>
+            <ul id="menubox">
+                <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+                <li><a class="menu__item" href="htmlprojects.html">Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">Examples</a></li>
+                <li><a class="menu__item" href="about.html">About</a></li>
+            </ul>
+        </div>
+        <a href="/" class="homelink">
+            <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tglTheme()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        
+    </div>
+<div id="mainbodyforcards"></div>
+</body>
+<script src="/home/js/cardcreator.js"></script>
+<script>createCards(HTMLprojects)</script>
+</html>

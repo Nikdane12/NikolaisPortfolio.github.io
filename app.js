@@ -12,9 +12,24 @@ if (typeof hostname === 'undefined') {
     hostname = 'localhost'
 }
 
-const app = express()
+const fs = require('fs');
 
+
+const app = express()
+// const urlpath = "/home/img/GraphicsDesign/MyGrandmas.webm"
+// const publicfilepath = "./public" + urlpath
+
+// app.use(urlpath, async (req, res) => {
+//     // res.sendFile('./home/img/GraphicsDesign/LilRobotVideo.webm', {headers: {"Content-Type": "video/webm", "Content-Length" : stat.size}})
+//     var stat = fs.statSync(publicfilepath)
+//     res.writeHead(200, {"Content-Type": "video/webm", "Content-Length" : stat.size});
+//     var readStream = fs.createReadStream(publicfilepath);
+//     readStream.pipe(res)
+// })
+    
 app.use(express.static('public'))
+
+
 
 /* CORS */
 app.options("/*", function (req, res, next) {

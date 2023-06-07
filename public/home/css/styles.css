@@ -640,6 +640,57 @@ img[src$='.png'], img[src$='.gif'] {
     image-rendering: pixelated;
 }
 
+video {
+    width: 100%;
+    display: block;
+}
+
+#tab-cont {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab-button {
+    all: unset;
+    width: 100px;
+    height: 30px;
+    cursor: pointer;
+    text-align: center;
+    background-color: transparent;
+    border: solid 1px rgb(var(--color1));
+    border-radius: 25px;
+    transition: 0.5s ease;
+}
+
+.tab-button {
+    color: rgb(var(--textbasic));
+    font-size: 15px;
+    font-family: var(--lgfont);
+}
+
+.tab-button:hover {
+    background-color: rgb(var(--color1));
+}
+
+.tab-button.active {
+    background-color: rgb(var(--color2));
+    transition: 0.5s ease;
+}
+
+#quote-cont{
+    position: relative;
+    text-align: center;
+    color: rgb(var(--textbasic));
+    font-size: 15px;
+    width: 80%;
+    left: 10%;
+    margin-bottom: 20px;
+}
+
 @media only screen and (min-width: 500px) {
     .img-cont {
         display: grid;
@@ -677,6 +728,12 @@ img[src$='.png'], img[src$='.gif'] {
         grid-column: 1 / 3;
         grid-row: 1 / 3;
     } */
+
+    .tab-button{
+        width: 150px;
+        height: 50px;
+        border-radius: 5px;
+    }
 }
 
 

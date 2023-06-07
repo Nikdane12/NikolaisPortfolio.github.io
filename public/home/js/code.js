@@ -4,6 +4,7 @@ let menubox
 let menux
 let menustate
 let anim
+let quotecont
 let currentTheme = localStorage.getItem('theme') ?? 'light'
 
 const tglTheme = () => {
@@ -23,7 +24,9 @@ const Start = () => {
   anim = document.getElementsByClassName('anim');
   menux.classList.remove('open')
   animate()
-  window.onscroll = animate
+  window.addEventListener('scroll', animate)
+  quotecont = document.getElementById('quote-cont')
+  addQuote()
 }
 
 const tglMenu = () => {
@@ -31,14 +34,14 @@ const tglMenu = () => {
   if (menustate == 'open') {
     menubox.style.left = `0px`
     menux.classList.add('open')
-    if(mainbody){mainbody.addEventListener("click", tglMenu)}
-    if(mainbodyforcards){mainbodyforcards.addEventListener("click", tglMenu)}
+    if (mainbody) { mainbody.addEventListener("click", tglMenu) }
+    if (mainbodyforcards) { mainbodyforcards.addEventListener("click", tglMenu) }
   }
   else {
     menubox.style.left = ``
     menux.classList.remove('open')
-    if(mainbody){mainbody.removeEventListener("click", tglMenu)}
-    if(mainbodyforcards){mainbodyforcards.removeEventListener("click", tglMenu)}
+    if (mainbody) { mainbody.removeEventListener("click", tglMenu) }
+    if (mainbodyforcards) { mainbodyforcards.removeEventListener("click", tglMenu) }
   }
 }
 
@@ -51,12 +54,45 @@ const animate = () => {
   for (var i = 0; i < anim.length; i++) {
     let windowHeight = window.innerHeight
     let elementTop = anim[i].getBoundingClientRect().top
-    let elementVisible = 150
+    let elementVisible = 100
     if (elementTop < windowHeight - elementVisible) {
       anim[i].classList.add("animstart")
     } else {
       anim[i].classList.remove("animstart")
     }
   }
+}
+
+const gitrandom = (min, max) => Math.floor(Math.random() * (max - min) + min)
+
+const addQuote = () => {
+  const main = [
+    'Forever',
+    'Ever',
+    'Always',
+    'Continuously',
+    'Endlessly',
+    'Constantly',
+    'Persistently',
+  ]
+
+  const alternate = [
+    'evolving',
+    'questioning',
+    'exploring',
+    'curious',
+    'growing',
+    'learning',
+    'discovering',
+    'adapting',
+  ]
+
+  let first = gitrandom(0, main.length)
+  let second = gitrandom(0, alternate.length)
+  let second_second = gitrandom(0, alternate.length)
+  while (second == second_second){
+    second_second = gitrandom(0, alternate.length)
+  }
+  quotecont.innerText = `${main[first]} ${alternate[second]}. ${main[first]} ${alternate[second_second]}.`
 }
 

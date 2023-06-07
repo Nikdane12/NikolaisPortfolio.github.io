@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html data-theme="light" lang="en">
+
+<head>
+    <script src="/home/js/svg-inject.js"></script>
+    <script src="/home/js/code.js"></script>
+    <link rel="stylesheet" href="/home/css/styles.css">
+    <link rel="icon" href="/home/favicon.ico" />
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikolai's Portfolio</title>
+    <meta name="description" content="Nikolai's Portfolio">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Portfolio, Nikolai, Webdev">
+    <meta name="author" content="Nikolai Dickens">
+</head>
+
+<body onload="Start()">
+    <div id="bar">
+        <div class="sidemenu">
+            <div class="menubutton" onclick="tglMenu()"></div>
+                <div id="menux"></div>
+            <ul id="menubox">
+                <li><a class="menu__item" href="graphicdesign.html">Graphic Design</a></li>
+                <li><a class="menu__item" href="htmlprojects.html">Projects</a></li>
+                <li><a class="menu__item" href="htmlexamples.html">Examples</a></li>
+                <li><a class="menu__item" href="about.html">About</a></li>
+            </ul>
+        </div>
+        <a href="/" class="homelink">
+            <img src="/home/img/icons8-home.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+        </a>
+        <div class="themecont">
+            <button id="theme-switch" class="theme-switch" onclick="tglTheme()" value="light">
+                <img src="/home/img/moon.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+                <img src="/home/img/sun.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
+            </button>
+        </div>
+        
+    </div>
+    <div id="mainbodyforcards">
+        
+        <div class="title">Monogram</div>
+        <div class="svg-cont">
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 2.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 3.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 4.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 5.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 6.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 7.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 8.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 9.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 10.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 11.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 12.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 13.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+            <div class="anim anim-up"><img src="/home/img/GraphicsDesign/Asset 24.svg"
+                    onload="SVGInject(this,{makeIdsUnique:false,useCache:false})"></div>
+                </div>
+        <div class="title">Renders</div>
+        <!-- <iframe class="anim anim-left" src="./HTMLexamples/ImageComparisonSlider.html" title="Image Comparison Slider" style="width: 80%; margin:0 10% 20px 10%;"></iframe> -->
+        <div class="img-cont">
+            <div class="anim anim-left onexone">
+                <img src="/home/img/GraphicsDesign/Typewriter_2 (Small).png">
+            </div>
+            <div class="anim anim-left anim-delay onexone">
+                <video style="width: 100%; display: block;" autoplay muted loop playsinline controlslist="nofullscreen nodownload noremoteplayback noplaybackrate foobar">
+                    <source src="./home/img/GraphicsDesign/InsideJob.webm" type="video/webm">
+                    <source src="./home/img/GraphicsDesign/InsideJob.mp4" type="video/mp4">
+                </video> 
+            </div>
+            <div class="anim anim-right anim-delay onexone">
+                <video style="width: 100%; display: block;" autoplay muted loop playsinline controlslist="nofullscreen nodownload noremoteplayback noplaybackrate foobar">
+                    <source src="./home/img/GraphicsDesign/LilRobotVideo.webm" type="video/webm">
+                    <source src="./home/img/GraphicsDesign/LilRobotVideo.mp4" type="video/mp4">
+                </video>
+            </div>
+            <div class="anim anim-right onexone">
+                <video style="width: 100%; display: block;" autoplay muted loop playsinline controlslist="nofullscreen nodownload noremoteplayback noplaybackrate foobar">
+                    <source src="./home/img/GraphicsDesign/Triangle.webm" type="video/webm">
+                    <source src="./home/img/GraphicsDesign/Triangle.mp4" type="video/mp4">
+                </video>            </div>
+            <div class="anim anim-left row2">
+                <img src="/home/img/GraphicsDesign/Alien_1 (Small).png">
+            </div>
+            <div class="anim anim-up column2">
+                <video style="width: 100%; display: block;" autoplay muted loop playsinline controlslist="nofullscreen nodownload noremoteplayback noplaybackrate foobar">
+                    <source src="./home/img/GraphicsDesign/WavesCompressed.webm" type="video/webm">
+                    <source src="./home/img/GraphicsDesign/WavesCompressed.mp4" type="video/mp4">
+                </video> 
+            </div>
+            <div class="anim anim-right onexone">
+                <img src="/home/img/GraphicsDesign/CircuitPuzzleThing_02 (Small).png">
+            </div>
+            <div class="anim anim-up column2">
+                <img src="/home/img/GraphicsDesign/Astronomy (Small).png">
+            </div>
+            <div class="anim anim-right onexone pixelated">
+                <img src="/home/img/GraphicsDesign/GoatSkull.png">
+            </div>
+            <div class="anim anim-left onexone pixelated">
+                <img src="/home/img/GraphicsDesign/ColosseumPixel_2.png">
+            </div>
+            <div class="anim anim-left anim-delay onexone pixelated">
+                <img src="/home/img/GraphicsDesign/City_01.4.png">
+            </div>
+            <div class="anim anim-right anim-delay onexone pixelated">
+                <img src="/home/img/GraphicsDesign/City_02.1.png">
+            </div>
+            <div class="anim anim-right onexone">
+                <img src="/home/img/GraphicsDesign/CultOfTheLamb (Small).png">
+            </div>
+
+
+            <div class="anim anim-left onexone">
+                <img src="/home/img/GraphicsDesign/FloatingIslands (Small).png">
+            </div>
+            <div class="anim anim-left anim-delay onexone">
+                <img src="/home/img/GraphicsDesign/Blueprint (Small).png">
+            </div>
+            <div class="anim anim-right anim-delay onexone">
+                <img src="/home/img/GraphicsDesign/CatPlanet (Small).png">
+            </div>
+            <div class="anim anim-right onexone">
+                <img src="/home/img/GraphicsDesign/CatLavaLamp_Sketch (Small).png">
+            </div>
+            <div class="anim anim-left onexone">
+                <img src="/home/img/GraphicsDesign/CatFlame_Sketch (Small).png">
+            </div>
+            <div class="anim anim-up column2">
+                <img src="/home/img/GraphicsDesign/TreasureGlare (Small).png">
+            </div>
+            <div class="anim anim-left column2">
+                <img src="/home/img/GraphicsDesign/bridgething(Small).png">
+            </div>
+            
+            <div class="anim anim-right row2">
+                <img src="/home/img/GraphicsDesign/DavidPaint2(Small).png">
+            </div>
+            
+            <div class="anim anim-left column2">
+                <img src="/home/img/GraphicsDesign/glasstest(Small).png">
+            </div>
+            <div class="anim anim-left column2">
+                <img src="/home/img/GraphicsDesign/Ship_lines_crop.png">
+            </div>
+            <div class="anim anim-right  column2">
+                <img src="/home/img/GraphicsDesign/viking_scene_snow_cycles(Small).png">
+            </div>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+        </div>
+        <div class="title">Others</div>
+        <div class="img-cont">
+            <div class="anim anim-left column2">
+                <img src="/home/img/GraphicsDesign/FinalMockupsCollage.png">
+            </div>
+            <div class="anim anim-right onexone">
+                <img src="/home/img/GraphicsDesign/Yeah01.png">
+            </div>
+            <div class="anim anim-right anim-delay row2">
+                <img src="/home/img/GraphicsDesign/Dunes.png">
+            </div>
+            <div class="anim anim-left onexone">
+                <img src="/home/img/GraphicsDesign/Neon_Nikolai.png">
+            </div>
+            <div class="anim anim-right onexone">
+                <img src="/home/img/GraphicsDesign/EyesStuff.png">
+            </div>
+            <div class="anim anim-right anim-delay onexone">
+                <img src="/home/img/GraphicsDesign/cube.gif">
+            </div>
+            <div class="anim anim-left onexone">
+                <img src="/home/img/GraphicsDesign/BEEFREE.png">
+            </div>
+        </div>
+        
+    </div>
+</body>
