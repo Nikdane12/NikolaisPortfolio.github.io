@@ -688,7 +688,7 @@ video {
     font-size: 15px;
     width: 80%;
     left: 10%;
-    margin-bottom: 20px;
+    margin: 20px, 0px;
 }
 
 @media only screen and (min-width: 500px) {
