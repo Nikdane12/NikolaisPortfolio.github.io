@@ -22,6 +22,15 @@ const allData = [
         title: 'Renders',
         type: 'img',
         items: [
+            { name: "OppenheimerThumbnail02", type: "img", size: "column2", direction: "left", animdelay: false, },
+            { name: "OppenheimerThumbnail01", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "OppenheimerThumbnail04", type: "img", size: "column2", direction: "left", animdelay: false, },
+            // { name: "OppenheimerThumbnail03", type: "img", size: "column2", direction: "left", animdelay: false, },
+            
+            { name: "Liminal_01COMPOSITE", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "Pikuniku", type: "img", size: "column2", direction: "left", animdelay: false, },
+            { name: "Pancakes_03", type: "img", size: "column2", direction: "right", animdelay: false, },
+
             { name: "DRGWeapons (Small)", type: "img", size: "column2", direction: "left", animdelay: false, },
             { name: "DesertScene_1 (Small)", type: "img", size: "column2", direction: "right", animdelay: false, },
             { name: "BuildingsInFog_PAINTED-_Small_", type: "img", size: "column2", direction: "left", animdelay: false, },
@@ -57,7 +66,7 @@ const allData = [
         title: 'Others',
         type: 'img',
         items: [
-            { name: "FinalMockupsCollage (Small)", type: "img", size: "onexone", direction: "up", },
+            { name: "FinalMockupsCollage (Small)", type: "img", size: "column2", direction: "up", },
             { name: "Yeah01", type: "img", size: "onexone", direction: "up", },
             { name: "Dunes", type: "img", size: "onexone", direction: "up", },
             { name: "Neon_Nikolai", type: "img", size: "onexone", direction: "up", },
