@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="header grid fiveGrid">
+        <div class="container aspect2x1">
+            <img>
+        </div>
+        <div class="mxwidth grid threeGrid col-span-3 col-start-3">
+            <div class="headerbutton aspect2x1">
+                <div class="textanim">STUDIO</div>
+            </div>
+            <div class="headerbutton aspect2x1">
+                <div class="textanim">OUR GAMES</div>
+            </div>
+            <div class="headerbutton aspect2x1">
+                <div class="textanim">CAREERS</div>
+            </div>
+        </div>
+    </div>
+    <div id="mainpage">
+        <div class="grid layoutONE relative">
+            <div class="col-span-2 row-span-1"></div>
+            <div class="col-span-2 row-span-2"></div>
+            <div class="col-span-1 row-span-1"></div>
+            <div class="col-span-2 row-span-1"></div>
+            <div class="col-span-1 row-span-2"></div>
+            <div class="col-span-1 row-span-1"></div>
+        </div>
+    </div>
+    <div id="footer"></div>
+</body>
+<style>
+    body{
+       background-color: rgb(38, 38, 38); 
+       margin: 0;
+    }
+    .aspect2x1{
+        aspect-ratio: 2/1;
+    }
+    .grid{
+        display: grid;
+    }
+    .fiveGrid{
+        grid-template-columns: repeat(5,minmax(0,1fr));
+    }
+    .threeGrid{
+        grid-template-columns: repeat(3,minmax(0,1fr));
+    }
+    .flex{
+        display: flex;
+    }
+    .fithwidth{
+        width: 20%;
+    }
+    .mxwidth{
+        width: 100%;
+    }
+
+    .col-span-1{
+        grid-column: span 1/ span 1;
+    }
+    .col-span-2{
+        grid-column: span 2 / span 2;
+    }
+    .col-span-3{
+        grid-column: span 3 / span 3;
+    }
+
+    .col-start-3{
+        grid-column-start: 3;
+    }
+    
+    .row-span-1{
+        grid-row: span 1 / span 1;
+    }
+    .row-span-2{
+        grid-row: span 2 / span 2;
+    }
+    .row-span-3{
+        grid-row: span 3 / span 3;
+    }
+</style>
+</html>

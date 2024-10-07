@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button class="slide">
+        <span class="slidingcolor"></span>
+        <span class="slidetext">Button</span>
+    </button>
+
+    <div class="triple">
+        <span><a>Item 1</a></span>
+        <span>•</span>
+        <span><a>Item 2</a></span>
+        <span>•</span>
+        <span><a>Item 3</a></span>
+    </div>
+</body>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Bowlby+One&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Bowlby+One&family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap');
+    
+    body {
+    margin: 0;
+    background-color: rgb(38, 38, 38);
+    display: grid;
+    place-items: center; /* Center the button in the viewport */
+    height: 100vh;
+    }
+
+    button {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+        outline: none;
+        border: 0;
+        vertical-align: middle;
+        text-decoration: none;
+        background: transparent;
+        padding: 0;
+        font-size: inherit;
+        font-family: inherit;
+    }
+
+    .slide {
+        height: 50px;
+        width: 150px; /* Added width for the button */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: greenyellow;
+        overflow: hidden; /* Hide the sliding shape overflow */
+        position: relative;
+    }
+
+    .slide > * {
+        color: black;
+        font-family: "Bowlby One", sans-serif;
+        font-weight: 400;
+        font-style: normal;
+        font-size: 25px;
+        position: relative;
+        z-index: 2; /* Ensures text stays above the sliding shape */
+        transition: color 0.25s ease; /* Smooth color transition */
+    }
+
+    .slidingcolor {
+        width: 10px;
+        height: 100%;
+        position: absolute;
+        background-color: black;
+        left: 0;
+        top: 0;
+        z-index: 1; /* Keeps the sliding shape under the text */
+        transition: width 0.25s ease;
+    }
+
+    .slide:hover .slidingcolor {
+        width: calc(100% - 10px);
+    }
+
+    .slide:hover > * {
+        color: greenyellow; /* Change text color to match the button background */
+    }
+
+    .triple{
+        
+        width: 300px;
+        height: 75px;
+        background-color:goldenrod;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+        
+    }
+
+    .triple>*{
+        color: black;
+        font-family: "Red Hat Display", sans-serif;
+        font-optical-sizing: auto;
+        font-weight: 900;
+        font-style: normal;
+        font-size: 25px;
+    }
+
+    .triple>*>a{
+        cursor: pointer;
+    }
+
+    .triple>*>a:hover{
+        color: white;
+        text-decoration: underline;
+    }
+
+    
+</style>
+</html>

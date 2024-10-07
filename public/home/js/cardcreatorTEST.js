@@ -1,6 +1,7 @@
 const HTMLprojects = [
     {
         title: 'HTML Projects',
+        group: 'HTMLprojects',
         cards: [
             { name: 'Character Creator', image: 'viking_scene_cycles_Small.png', link: 'charactercreator', datecreated: '21.02.23', tags: ['JS', 'LIBRARY'], },
             { name: 'Chess App', image: 'ChessThumbnail.png', link: 'chessjs', datecreated: '07.02.23', tags: ['JS', 'LIBRARY'], },
@@ -13,6 +14,7 @@ const HTMLprojects = [
     }, 
     {
         title: 'HTML Examples',
+        group: 'HTMLexamples',
         cards: [
             { name: 'Design Examples', image: 'DesignTest.png', link: 'designtest', datecreated: '02.05.23', tags: ['CSS', 'EXAMPLE'] },
             { name: 'Interactive Cube', image: 'Cubestuff.png', link: 'cubeThreeJs', datecreated: '13.03.23', tags: ['JS', 'TEST', 'LIBRARY'] },

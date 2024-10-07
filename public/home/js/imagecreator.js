@@ -22,38 +22,61 @@ const allData = [
         title: 'Renders',
         type: 'img',
         items: [
+            { name: "KimKitsuragi_2", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "SanjiLighter_Lit", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "BladerunnerPoolRoom", type: "img", size: "column2", direction: "right", animdelay: false, },
+
+            { name: "BassGuitar", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "Guitar_Painterly", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "Speaker_01", type: "img", size: "column2", direction: "left", animdelay: false, },
+
+            { name: "RibbonBackground_4k", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "Sci-Fi_Futurism_Art", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "PhoneLightStreaksASUS", type: "img", size: "column2", direction: "up", animdelay: false, },
+            
+            { name: "Cordyceps", type: "img", size: "onexone", direction: "left", animdelay: false, },
+            { name: "Renault_Alpine_A310_StylizedV2", type: "img", size: "column2", direction: "up", animdelay: false, },
+            { name: "Robots_BaW", type: "img", size: "column2", direction: "up", animdelay: false, },
+
             { name: "OppenheimerThumbnail02", type: "img", size: "column2", direction: "left", animdelay: false, },
             { name: "OppenheimerThumbnail01", type: "img", size: "column2", direction: "right", animdelay: false, },
             { name: "OppenheimerThumbnail04", type: "img", size: "column2", direction: "left", animdelay: false, },
-            // { name: "OppenheimerThumbnail03", type: "img", size: "column2", direction: "left", animdelay: false, },
+            { name: "OppenheimerThumbnail03", type: "img", size: "column2", direction: "right", animdelay: false, },
             
-            { name: "Liminal_01COMPOSITE", type: "img", size: "column2", direction: "right", animdelay: false, },
-            { name: "Pikuniku", type: "img", size: "column2", direction: "left", animdelay: false, },
-            { name: "Pancakes_03", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "Liminal_01COMPOSITE", type: "img", size: "column2", direction: "left", animdelay: false, },
+            { name: "Pikuniku", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "Pancakes_03", type: "img", size: "column2", direction: "left", animdelay: false, },
 
-            { name: "DRGWeapons (Small)", type: "img", size: "column2", direction: "left", animdelay: false, },
-            { name: "DesertScene_1 (Small)", type: "img", size: "column2", direction: "right", animdelay: false, },
-            { name: "BuildingsInFog_PAINTED-_Small_", type: "img", size: "column2", direction: "left", animdelay: false, },
+            { name: "DRGWeapons (Small)", type: "img", size: "column2", direction: "right", animdelay: false, },
+            { name: "DesertScene_1 (Small)", type: "img", size: "column2", direction: "left", animdelay: false, },
+            { name: "BuildingsInFog_PAINTED-_Small_", type: "img", size: "column2", direction: "right", animdelay: false, },
+
             { name: "CasseteTape", type: "video", size: "onexone", direction: "right", animdelay: true, },
 
             { name: "Typewriter_2 (Small)", type: "img", size: "onexone", direction: "right", animdelay: false, },
+
             { name: "InsideJob", type: "video", size: "onexone", direction: "left", },
             { name: "LilRobotVideo", type: "video", size: "onexone", direction: "left", animdelay: true, },
             { name: "Triangle", type: "video", size: "onexone", direction: "right", animdelay: true, },
             { name: "Alien_1 (Small)", type: "img", size: "row2", direction: "right", },
             { name: "WavesCompressed", type: "video", size: "column2", direction: "left", },
+
             { name: "CircuitPuzzleThing_02 (Small)", type: "img", size: "onexone", direction: "right", animdelay: true, },
             { name: "Astronomy (Small)", type: "img", size: "column2", direction: "left", },
+
             { name: "GoatSkull", type: "img", size: "onexone", direction: "right", class: "pixelated", animdelay: true, },
             { name: "ColosseumPixel_2", type: "img", size: "onexone", direction: "right", class: "pixelated", },
             { name: "City_01.4", type: "img", size: "onexone", direction: "left", class: "pixelated", },
             { name: "City_02.1", type: "img", size: "onexone", direction: "left", class: "pixelated", animdelay: true, },
+
             { name: "CultOfTheLamb (Small)", type: "img", size: "onexone", direction: "right", animdelay: true, },
             { name: "FloatingIslands (Small)", type: "img", size: "onexone", direction: "right", },
             { name: "Blueprint (Small)", type: "img", size: "onexone", direction: "left", },
+
             { name: "CatPlanet (Small)", type: "img", size: "onexone", direction: "left", animdelay: true, },
             { name: "CatLavaLamp_Sketch (Small)", type: "img", size: "onexone", direction: "right", animdelay: true, },
             { name: "CatFlame_Sketch (Small)", type: "img", size: "onexone", direction: "right", },
+
             { name: "TreasureGlare (Small)", type: "img", size: "column2", direction: "left", },
             { name: "bridgething(Small)", type: "img", size: "column2", direction: "right", },
             { name: "DavidPaint2(Small)", type: "img", size: "row2", direction: "left", },
@@ -66,6 +89,16 @@ const allData = [
         title: 'Others',
         type: 'img',
         items: [
+            { name: "EP-133 K.O. II_Collection01", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "EP-133 K.O. II_Collection03", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "EP-133 K.O. II_Collection04", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "EP-133 K.O. II_Collection05", type: "img", size: "row2", direction: "left", animdelay: false, },
+            
+            { name: "OP-1_field_Collection04", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "OP-1_field_Collection03", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "OP-1_field_Collection02", type: "img", size: "row2", direction: "left", animdelay: false, },
+            { name: "OP-1_field_Collection01", type: "img", size: "row2", direction: "left", animdelay: false, },
+
             { name: "FinalMockupsCollage (Small)", type: "img", size: "column2", direction: "up", },
             { name: "Yeah01", type: "img", size: "onexone", direction: "up", },
             { name: "Dunes", type: "img", size: "onexone", direction: "up", },

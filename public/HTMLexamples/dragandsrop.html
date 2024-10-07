@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<style>
+  body {
+    margin: 0;
+  }
+
+  * {
+    border-radius: 15px;
+  }
+
+  .wrapper {
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+  }
+
+  .box {
+    background-color: lightgray;
+    min-width: 50px;
+    min-height: 50px;
+    width: max-content;
+    height: max-content;
+    padding: 5px;
+    transition: 0.5s ease;
+    border: solid 1px transparent;
+    display: grid;
+  }
+
+  .box:hover {
+    border: dashed 1px black;
+
+  }
+
+  .drag1 {
+    place-self: center;
+    width: 100px;
+    height: 50px;
+    background-color: grey;
+  }
+</style>
+<script>
+  const allowDrop = (ev) => {
+    ev.preventDefault();
+  }
+
+  const drag = (ev) => {
+    ev.dataTransfer.setData("text", ev.target.id);
+  }
+  let dragbox
+  const drop = (ev) => {
+    ev.preventDefault();
+    ev.target.appendChild(dragbox);
+    console.log('Moved:'); console.log(dragbox); console.log('To:'); console.log(ev.target);
+  }
+
+  const startup = () => {
+    dragbox = document.getElementsByClassName('drag1')[0]
+    const boxes = document.getElementsByClassName('box')
+  }
+
+</script>
+
+<body onload="startup()">
+
+
+  <div class="wrapper">
+    <div class="box" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="box" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="box" ondrop="drop(event)" ondragover="allowDrop(event)">
+      <div class="drag1" draggable="true" ondragstart="drag(event)">
+        <div>
+        </div>
+      </div>
+
+
+</body>
+
+</html>
+
+
+</body>
+
+</html>
