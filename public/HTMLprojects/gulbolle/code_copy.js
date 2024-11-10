@@ -35,6 +35,33 @@ startButton.addEventListener("click", (e) => {
     createTeamPage();
 });
 
+startButton.addEventListener('click', async () => {
+    const response = await fetch('/create-room', { method: 'POST' });
+    const { roomId } = await response.json();
+    console.log(`Game room created! Room ID: ${roomId}`);
+    window.location.href = `/play/${roomId}`;
+});
+
+const roomId = window.location.pathname.split('/play/')[1];
+if (roomId) {
+    fetch(`/play/${roomId}`)
+        .then(response => {
+            if (!response.ok) throw new Error('Game room not found');
+            return response.json();
+        })
+        .then(gameData => {
+            teams = gameData.teams || [];
+            wordBank = gameData.wordBank || [];
+            usedWords = gameData.usedWords || [];
+            currentTeamIndex = gameData.currentTeamIndex || 0;
+            startGame();
+        })
+        .catch(error => {
+            console.error('Error fetching game room:', error);
+            alert('Error fetching game room: ' + error.message);
+        });
+}
+
 class team {
     name = "default_team";
     color = "255, 0, 0";

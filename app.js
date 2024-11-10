@@ -209,3 +209,38 @@ app.get('/getpics', (req, res) => {
     // res.send(JSON.stringify(fruit))
 })
 
+
+// _______________________________________________
+// GUL BOLLE STUFF
+
+// const gameRooms = {};
+
+// const createGameRoom = (roomId) => {
+//     gameRooms[roomId] = {
+//         teams: [],
+//         wordBank: [],
+//         usedWords: [],
+//         currentTeamIndex: 0,
+//         currentMode: 0,
+//     };
+// };
+
+// app.get('/', (req, res) => {
+//     res.sendFile(path.join(__dirname, 'public', 'gulbolle.html'));
+// });
+
+// app.post('/create-room', (req, res) => {
+//     const roomId = Date.now();
+//     createGameRoom(roomId);
+//     res.json({ roomId });
+// });
+
+// app.get('/play/:roomId', (req, res) => {
+//     const { roomId } = req.params;
+
+//     if (!gameRooms[roomId]) {
+//         return res.status(404).send('Game room not found');
+//     }
+
+//     res.json(gameRooms[roomId]);
+// });

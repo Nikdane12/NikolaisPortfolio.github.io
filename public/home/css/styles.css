@@ -466,8 +466,9 @@ p {
 }
 
 #mainbodyforcards {
-    width: 100vw;
+    width: 80vw;
     height: auto;
+    margin: auto;
 }
 
 .card-cont {
@@ -690,7 +691,7 @@ video {
     font-size: 15px;
     width: 80%;
     left: 10%;
-    margin: 20px;
+    margin: 20px 0px;
 }
 
 @media only screen and (min-width: 500px) {

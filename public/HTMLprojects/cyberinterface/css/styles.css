@@ -1,0 +1,153 @@
+:root{
+    --main-color: 244, 102, 100;
+    --secondary-color: 21, 39, 51;
+}
+
+body{
+    margin: 0;
+    height: 100vh;
+    width: 90vw;
+    position: relative;
+    left: 5vw;
+
+    display: flex;
+    flex-direction: column;
+
+    font-family: "Red Hat Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+    color: rgb(var(--main-color));
+    
+    background-color: black;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(var(--main-color), 0.25) 0%, 
+        rgba(var(--secondary-color), 0.4) 80%
+    );
+}
+
+#header {
+    display: flex;
+    flex-direction: column;
+}
+
+#headerupper{
+    --top-margin: 15px;
+    margin-top: var(--top-margin);
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#headericon {
+    grid-area: icon;
+}
+
+#compass {
+    display: flex;
+    justify-content: space-between;
+    width: 254px;
+    height: max-content;
+    gap: 10px;
+
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+
+}
+
+#compass::after {
+    content: '';
+    position: absolute;
+    top: 10px; /* Adjust as needed to position the triangle */
+    left: 50%;
+    transform: translateX(calc(-50% + 5px)) rotate(180deg); /* Rotate to form a triangle */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent; /* Half of the triangle */
+    border-right: 10px solid transparent; /* Half of the triangle */
+    border-bottom: 10px solid rgba(var(--main-color), 0.5); /* Color of the triangle */
+}
+
+#settings, #headericon, .date, #newevent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#settings>svg, #headericon>svg{
+    position: relative;
+    top: 2px;
+    height: 20px;
+    fill: rgb(var(--main-color));
+}
+
+#calendar{
+    display: grid;
+    grid-template-areas: "date event newevent" "date eventday newevent";
+    grid-template-columns: 0fr auto 0fr;
+    column-gap: 17.5px;
+}
+
+
+
+.date{
+    grid-area: date;
+}
+
+.date, #newevent{
+    width: 40px;
+    height: 40px;
+}
+
+.date svg, #newevent svg{
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    fill: rgb(var(--main-color));
+}
+
+.date div{
+    font-weight: 600;
+    font-size: 1.2rem;
+    z-index: 999;
+    background-color: black;
+    background-image: linear-gradient(
+        to bottom,
+        rgba(var(--main-color), 0.25) 0%, 
+        rgba(var(--secondary-color), 0.4) 80%
+    );
+    color: transparent;
+    background-clip: text;
+}
+
+#newevent{
+    grid-area: newevent;
+    display: grid;
+    justify-items: end;
+}
+
+#newevent svg{
+    width: 20px;
+    height: 20px;
+}
+
+.event{
+    font-weight: 700;
+    grid-area: event;
+    align-items:end;
+}
+
+.eventday{
+    opacity: 0.75;
+    grid-area: eventday;
+}
+
+.event, .eventday{
+    font-size: .75rem;
+    display: flex;
+}
+

@@ -79,6 +79,12 @@ button:active .button_top {
     font-weight: bold;
 }
 
+.pageTitle{
+    font-family: GameShow;
+    font-size: 50px;
+    filter: drop-shadow(0px 0px 5px yellow);
+}
+
 .howtoElement {
     display: flex;
     flex-direction: column;
@@ -136,17 +142,40 @@ button:active .button_top {
     text-align: center;
     border-radius: 10px;
 
+    /* animation: tilt 4s ease-in-out infinite alternate; */
+}
+
+.wordDisplay::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100px; 
+    height: 100px; 
+    background-color: black; 
+    border-radius: 50%; 
+    opacity: 0.1; 
+    transform: translate(-50%, -10%) scaleY(0.5); 
+    z-index: -1;
+    filter: blur(8px);
+}
+
+.tilt_anim{
     animation: tilt 4s ease-in-out infinite alternate;
 }
 
-@keyframes tilt {
-    0% {
-        transform: translate(-50%, -50%) rotate(-5deg);
-    }
+.bounce_anim{
+    animation: bounce 2s ease-in-out infinite alternate;
+}
 
-    100% {
-        transform: translate(-50%, -50%) rotate(5deg);
-    }
+@keyframes tilt {
+    0% {transform: rotate(-5deg);}
+    100% {transform: rotate(5deg);}
+}
+
+@keyframes bounce {
+    0% {transform: translateY(10px);}
+    100% {transform: translateY(-10px);}
 }
 
 .modalBACK {

@@ -22,6 +22,11 @@ const allData = [
         title: 'Renders',
         type: 'img',
         items: [
+            { name: "Mushroom_03", type: "img", size: "onexone", direction: "left", animdelay: false, },
+            { name: "SnapParticleSim", type: "video", size: "onexone", direction: "left", animdelay: true, },
+            
+            { name: "Metropolis1927", type: "img", size: "onexone", direction: "right", animdelay: false, },
+
             { name: "KimKitsuragi_2", type: "img", size: "row2", direction: "left", animdelay: false, },
             { name: "SanjiLighter_Lit", type: "img", size: "row2", direction: "left", animdelay: false, },
             { name: "BladerunnerPoolRoom", type: "img", size: "column2", direction: "right", animdelay: false, },
@@ -152,10 +157,10 @@ const addImageGroups = (index) => {
     element.items.forEach(element => {
         const anim = document.createElement('div')
         anim.classList.add('anim')
-        anim.classList.add('anim-' + element.direction)
+        
         if (element.size) { anim.classList.add(element.size) }
         if (element.class) { anim.classList.add(element.class) }
-        if (element.animdelay) {anim.classList.add('anim-delay')}
+        
         const image = document.createElement('img')
         switch (element.type) {
             case 'svg':
@@ -190,6 +195,17 @@ const addImageGroups = (index) => {
                 break;
         }
         cont.appendChild(anim)
+        let direction = "left";
+        if (anim.getBoundingClientRect().left > document.body.clientWidth/2){
+            direction = "right";
+        }
+        if (anim.getBoundingClientRect().left < document.body.clientWidth/2 && anim.getBoundingClientRect().right > document.body.clientWidth/2){
+            direction = "up";
+        }
+        anim.classList.add('anim-' + direction)
+        if (anim.getBoundingClientRect().left > document.body.clientWidth/1.9 || anim.getBoundingClientRect().right < document.body.clientWidth/2.1){
+            anim.classList.add('anim-delay')
+        }
     })
 
 }
