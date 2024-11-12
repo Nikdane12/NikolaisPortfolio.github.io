@@ -5,12 +5,17 @@ const { default: axios } = require('axios')
 const config = require('./config')
 const portfolio = config.getApp('portfolio')
 const port = portfolio.port
+
 let hostname = networks.wifi?.address
+// let hostname = "129.242.77.162" //eduroam
+
+// let hostname = "10.239.253.238" //uitgjest
 
 if (typeof hostname === 'undefined') {
     console.log('WARNING: WiFi network address not found, using localhost')
     hostname = 'localhost'
 }
+
 
 const fs = require('fs');
 

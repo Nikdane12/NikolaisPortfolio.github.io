@@ -205,7 +205,7 @@ const addImageGroups = (index) => {
         anim.classList.add('anim-' + direction)
         if (anim.getBoundingClientRect().left > document.body.clientWidth/1.9 || anim.getBoundingClientRect().right < document.body.clientWidth/2.1){
             anim.classList.add('anim-delay')
-        }
+        }      
     })
 
 }
