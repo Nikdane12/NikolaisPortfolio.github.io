@@ -1,17 +1,36 @@
+
+
 const startPage = document.getElementById("startPage");
 const teamPageDiv = document.createElement("div");
 const wordInputPage = document.createElement("div");
 const gamePage = document.createElement("div");
+gamePage.classList.add("gamepage")
 const scoreBox = document.createElement("div")
 const buttonBox = document.createElement("div");
 buttonBox.classList.add("buttonBox");
 
+const titlePage = document.createElement("div");
+titlePage.classList.add("titlepage");
+
+const teamDisplay = document.createElement("div");
+teamDisplay.classList.add("teamDisplay");
+
+const podiumpage = document.createElement("div");
+podiumpage.classList.add("podium");
+
+const timerElement = document.createElement("div");
+timerElement.classList.add("timer")
+
+
+const maxtime = 10; // FIX make customizable
 
 let teams = []
 let wordBank = []
 let usedWords = []
 let currentTeam;
 let currentTeamIndex = 0;    
+
+let globaltime = 0;
 
 const createButton = (text) => {
     const buttonElement = document.createElement("button");
@@ -35,23 +54,36 @@ startButton.addEventListener("click", (e) => {
     createTeamPage();
 });
 
-class team {
-    name = "default_team";
-    color = "255, 0, 0";
-    score = 0;
-    correctWords;
-    passWords;
+// class team {
+//     name = "default_team";
+//     color = "255, 0, 0";
+//     score = 0;
+//     correctWords;
+//     passWords;
+//     currentTime = maxtime;
 
-    constructor(name, color, score, correctWords, passWords) {
+//     constructor(name, color, score, correctWords, passWords, currentTime) {
+//         this.name = name;
+//         this.color = color;
+//         this.score = score;
+//         this.correctWords = correctWords;
+//         this.passWords = passWords;
+//         this.currentTime = currentTime;
+//     }
+// }
+
+// FIX: remove default teams and words
+
+class team {
+    constructor(name = "default_team", color = "255, 0, 0", score = 0, correctWords = [], passWords = [], currentTime = maxtime) {
         this.name = name;
         this.color = color;
         this.score = score;
         this.correctWords = correctWords;
         this.passWords = passWords;
+        this.currentTime = currentTime;
     }
 }
-
-// FIX: remove default teams and words
 
 const randomWords = [
     'apple','orange','banana','dog','cat','sun','moon','tree','book','happy','friend','green','water','run','jump','song','flower','smile','sleep','coffee'
@@ -91,14 +123,16 @@ const gamemodes = [
         
     }, 
     {name: "Other", id: "other", 
-        howto: `<div class="title">It's up to you to decide what to play this round.</div>`}]
+        howto: `<div class="title">It's up to you to decide what to play this round.</div>`}
+]
+
 let currentMode = 0;
 randomWords.forEach(element => {
     wordBank.push(element)
 });
 
 randomTeams.forEach((e, i) => {
-    const newteam = new team(e, colors[getWrappedIndex(colors, i)], 0, [], []);
+    const newteam = new team(e, colors[getWrappedIndex(colors, i)], undefined, undefined, undefined, undefined);
     teams.push(newteam);
 })
 
@@ -146,7 +180,7 @@ const createTeamPage = () => {
 
     const createteam = () => {
         if(nameinput.value){
-            const newteam = new team(nameinput.value, colors[getWrappedIndex(colors, teams.length)], 0, [], []);
+            const newteam = new team(nameinput.value, colors[getWrappedIndex(colors, teams.length)], undefined, undefined, undefined, undefined);
             teams.push(newteam);
             nameinput.value = "";
         }
@@ -267,33 +301,28 @@ const createWordInputPage = () => {
     });
 }
 
+const titleElement = document.createElement("div");
+titleElement.classList.add("pageTitle");
+
 const startGameMode = (mode) => {
-    if (mode) {
-        removeAllAndHide(wordInputPage);
+    if (typeof mode !== "undefined") {
+        removeAll(wordInputPage);
 
         currentTeam = teams[currentTeamIndex];
-        removeAll(gamePage);
-        const titlePage = document.createElement("div");
-        titlePage.classList.add("titlepage");
 
         const startButton = createButton(document.createTextNode("Start"));
 
-        const titleElement = document.createElement("div");
-        titleElement.classList.add("pageTitle");
+        removeAll(titleElement);
         titleElement.append(mode.name);
 
         const howtoElement = document.createElement("div");
         howtoElement.classList.add("howtoElement")
         howtoElement.innerHTML = mode.howto;
 
-
-        // FIX: INCLUDE HOW TO PLAY CHERADES INFO
-
         titlePage.append(titleElement);
         titlePage.append(howtoElement);
         titlePage.append(startButton);
-        gamePage.append(titlePage);
-        document.body.append(gamePage);
+        document.body.append(titlePage);
         
 
         startButton.addEventListener("click", (e) => {
@@ -305,39 +334,56 @@ const startGameMode = (mode) => {
             removeAll(buttonBox)
 
             setTeam()
+            startTeam()
+            // const readyButton = createButton(document.createTextNode("Ready?"));
+            // buttonBox.append(readyButton)
+            // gamePage.append(buttonBox);
+            document.body.append(gamePage);
+
+            // readyButton.addEventListener("click", (e) => {
+            //     removeSelf(readyButton)
+            //     displayWord();
+            //     addbuttons();
+
+            //     resettime();
+            // });
+        }
+
+        const startTeam = () => {
+            removeAll(buttonBox)
             const readyButton = createButton(document.createTextNode("Ready?"));
             buttonBox.append(readyButton)
             gamePage.append(buttonBox);
 
             readyButton.addEventListener("click", (e) => {
-                removeSelf([readyButton])
-                // FIX: starttimer()
+                removeSelf(readyButton)
                 displayWord();
                 addbuttons();
-                scoreBox.style.right = "25px";
-                scoreBox.style.position = "absolute";
-                teamDisplay.append(scoreBox)
-                updateScore();
+
+                resettime();
             });
         }
 
-        let teamDisplay
-        const setTeam = () => {
-            if (teamDisplay) {removeSelf([teamDisplay]);}
-            
-            // FIX: SET TEAM COLOR/TEXT
-            teamDisplay = document.createElement("div");
+        
 
+        const setTeam = () => {     
+            removeAll(teamDisplay)  
             const teamText = document.createElement("div");
             teamText.append(document.createTextNode(currentTeam.name));
             teamText.classList.add("teamText");
             teamDisplay.append(teamText);
 
-            teamDisplay.classList.add("teamDisplay");
             gamePage.append(teamDisplay);
             // FIX: set theme color instead of individual elements
             teamDisplay.style.backgroundColor = `rgba(${currentTeam.color}, var(--backA))`;
             teamDisplay.style.borderColor = `rgba(${currentTeam.color}, var(--borderA))`
+
+            scoreBox.style.right = "25px";
+            scoreBox.style.position = "absolute";
+            teamDisplay.append(scoreBox)
+            updateScore();
+
+            removeSelf(wordDisplay)
         }
         
         let currentWord
@@ -363,15 +409,31 @@ const startGameMode = (mode) => {
             else{
                 wordText.append(document.createTextNode("OUT OF WORDS"))
                 console.log("OUT OF WORDS");
+                
+                currentTeam.currentTime = globaltime;
+                
                 usedWords = [];
-                removeAll(buttonBox);          
 
-                nextgamemodeButton = createButton(document.createTextNode("Next Gamemode"))
-                nextgamemodeButton.addEventListener("click", (e) => {
-                    currentMode++
-                    startGameMode(gamemodes[currentMode]);
-                });
-                buttonBox.append(nextgamemodeButton);
+                removeAll(buttonBox);          
+                if(typeof gamemodes[currentMode + 1] !== "undefined"){
+                    nextgamemodeButton = createButton(document.createTextNode("Next Gamemode"))
+                    nextgamemodeButton.addEventListener("click", (e) => {
+                        currentMode++
+                        removeSelf(gamePage)
+                        startGameMode(gamemodes[currentMode]);
+                    });
+                    buttonBox.append(nextgamemodeButton);
+                }
+                else{
+                    const endgamebutton = createButton(document.createTextNode("End Game"));
+                    endgamebutton.addEventListener("click", (e) => {
+                        endGame();
+                    });
+                    buttonBox.append(endgamebutton);
+
+                    if (teamDisplay) {removeSelf(teamDisplay);}
+                    if (wordDisplay) {removeSelf(wordDisplay);}
+                }
             }
             return word
         }
@@ -393,15 +455,46 @@ const startGameMode = (mode) => {
                 correctORpass("pass")
             });
 
-            const TESTtimeUpButton = createButton(document.createTextNode("Time's Up"))
-            TESTtimeUpButton.style.marginLeft = "auto";
-            buttonBox.append(TESTtimeUpButton);
+            // const TESTtimeUpButton = createButton(document.createTextNode("Time's Up"))
+            
+            // TESTtimeUpButton.addEventListener("click", (e) => {
+            //     nextTeam()
+            // });
 
-            TESTtimeUpButton.addEventListener("click", (e) => {
-                nextTeam()
-            });
 
             gamePage.append(buttonBox);
+        }
+
+        const resettime = () => {
+            timerElement.style.marginLeft = "auto";
+            buttonBox.append(timerElement);
+
+            const timer = new easytimer.Timer();
+            timerElement.innerHTML = timer.getTimeValues().toString();
+            timer.addEventListener('secondTenthsUpdated', (e) => {
+                timerElement.innerHTML = timer.getTimeValues().toString(['minutes', 'seconds', 'secondTenths']);
+                globaltime = timer.getTimeValues();
+            });
+
+            if(currentTeam.currentTime < 1){
+                currentTeam.currentTime = 0
+            }
+
+            const handleTargetAchieved = () => {
+                timer.stop();
+                currentTeam.currentTime = maxtime;
+                nextTeam();
+                textpopup("Time's Up", 2000)
+            }
+            
+            timer.removeEventListener('targetAchieved', handleTargetAchieved);
+            timer.addEventListener('targetAchieved', handleTargetAchieved);
+
+            timer.start({precision: 'secondTenths', countdown: true, startValues: {seconds: currentTeam.currentTime}, target:{seconds:0}});
+        }
+
+        const stopALLtime = () => {
+            //FIX
         }
 
         const updateScore = () => {
@@ -409,16 +502,24 @@ const startGameMode = (mode) => {
             scoreBox.append(currentTeam.score);
         }
 
+        let testint = 0;
         const nextTeam = () => {
-
-            /*
-            FIX: REQUIRES A READY PAGE!!!!!!!!!!!
-            FIX: choose new word but dont add current to used
-            */
-
+            // console.log("PREV TEAM");
+            // console.log(currentTeamIndex);
+            // console.log(currentTeam);
+            console.log(testint);
+            testint++;
+            
             currentTeamIndex = (currentTeamIndex + 1) % teams.length;
             currentTeam = teams[currentTeamIndex];
+
+            // console.log("NEXT TEAM");
+            // console.log(currentTeamIndex);
+            // console.log(currentTeam);
+            
+            removeSelf(wordDisplay)
             setTeam();
+            startTeam();
             updateScore();
         }
 
@@ -427,6 +528,7 @@ const startGameMode = (mode) => {
                 case "correct":
                     currentTeam.score ++
                     currentTeam.correctWords.push(currentWord)
+                    useWord(currentWord)
                     break;
                 case "pass":
                     currentTeam.score --
@@ -440,28 +542,82 @@ const startGameMode = (mode) => {
             displayWord()
         }
     }
-    else{
-        endGame();
-    }
-    
+    // else{
+    //     endGame()
+    // }
 }
+
+const goldsvg = document.createElement("div");
+goldsvg.innerHTML = `<img src="/HTMLprojects/gulbolle/img/Gold.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
+const silversvg = document.createElement("div");
+silversvg.innerHTML = `<img src="/HTMLprojects/gulbolle/img/Silver.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
+const bronzesvg = document.createElement("div");
+bronzesvg.innerHTML = `<img src="/HTMLprojects/gulbolle/img/Bronze.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
 
 const endGame = () => {
+    removeAll(gamePage);
+    removeAll(titleElement);
+    titleElement.append(document.createTextNode("Congratulations!"));
 
-}
+    const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
 
+    sortedTeams.forEach((e, i) => {
+        const podiumElement = document.createElement("div");
+        podiumElement.classList.add("podiumelement");
+
+
+        if (i === 0) {
+            goldsvg.classList.add("gold");
+            podiumElement.append(goldsvg);
+        } else if (i === 1) {
+            silversvg.classList.add("silver");
+            podiumElement.append(silversvg);
+        } else if (i === 2) {
+            bronzesvg.classList.add("bronze");
+            podiumElement.append(bronzesvg);
+        };
+
+        const podiumstats = document.createElement("div");
+        podiumstats.classList.add("podstats")
+
+        const name = document.createElement("div");
+        name.append(document.createTextNode(e.name))
+        name.classList.add("podname");
+
+        const score = document.createElement("div");
+        score.append(document.createTextNode(e.score))
+        score.classList.add("podscore");
+
+        podiumstats.append(name);
+        podiumstats.append(score);
+        podiumstats.style.backgroundColor = `rgba(${e.color}, var(--backA))`;
+        podiumstats.style.borderColor = `rgba(${e.color}, var(--borderA))`;
+
+        podiumElement.append(podiumstats);
+        podiumpage.append(podiumElement);
+    });
+
+    gamePage.append(podiumpage);
+};
+
+let lastWord = null;
 const getRandomUnusedWord = () => {
     if (usedWords.length !== wordBank.length) {
         let randomWord;
         do {
             randomWord = wordBank[Math.floor(Math.random() * wordBank.length)];
-        } while (usedWords.includes(randomWord));
+        } while (usedWords.includes(randomWord) || randomWord === lastWord); 
 
-        usedWords.push(randomWord);
+        lastWord = randomWord; 
         return randomWord;
+    } else {
+        return null;
     }
-    else {return null;}
 };
+
+const useWord = (randomWord) => {
+    usedWords.push(randomWord);
+}
 
 
 const openModal = (header, text, confirmAct, cancelAct) => {
@@ -492,7 +648,7 @@ const openModal = (header, text, confirmAct, cancelAct) => {
         buttonCont.append(confirmBut)
 
         confirmBut.addEventListener("click", (e) => {
-            removeSelf([modalBACK])
+            removeSelf(modalBACK)
             confirmAct()
         });
     }
@@ -504,17 +660,23 @@ const openModal = (header, text, confirmAct, cancelAct) => {
             removeSelf([modalBACK])
             cancelAct()
         });
+        modalBACK.addEventListener('click', (e) => removeSelf(modalBACK));
+        modal.addEventListener('click', e => e.cancelBubble = true);
     }
 }
 
-const removeSelf = divs => {
-    divs.forEach(element => {
-        element.parentNode.removeChild(element);
-    });
+const removeSelf = input => {
+    if (input.parentNode) {
+        input.parentNode.removeChild(input);
+    } else if (Array.isArray(input)) {
+        input.forEach(element => {
+            element.parentNode.removeChild(element);
+        });
+    }
 }
 
-const removeAll = div => {
-    while(div.firstChild){div.removeChild(div.firstChild)};
+const removeAll = input => {
+    while(input.firstChild){input.removeChild(input.firstChild)};
 }
 
 const removeAllAndHide = div => {
@@ -522,6 +684,23 @@ const removeAllAndHide = div => {
     div.style.display = 'none';
 }
 
+const findTopTeams = (teams) => {
+    const sortedTeams = [...teams].sort((a, b) => b.score - a.score);
 
-// let x = setinterval(func, milsec)
-// stopinterval(x)
+    const gold = sortedTeams[0] || null;
+    const silver = sortedTeams[1] || null;
+    const bronze = sortedTeams[2] || null;
+
+    return { gold, silver, bronze };
+}
+
+const textpopup = (text, fadetime) => {
+    const div = document.createElement("div");
+    div.classList.add("textpopup")
+    div.append(document.createTextNode(text))
+    document.body.append(div)
+
+    setInterval(() => {
+        removeSelf(div)
+    }, fadetime);
+}

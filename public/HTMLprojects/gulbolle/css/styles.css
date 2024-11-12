@@ -5,7 +5,7 @@
 
 @font-face {
     font-family: GameShow;
-    src: url("../gulbolle/Gameshow.ttf")
+    src: url("../Gameshow.ttf")
 }
 
 body {
@@ -22,12 +22,14 @@ body>* {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    height: 75vh;
+    gap: 100px;
 }
 
 #startPage>div {
     color: red;
     font-family: GameShow;
-    font-size: 50px;
+    font-size: 100px;
 }
 
 button {
@@ -85,6 +87,12 @@ button:active .button_top {
     filter: drop-shadow(0px 0px 5px yellow);
 }
 
+.teamPageDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 .howtoElement {
     display: flex;
     flex-direction: column;
@@ -103,11 +111,13 @@ button:active .button_top {
     flex-direction: column;
     gap: 10px;
 
+    width: 500px;
     margin-top: 10px;
 }
 
 .teamdiv,
-.worddiv {
+.worddiv,
+.podstats {
     display: flex;
     gap: 10px;
     align-items: center;
@@ -129,9 +139,15 @@ button:active .button_top {
     gap: 20px;
 }
 
+.gamepage{
+    display: grid;
+    grid-template-areas: "teamdisplay" "buttonbox";
+    gap: 20px;
+}
+
 .wordDisplay {
     position: absolute;
-    font-size: 50px;
+    font-size: 100px;
     font-weight: bold;
     top: 50%;
     left: 50%;
@@ -150,8 +166,8 @@ button:active .button_top {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 100px; 
-    height: 100px; 
+    width: 320px; 
+    height: 150px; 
     background-color: black; 
     border-radius: 50%; 
     opacity: 0.1; 
@@ -214,6 +230,7 @@ button:active .button_top {
 }
 
 .teamDisplay {
+    grid-area: teamdisplay;
     border-radius: 25px;
     height: 50px;
     text-align: center;
@@ -232,7 +249,101 @@ button:active .button_top {
 }
 
 .buttonBox{
-    margin-top: 20px;
+    grid-area: buttonbox;
     display: flex;
     gap: 10px;
+}
+
+.podium{
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    row-gap: 100px;
+
+    width: 700px;
+    margin: auto;
+    margin-top: 50px;
+}
+
+.podiumelement{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+.podiumelement>div>svg{
+    height: 100px;
+}
+
+.podstats{
+    display: flex;
+    justify-content: space-between;
+    width: 150px;
+    height: max-content;
+    padding: 10px;
+}
+
+.podiumelement>div.gold{
+    background-color: rgba(255, 215, 0, var(--backA)) !important;
+    border-color: rgba(255, 215, 0, var(--borderA)) !important;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.podiumelement>div.gold>svg{
+    fill: rgba(255, 215, 0, var(--borderA));
+}
+
+
+.podiumelement>div.silver{
+    background-color: rgba(192, 192, 192, var(--backA)) !important;
+    border-color: rgba(192, 192, 192, var(--borderA)) !important;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.podiumelement>div.silver>svg{
+    fill: rgba(192, 192, 192, var(--borderA));
+}
+
+.podiumelement>div.bronze{
+    background-color: rgba(205, 127, 50, var(--backA)) !important;
+    border-color: rgba(205, 127, 50, var(--borderA)) !important;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.podiumelement>div.bronze>svg{
+    fill: rgba(205, 127, 50, var(--borderA));
+}
+
+.textpopup{
+    display: grid;
+    justify-items: center;
+    align-content: center;
+
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    
+    top: 0px;
+    left: 0px;
+    margin: 0;
+
+    font-size: 100px;
+    font-weight: 900;
 }
