@@ -1,5 +1,3 @@
-
-
 const startPage = document.getElementById("startPage");
 const teamPageDiv = document.createElement("div");
 const wordInputPage = document.createElement("div");
@@ -21,8 +19,12 @@ podiumpage.classList.add("podium");
 const timerElement = document.createElement("div");
 timerElement.classList.add("timer")
 
+// Settings Variables !!!
 
-const maxtime = 10; // FIX make customizable
+let theme = null;
+let maxtime = 5; // FIX make customizable
+
+// ______________
 
 let teams = []
 let wordBank = []
@@ -31,9 +33,11 @@ let currentTeam;
 let currentTeamIndex = 0;    
 
 let globaltime = 0;
+let timerarr = [];
 
 const createButton = (text) => {
     const buttonElement = document.createElement("button");
+    buttonElement.classList.add("custombutton");
     const buttonSpan = document.createElement("span");
     buttonSpan.classList.add("button_top");
     buttonElement.append(buttonSpan);
@@ -50,27 +54,14 @@ const colors = ["65, 105, 225", "220, 20, 60", "255, 215, 0", "34, 139, 34", "12
 
 const startButton = createButton(document.createTextNode("Start"));
 startPage.append(startButton);
-startButton.addEventListener("click", (e) => {
-    createTeamPage();
-});
+const optionsButton = createButton(document.createTextNode("Options"));
+startPage.append(optionsButton);
+const modeSelectButton = createButton(document.createTextNode("Gamemodes"));
+startPage.append(modeSelectButton);
 
-// class team {
-//     name = "default_team";
-//     color = "255, 0, 0";
-//     score = 0;
-//     correctWords;
-//     passWords;
-//     currentTime = maxtime;
-
-//     constructor(name, color, score, correctWords, passWords, currentTime) {
-//         this.name = name;
-//         this.color = color;
-//         this.score = score;
-//         this.correctWords = correctWords;
-//         this.passWords = passWords;
-//         this.currentTime = currentTime;
-//     }
-// }
+startButton.addEventListener("click", (e) => { createTeamPage(); });
+optionsButton.addEventListener("click", (e) => { openOptions(); });
+modeSelectButton.addEventListener("click", (e) => { openGamemodes(); });
 
 // FIX: remove default teams and words
 
@@ -93,38 +84,29 @@ const randomTeams = [
     "Dog team", "Cat team", "Fish team", "Bear team"
 ]
 
-const gamemodes = [
+const gamemodeList = [
     {name: "CHARADES", id: "char", 
-        howto:`<div>How to play Charades...</div>
-        <div class="title"> How to Act Out the Word </div>
-        <span>‧ A player from the active team picks a word or phrase (without showing it).</span>
-        <span>‧ They act it out silently using gestures and body movements. No talking, sounds, or spelling allowed.
-        </span>
-        <div class="title">Guessing</div>
-        <span>‧ The acting player's teammates try to guess the word or phrase based on the actions.</span>
-        <span>‧ They have 1 to 2 minutes to guess correctly before time runs out.</span>
-        <div class="title">Scoring</div>
-        <span>‧ If the team guesses correctly within the time limit, they earn 1 point.</span>
-        <span>‧ If they don't guess in time, no points are awarded.</span>
-        <span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
+        howto:`<div>How to play Charades...</div><div class="title"> How to Act Out the Word </div><span>‧ A player from the active team picks a word or phrase (without showing it).</span><span>‧ They act it out silently using gestures and body movements. No talking, sounds, or spelling allowed.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the word or phrase based on the actions.</span><span>‧ They have 1 to 2 minutes to guess correctly before time runs out.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
     }, 
     {name: "ALIAS", id: "alias", 
-        howto: `<div>How to play Alias...</div>
-        <div class="title">How to Describe the Word</div>
-        <span>‧ A player from the active team picks a word (without showing it).</span>
-        <span>‧ They describe the word using synonyms, explanations, or clues, but cannot say the word itself or use direct translations.</span>
-        <div class="title">Guessing</div>
-        <span>‧ The acting player's teammates try to guess the word based on the description.</span>
-        <span>‧ They have 1 to 2 minutes to guess as many words as possible before time runs out.</span>
-        <div class="title">Scoring</div>
-        <span>‧ The team earns 1 point for each correct guess within the time limit.</span>
-        <span>‧ No points are awarded for incorrect guesses or skipped words.</span>
-        <span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
-        
+        howto: `<div>How to play Alias...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a word (without showing it).</span><span>‧ They describe the word using synonyms, explanations, or clues, but cannot say the word itself or use direct translations.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the word based on the description.</span><span>‧ They have 1 to 2 minutes to guess as many words as possible before time runs out.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
     }, 
-    {name: "Other", id: "other", 
-        howto: `<div class="title">It's up to you to decide what to play this round.</div>`}
+    {name: "TABOO", id: "taboo", 
+        howto: `<div>How to play Taboo...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a card with a target word and a list of forbidden words.</span><span>‧ They describe the target word to their teammates without using any of the forbidden words listed on the card.</span><span>‧ They also cannot use gestures, sound effects, or spelling to convey the word.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the target word based on the description.</span><span>‧ If the player accidentally says a forbidden word, the word gets passed</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
+    },    
+    {name: "PICTIONARY", id: "pict", 
+        howto: `<div>How to play Pictionary...</div><div class="title">Setup</div><span>‧ Divide players into two or more teams. Each team takes turns drawing and guessing.</span><span>‧ Prepare a set of words or phrases to be drawn, either using a game deck or custom list.</span><span>‧ Provide a drawing surface (paper, whiteboard, or digital) and a timer.</span><div class="title">How to Play</div><span>‧ A player from the active team draws a word or phrase from the word bank.</span><span>‧ Without speaking, writing letters, or using gestures, the player must draw clues to represent the word or phrase.</span><span>‧ The teammates must guess the word or phrase within the time limit based on the drawing.</span><div class="title">Guessing</div><span>‧ Teammates can shout out as many guesses as they like within the time limit.</span><span>‧ The drawer cannot provide verbal hints, spell, or use non-drawing actions to aid guessing.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess before the timer runs out.</span><span>‧ No points are awarded if the team fails to guess correctly in time.</span><span>‧ Rotate turns between teams, and continue until a set score is reached or all words are used.</span>`
+    }
+    
 ]
+
+let gamemodes = [gamemodeList[0], gamemodeList[1], gamemodeList[2]];
+let unusedGamemodes = [];
+gamemodeList.forEach(element => {
+    if (!gamemodes.includes(element)) {
+        unusedGamemodes.push(element);
+    }
+});
 
 let currentMode = 0;
 randomWords.forEach(element => {
@@ -185,7 +167,7 @@ const createTeamPage = () => {
             nameinput.value = "";
         }
         else{
-            openModal("Silly goose!", 
+            openActionModal("Silly goose!", 
                 "There isn't anything to input.", 
                 null, () => {})
         }
@@ -193,7 +175,7 @@ const createTeamPage = () => {
     }
 
     nameinput.addEventListener('keyup', event => {
-        if (event.keyCode === 13) {
+        if (event.key === 'Enter') {
             createteam()
         }
     });
@@ -204,7 +186,7 @@ const createTeamPage = () => {
 
     finishbutton.addEventListener("click", (e) => {
         if(teams.length == 0){
-            openModal("Silly goose!", 
+            openActionModal("Silly goose!", 
                 "There aren't any teams.", 
                 null, () => {})
         }
@@ -216,7 +198,7 @@ const createTeamPage = () => {
 }
 
 const createWordInputPage = () => {
-    removeAllAndHide(teamPageDiv);
+    removeSelf(teamPageDiv);
     const inputcont = document.createElement("div");
     inputcont.classList.add("inputcont");
     const wordscont = document.createElement("div");
@@ -260,14 +242,14 @@ const createWordInputPage = () => {
                 wordinput.value = "";
             }
             if (wordBank.includes(wordinput.value.toLowerCase())){
-                openModal("Warning!", 
+                openActionModal("Warning!", 
                 `The word you are attempting to add is already included in the word-bank. Are you sure you want to add a duplicate word?: ${wordinput.value}`, 
                 () => {addWord()}, () => {failedWord()})
             }
             else{addWord()}
         }
         else{
-            openModal("Silly goose!", 
+            openActionModal("Silly goose!", 
                 "There isn't anything to input.", 
                 null, () => {})
         }
@@ -289,7 +271,7 @@ const createWordInputPage = () => {
 
     finishbutton.addEventListener("click", (e) => {
         if(wordBank.length == 0){
-            openModal("Silly goose!", 
+            openActionModal("Silly goose!", 
                 "There aren't any words in the word-bank.", 
                 null, () => {})
         }
@@ -306,7 +288,7 @@ titleElement.classList.add("pageTitle");
 
 const startGameMode = (mode) => {
     if (typeof mode !== "undefined") {
-        removeAll(wordInputPage);
+        removeSelf(wordInputPage);
 
         currentTeam = teams[currentTeamIndex];
 
@@ -354,12 +336,11 @@ const startGameMode = (mode) => {
             const readyButton = createButton(document.createTextNode("Ready?"));
             buttonBox.append(readyButton)
             gamePage.append(buttonBox);
-
+            
             readyButton.addEventListener("click", (e) => {
                 removeSelf(readyButton)
                 displayWord();
                 addbuttons();
-
                 resettime();
             });
         }
@@ -407,10 +388,12 @@ const startGameMode = (mode) => {
                 currentWord = word
             }
             else{
-                wordText.append(document.createTextNode("OUT OF WORDS"))
+                textpopup("OUT OF WORDS", 1000)
                 console.log("OUT OF WORDS");
-                
-                currentTeam.currentTime = globaltime;
+
+                currentTeam.currentTime = globaltime;                
+
+                stopALLtime();
                 
                 usedWords = [];
 
@@ -466,14 +449,21 @@ const startGameMode = (mode) => {
         }
 
         const resettime = () => {
+            console.log("reset time!!!!");
+            
+            console.log(currentTeam.currentTime);
+            
             timerElement.style.marginLeft = "auto";
             buttonBox.append(timerElement);
 
-            const timer = new easytimer.Timer();
+            let timer = new easytimer.Timer();
+            
+            timerarr.push(timer);
+
             timerElement.innerHTML = timer.getTimeValues().toString();
             timer.addEventListener('secondTenthsUpdated', (e) => {
                 timerElement.innerHTML = timer.getTimeValues().toString(['minutes', 'seconds', 'secondTenths']);
-                globaltime = timer.getTimeValues();
+                globaltime = timer.getTimeValues().seconds;
             });
 
             if(currentTeam.currentTime < 1){
@@ -481,7 +471,8 @@ const startGameMode = (mode) => {
             }
 
             const handleTargetAchieved = () => {
-                timer.stop();
+                timer.removeEventListener('targetAchieved', handleTargetAchieved);
+                timer = null;
                 currentTeam.currentTime = maxtime;
                 nextTeam();
                 textpopup("Time's Up", 2000)
@@ -489,12 +480,15 @@ const startGameMode = (mode) => {
             
             timer.removeEventListener('targetAchieved', handleTargetAchieved);
             timer.addEventListener('targetAchieved', handleTargetAchieved);
-
             timer.start({precision: 'secondTenths', countdown: true, startValues: {seconds: currentTeam.currentTime}, target:{seconds:0}});
         }
 
         const stopALLtime = () => {
-            //FIX
+            timerarr.forEach(timer => {
+                if(timer.isRunning()){
+                    timer.stop();
+                }                
+            });
         }
 
         const updateScore = () => {
@@ -502,20 +496,10 @@ const startGameMode = (mode) => {
             scoreBox.append(currentTeam.score);
         }
 
-        let testint = 0;
         const nextTeam = () => {
-            // console.log("PREV TEAM");
-            // console.log(currentTeamIndex);
-            // console.log(currentTeam);
-            console.log(testint);
-            testint++;
             
             currentTeamIndex = (currentTeamIndex + 1) % teams.length;
             currentTeam = teams[currentTeamIndex];
-
-            // console.log("NEXT TEAM");
-            // console.log(currentTeamIndex);
-            // console.log(currentTeam);
             
             removeSelf(wordDisplay)
             setTeam();
@@ -600,6 +584,130 @@ const endGame = () => {
     gamePage.append(podiumpage);
 };
 
+const openOptions = () => {
+    const {modalBACK, modal} = openOptionModal("Options");
+
+    const maxtimeopt = document.createElement('div');
+    maxtimeopt.append(document.createTextNode("Guess Time (seconds):"))
+
+    maxtimeopt.style.display = 'flex';
+    maxtimeopt.style.justifyContent = 'space-between';
+
+    const timeinput = document.createElement('input');
+    timeinput.value = maxtime;
+    timeinput.type = 'number';
+    timeinput.min = 0;
+    timeinput.max = 300;
+    timeinput.addEventListener('input', () => {
+        maxtime = timeinput.value;
+    });
+    
+    maxtimeopt.append(timeinput);
+    modal.append(maxtimeopt);
+}
+
+const openGamemodes = () => {
+    const {modalBACK, modal} = openOptionModal("Gamemodes");
+    const contianer = document.createElement('div');
+    contianer.style.display = "flex";
+    contianer.style.flexDirection = "column";
+    contianer.style.gap = "10px";
+
+    const primaryContainer = document.createElement('div');
+    primaryContainer.classList.add("gamemodeModalList");
+    const secondaryContainer = document.createElement('div');
+    secondaryContainer.classList.add("gamemodeModalSecondList");
+    const addCustomButton = createButton("Add Custom Game");
+    
+    const renderItems = () => {
+        primaryContainer.innerHTML = "";
+        gamemodes.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.classList.add("modallistitem");
+            div.innerHTML = `
+                <div>
+                    <button class="up ${index === 0 ? 'disabled' : ''}" data-index="${index}">▲</button>
+                    <button class="down ${index === gamemodes.length - 1 ? 'disabled' : ''}" data-index="${index}">▼</button>
+                </div>
+                <div>${item.name}</div>
+                <button class="remove ${gamemodes.length === 1 ? 'disabled' : ''}" data-index="${index}" style="margin-left: auto">X</button>
+            `;
+            primaryContainer.appendChild(div);
+        });
+    }
+
+    const renderSecondaryItems = () => {
+        secondaryContainer.innerHTML = "";
+        unusedGamemodes.forEach((item, index) => {
+            const div = document.createElement('div');
+            div.classList.add("modallistitem");
+            div.innerHTML = `
+                <button class="add" data-index="${index}">+</button>
+                <div>${item.name}</div>
+            `;
+            secondaryContainer.appendChild(div);
+        });
+    };
+
+    const moveItem = (index, direction) => {
+        const newIndex = index + direction;
+        if (newIndex >= 0 && newIndex < gamemodes.length) {
+            [gamemodes[index], gamemodes[newIndex]] = [gamemodes[newIndex], gamemodes[index]];
+            renderItems();
+        }
+    }
+
+    primaryContainer.addEventListener("click", (event) => {
+        if (event.target.tagName === "BUTTON") {
+            const index = parseInt(event.target.getAttribute("data-index"), 10);
+            if (event.target.classList.contains("up")) {
+                moveItem(index, -1);
+            } else if (event.target.classList.contains("down")) {
+                moveItem(index, 1);
+            } else if (event.target.classList.contains("remove")) {
+                if(gamemodes.length !== 1){                    
+                    const removedGame = gamemodes.splice(index, 1)[0];                
+                    if(removedGame.id !== "other"){unusedGamemodes.push(removedGame)}
+                }
+                
+                renderItems();
+                renderSecondaryItems();
+            }
+        }
+    });
+    secondaryContainer.addEventListener("click", (event) => {
+        if (event.target.tagName === "BUTTON" && event.target.classList.contains("add")) {
+            const index = parseInt(event.target.getAttribute("data-index"), 10);
+            // Add unused game mode to primary list
+            gamemodes.push(unusedGamemodes.splice(index, 1)[0]);
+            renderItems();
+            renderSecondaryItems();
+        }
+    });
+
+    addCustomButton.addEventListener("click", () => {
+        const customGame = {
+            name: "Other", id: "other", 
+            howto: `<div class="title">It's up to you to decide what to play this round.</div>`
+        };
+        gamemodes.push(customGame);
+        renderItems();
+    });
+
+    const divider = document.createElement("hr");
+    divider.style.margin = "0";
+
+    renderItems();
+    renderSecondaryItems();
+    contianer.append(primaryContainer);
+    contianer.append(divider)
+    contianer.append(secondaryContainer);
+    contianer.append(addCustomButton);
+    
+    modal.append(contianer);
+}
+
+
 let lastWord = null;
 const getRandomUnusedWord = () => {
     if (usedWords.length !== wordBank.length) {
@@ -620,7 +728,7 @@ const useWord = (randomWord) => {
 }
 
 
-const openModal = (header, text, confirmAct, cancelAct) => {
+const openActionModal = (header, text, confirmAct, cancelAct) => {
     const modalBACK = document.createElement("div");
     modalBACK.classList.add("modalBACK")
 
@@ -665,6 +773,35 @@ const openModal = (header, text, confirmAct, cancelAct) => {
     }
 }
 
+const openOptionModal = (header) => {
+    const modalBACK = document.createElement("div");
+    modalBACK.classList.add("modalBACK")
+
+    const modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    const closeButton = document.createElement('div');
+    closeButton.append(document.createTextNode("X"))
+    closeButton.classList.add("modalClose");
+    closeButton.addEventListener("click", (e) => {
+        removeSelf([modalBACK])
+    });
+    modal.append(closeButton)
+
+    const headerElement = document.createElement("div");
+    headerElement.append(header);
+    headerElement.classList.add("title");
+    modal.append(headerElement)
+
+    modalBACK.append(modal)
+    document.body.append(modalBACK)
+
+    modalBACK.addEventListener('click', (e) => removeSelf(modalBACK));
+    modal.addEventListener('click', e => e.cancelBubble = true);
+
+    return {modalBACK, modal}
+}
+
 const removeSelf = input => {
     if (input.parentNode) {
         input.parentNode.removeChild(input);
@@ -704,3 +841,29 @@ const textpopup = (text, fadetime) => {
         removeSelf(div)
     }, fadetime);
 }
+
+/* 
+THINGS TO FIX
+
+[x] "OUT OF WORDS" not removing
+[x] Timer not stopping
+[ ] fix bounce anim
+[x] popup clickthrough
+[ ] rnd teams get old maxtime
+[ ] remove default teams
+
+THINGS TO IMPLEMENT LATER
+
+[ ] instructs up front
+[x] choose game order/selection
+[ ] save prefs
+[ ] clarify how add words works
+[ ] total words in list
+[ ] remove teams/words
+[ ] in-game word count (words left)
+[ ] quit/restart button
+[ ] stop/skip game
+[ ] button make fun name
+[x] swap font 
+
+*/

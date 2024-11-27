@@ -3,14 +3,15 @@
     --borderA: 1;
 } 
 
-@font-face {
-    font-family: GameShow;
-    src: url("../Gameshow.ttf")
-}
-
 body {
     margin: 0;
-    font-family: Tahoma, sans-serif;
+    font-family: "Nunito Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    font-variation-settings:
+        "wdth" 100,
+        "YTLC" 500;
 }
 
 body>* {
@@ -28,11 +29,11 @@ body>* {
 
 #startPage>div {
     color: red;
-    font-family: GameShow;
+    font-weight: 700;
     font-size: 100px;
 }
 
-button {
+.custombutton {
     --button_radius: 0.75em;
     --button_color: #e8e8e8;
     --button_outline_color: #000000;
@@ -65,26 +66,24 @@ button {
         -webkit-transform 0.1s ease;
 }
 
-button:hover .button_top {
+.custombutton:hover .button_top {
     -webkit-transform: translateY(-0.33em);
     -ms-transform: translateY(-0.33em);
     transform: translateY(-0.33em);
 }
 
-button:active .button_top {
+.custombutton:active .button_top {
     -webkit-transform: translateY(0);
     -ms-transform: translateY(0);
     transform: translateY(0);
 }
 
 .title {
-    font-weight: bold;
+    font-weight: 800;
 }
 
 .pageTitle{
-    font-family: GameShow;
     font-size: 50px;
-    filter: drop-shadow(0px 0px 5px yellow);
 }
 
 .teamPageDiv {
@@ -218,6 +217,49 @@ button:active .button_top {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    position: relative;
+}
+
+.modalClose{
+    position: absolute;
+    width: max-content;
+    cursor: pointer;
+
+    float: right;
+    right: 20px;
+    top: 20px;
+    height: 20px;
+    width: 20px;
+}
+
+.modallistitem{
+    display: flex;
+    gap: 5px;
+}
+
+.modallistitem>div{
+    display: flex;
+    gap: 5px;
+}
+
+.modallistitem>div>button{
+    width: 20px;
+    height: 20px;
+    display: grid;
+    justify-content: center;
+    align-items: center;
+}
+
+.modallistitem>div>button.disabled, .modallistitem>button.disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.gamemodeModalList, .gamemodeModalSecondList{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .buttonCont{
@@ -332,6 +374,8 @@ button:active .button_top {
 }
 
 .textpopup{
+    pointer-events: none;
+    
     display: grid;
     justify-items: center;
     align-content: center;

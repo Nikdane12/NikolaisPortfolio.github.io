@@ -2,6 +2,7 @@ const HTMLprojects = {
     title: 'HTML Projects', 
     group: 'HTMLprojects',
     cards: [
+        { name: 'Gulbolle Party Game', image: '', link: 'gulbolle', datecreated: '29.01.24', tags: ['JS'],},
         { name: 'Character Creator', image: 'viking_scene_cycles_Small.png', link: 'charactercreator', datecreated: '21.02.23', tags: ['JS', 'LIBRARY'],},
         { name: 'Chess App', image: 'ChessThumbnail.png', link: 'chessjs', datecreated: '07.02.23', tags: ['JS', 'LIBRARY'],},
         { name: 'Julekalander', image: 'JulekalanderThumbnail.png', link: 'julekalander', datecreated: '06.12.22', tags: ['JS', 'SCHOOL'],},
@@ -34,17 +35,17 @@ const HTMLexamples = {
     ]
 }
 
-let mainbodyforcards = document.getElementById('mainbodyforcards')
+let body = document.getElementById('mainbodyforcards')
 const createCards = (cardgroup) => {
     const title = document.createElement('div')
     title.classList.add('title')
     title.innerText = cardgroup.title
-    mainbodyforcards.appendChild(title)
+    body.appendChild(title)
 
     const cardcont = document.createElement('div')
     cardcont.classList.add('card-cont')
     cardcont.setAttribute('id', 'card-cont')
-    mainbodyforcards.appendChild(cardcont)
+    body.appendChild(cardcont)
 
     cardgroup.cards.forEach(element => {
         const card = document.createElement('div')
@@ -56,7 +57,7 @@ const createCards = (cardgroup) => {
         image.classList.add('cardimg')
         image.setAttribute('src', '/home/img/' + element.image)
         const tagsCont = document.createElement('div')
-        tagsCont.classList.add('tags-cont') 
+        tagsCont.classList.add('tags-cont')
         const cardtitle = document.createElement('div')
         cardtitle.classList.add('cardtitle')
         cardtitle.appendChild(document.createTextNode(element.name))
@@ -86,16 +87,17 @@ const createCards = (cardgroup) => {
                             break
                     }
                     break
-                default: 
+                default:
                     tag.classList.add('tag-non')
                     tag.appendChild(document.createTextNode(x))
             }
             tagsCont.appendChild(tag)
         });
         if(element.class){
-        element.class.forEach(x =>{
-            card.classList.add(x)
-        })}
+            element.class.forEach(x => {
+                card.classList.add(x)
+            })
+        }
         link.appendChild(image)
         card.appendChild(link)
         card.appendChild(cardtitle)

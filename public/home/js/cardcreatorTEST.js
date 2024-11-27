@@ -1,8 +1,12 @@
+// This Version uses the tabs at the top to determin 
+// which page to show instead of setting it manually
+
 const HTMLprojects = [
     {
         title: 'HTML Projects',
         group: 'HTMLprojects',
         cards: [
+            { name: 'Gulbolle Party Game', image: '', link: 'gulbolle', datecreated: '29.01.24', tags: ['JS'],},
             { name: 'Character Creator', image: 'viking_scene_cycles_Small.png', link: 'charactercreator', datecreated: '21.02.23', tags: ['JS', 'LIBRARY'], },
             { name: 'Chess App', image: 'ChessThumbnail.png', link: 'chessjs', datecreated: '07.02.23', tags: ['JS', 'LIBRARY'], },
             { name: 'Julekalander', image: 'JulekalanderThumbnail.png', link: 'julekalander', datecreated: '06.12.22', tags: ['JS', 'SCHOOL'], },
@@ -69,14 +73,14 @@ const createCards = (index) => {
             const tag = document.createElement('div')
             tag.classList.add('tag')
             let svg
-            switch (x) {
+            switch(x){
                 case 'JS':
                 case 'HTML':
                 case 'CSS':
                     svg = document.createElement('img')
                     svg.setAttribute('onload', 'SVGInject(this,{makeIdsUnique:false,useCache:false})')
                     tag.appendChild(svg)
-                    switch (x) {
+                    switch(x){
                         case 'JS':
                             svg.setAttribute('src', '/home/img/logo-javascript.svg')
                             break
@@ -94,7 +98,7 @@ const createCards = (index) => {
             }
             tagsCont.appendChild(tag)
         });
-        if (element.class) {
+        if(element.class){
             element.class.forEach(x => {
                 card.classList.add(x)
             })
