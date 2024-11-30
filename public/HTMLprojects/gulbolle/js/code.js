@@ -19,10 +19,12 @@ podiumpage.classList.add("podium");
 const timerElement = document.createElement("div");
 timerElement.classList.add("timer")
 
+
 // Settings Variables !!!
 
 let theme = null;
-let maxtime = 5; // FIX make customizable
+let maxtime = 60; // FIX make customizable
+let wordsPerPerson = 5;
 
 // ______________
 
@@ -52,16 +54,25 @@ const getWrappedIndex = (arr, index) => {
 
 const colors = ["65, 105, 225", "220, 20, 60", "255, 215, 0", "34, 139, 34", "128, 0, 128"]
 
+const startButtonsCont = document.createElement('div');
+startButtonsCont.classList.add("startButtonsCont");
 const startButton = createButton(document.createTextNode("Start"));
-startPage.append(startButton);
+startButtonsCont.append(startButton);
 const optionsButton = createButton(document.createTextNode("Options"));
-startPage.append(optionsButton);
+startButtonsCont.append(optionsButton);
 const modeSelectButton = createButton(document.createTextNode("Gamemodes"));
-startPage.append(modeSelectButton);
+startButtonsCont.append(modeSelectButton);
+startPage.append(startButtonsCont);
 
 startButton.addEventListener("click", (e) => { createTeamPage(); });
 optionsButton.addEventListener("click", (e) => { openOptions(); });
 modeSelectButton.addEventListener("click", (e) => { openGamemodes(); });
+
+
+const instructs = document.createElement('div');
+instructs.style.gridArea = "instructs";
+instructs.innerHTML = `<h1>How to Play Gulbolle</h1><ol><li><strong>Create Teams:</strong><p>Divide the players into teams. Each team should choose a team name.</p></li><li><strong>Create a Word Pool:</strong><p>Each player contributes a set number of words to the word pool. The number of words per player can be decided collectively.</p></li><li><strong>Playing the Game:</strong><p>The game consists of multiple rounds, each with the same basic premise:</p><ul><li>In each round, one team selects an actor, while the rest of the team members are guessers.</li><li>The actor has a limited amount of time to help their teammates guess as many correct words from the word pool as possible.</li><li>When time runs out, the next team takes their turn.</li><li>The game continues in this manner until all the words in the word pool have been used.</li></ul></li><li><strong>Winning the Game:</strong><p>The game concludes when all the game modes have been played. The team with the highest score at the end of all rounds is declared the winner.</p></li></ol>`;
+startPage.append(instructs);
 
 // FIX: remove default teams and words
 
@@ -113,12 +124,12 @@ randomWords.forEach(element => {
     wordBank.push(element)
 });
 
-randomTeams.forEach((e, i) => {
-    const newteam = new team(e, colors[getWrappedIndex(colors, i)], undefined, undefined, undefined, undefined);
-    teams.push(newteam);
-})
-
 const createTeamPage = () => {
+    randomTeams.forEach((e, i) => {
+        const newteam = new team(e, colors[getWrappedIndex(colors, i)], undefined, undefined, undefined, undefined);
+        teams.push(newteam);
+    })
+
     removeAllAndHide(startPage);
 
     const teamscont = document.createElement("div");
@@ -156,6 +167,18 @@ const createTeamPage = () => {
             teamscont.append(teamdiv)
             teamdiv.append(indexdiv)
             teamdiv.append(teamname)
+
+            const removeButton = document.createElement("button");
+            removeButton.textContent = "X";
+            removeButton.classList.add("remove");
+            removeButton.style.marginLeft = "auto";
+
+            removeButton.addEventListener("click", () => {
+                teams.splice(i, 1);
+                updateteamlist();
+            });
+
+            teamdiv.append(removeButton);
         });
     }
     updateteamlist();
@@ -210,32 +233,73 @@ const createWordInputPage = () => {
     const nextbutton = createButton(document.createTextNode("Next"));
     const finishbutton = createButton(document.createTextNode("Finish"));
 
-    inputcont.append(wordinput)
-    inputcont.append(addbutton)
-    inputcont.append(nextbutton)
-    inputcont.append(finishbutton)
-    wordInputPage.append(inputcont)
-    wordInputPage.append(wordscont)
+    const clarificationMessage = document.createElement("div");
+    clarificationMessage.classList.add("clarification-message");
+    clarificationMessage.innerHTML = `
+        <p><strong>How to input words:</strong></p>    
+        <ul>
+            <li>Type a word in the input box, then click the <strong>Add Word</strong> button to add it to the list.</li>
+            <li>When you're done adding words, press <strong>Next</strong> to pass it to the next person.</li>
+            <li>Once everyone has added their words, click <strong>Finish</strong> to proceed.</li>
+        </ul>`;
+
+    inputcont.append(wordinput);
+    inputcont.append(addbutton);
+    inputcont.append(nextbutton);
+    inputcont.append(finishbutton);
+    wordInputPage.append(inputcont);
+    wordInputPage.append(wordscont);
+    wordInputPage.append(clarificationMessage);
     document.body.append(wordInputPage)
 
-    
+    const updateNextButtonState = () => {
+        nextbutton.disabled = wordscont.children.length === 0 || wordscont.children.length > wordsPerPerson;
+    };
 
     const addtoWordList = word =>{
         const worddiv = document.createElement("div")
         worddiv.classList.add("worddiv");
         worddiv.append(document.createTextNode(word))
-        wordscont.append(worddiv)
+
+        const removeButton = document.createElement("button");
+        removeButton.textContent = "X";
+        removeButton.classList.add("remove");
+        removeButton.style.marginLeft = "auto";
+
+        removeButton.addEventListener("click", () => {
+            const wordIndex = wordBank.indexOf(word);
+            if (wordIndex !== -1) {wordBank.splice(wordIndex, 1)}
+            worddiv.remove();
+            updateNextButtonState();
+        });
+
+        worddiv.append(removeButton);
+        wordscont.append(worddiv);
     }
 
     const checkWord = () => {
         if(wordinput.value){
-            let word = wordinput.value.toLowerCase()
-            const addWord = () =>{
-                wordBank.push(word)
-                addtoWordList(word)
-                console.log("word added", word);
+            let word = wordinput.value.toLowerCase();
 
-                wordinput.value = "";
+            if (word.trim() === "") {
+                openActionModal("Invalid word!", 
+                    "The word cannot be just whitespace. Please try again.", 
+                    null, () => {});
+                return;
+            }
+
+            const addWord = () =>{
+                if (wordscont.children.length < wordsPerPerson) {
+                    wordBank.push(word)
+                    addtoWordList(word)
+                    console.log("word added", word);
+
+                    wordinput.value = "";
+                } else {
+                    openActionModal("Word Limit Reached!",
+                        `You can only add up to ${wordsPerPerson} words. Please remove some words to add new ones.`,
+                        null, () => {});
+                }
             }
             const failedWord = () => {
                 console.log("word failed", word);
@@ -246,7 +310,9 @@ const createWordInputPage = () => {
                 `The word you are attempting to add is already included in the word-bank. Are you sure you want to add a duplicate word?: ${wordinput.value}`, 
                 () => {addWord()}, () => {failedWord()})
             }
-            else{addWord()}
+            else{
+                addWord()
+            }
         }
         else{
             openActionModal("Silly goose!", 
@@ -317,18 +383,7 @@ const startGameMode = (mode) => {
 
             setTeam()
             startTeam()
-            // const readyButton = createButton(document.createTextNode("Ready?"));
-            // buttonBox.append(readyButton)
-            // gamePage.append(buttonBox);
             document.body.append(gamePage);
-
-            // readyButton.addEventListener("click", (e) => {
-            //     removeSelf(readyButton)
-            //     displayWord();
-            //     addbuttons();
-
-            //     resettime();
-            // });
         }
 
         const startTeam = () => {
@@ -355,7 +410,6 @@ const startGameMode = (mode) => {
             teamDisplay.append(teamText);
 
             gamePage.append(teamDisplay);
-            // FIX: set theme color instead of individual elements
             teamDisplay.style.backgroundColor = `rgba(${currentTeam.color}, var(--backA))`;
             teamDisplay.style.borderColor = `rgba(${currentTeam.color}, var(--borderA))`
 
@@ -437,13 +491,6 @@ const startGameMode = (mode) => {
             passButton.addEventListener("click", (e) => {
                 correctORpass("pass")
             });
-
-            // const TESTtimeUpButton = createButton(document.createTextNode("Time's Up"))
-            
-            // TESTtimeUpButton.addEventListener("click", (e) => {
-            //     nextTeam()
-            // });
-
 
             gamePage.append(buttonBox);
         }
@@ -585,25 +632,44 @@ const endGame = () => {
 };
 
 const openOptions = () => {
+    const optionItem = (itemText) => {
+        const item = document.createElement('div');
+        item.append(document.createTextNode(itemText))
+
+        item.style.display = 'flex';
+        item.style.justifyContent = 'space-between';
+
+        return item;
+    }
     const {modalBACK, modal} = openOptionModal("Options");
 
-    const maxtimeopt = document.createElement('div');
-    maxtimeopt.append(document.createTextNode("Guess Time (seconds):"))
-
-    maxtimeopt.style.display = 'flex';
-    maxtimeopt.style.justifyContent = 'space-between';
+    const maxtimeopt = optionItem("Guess Time (seconds):");
 
     const timeinput = document.createElement('input');
     timeinput.value = maxtime;
     timeinput.type = 'number';
-    timeinput.min = 0;
+    timeinput.min = 1;
     timeinput.max = 300;
     timeinput.addEventListener('input', () => {
         maxtime = timeinput.value;
     });
+
+    const wordsPPopt = optionItem("Word input per person:")
+
+    const wordsPPinput = document.createElement('input');
+    wordsPPinput.value = wordsPerPerson;
+    wordsPPinput.type = 'number';
+    wordsPPinput.min = 1;
+    wordsPPinput.max = 20;
+    wordsPPinput.addEventListener('input', () => {
+        wordsPerPerson = wordsPPinput.value;
+    });
     
     maxtimeopt.append(timeinput);
+    wordsPPopt.append(wordsPPinput);
+
     modal.append(maxtimeopt);
+    modal.append(wordsPPopt);
 }
 
 const openGamemodes = () => {
@@ -770,6 +836,15 @@ const openActionModal = (header, text, confirmAct, cancelAct) => {
         });
         modalBACK.addEventListener('click', (e) => removeSelf(modalBACK));
         modal.addEventListener('click', e => e.cancelBubble = true);
+        const handleEscapeKey = (e) => {
+            if (e.key === "Escape") {
+                removeSelf([modalBACK]);
+                cancelAct();
+                document.removeEventListener('keydown', handleEscapeKey);
+            }
+        };
+
+        document.addEventListener('keydown', handleEscapeKey);
     }
 }
 
@@ -849,18 +924,19 @@ THINGS TO FIX
 [x] Timer not stopping
 [ ] fix bounce anim
 [x] popup clickthrough
-[ ] rnd teams get old maxtime
+[x] rnd teams get old maxtime
 [ ] remove default teams
 
 THINGS TO IMPLEMENT LATER
 
-[ ] instructs up front
+[x] instructs up front
+[x] words per person input
 [x] choose game order/selection
-[ ] save prefs
-[ ] clarify how add words works
+[x] clarify how add words works
+[x] remove teams/words
 [ ] total words in list
-[ ] remove teams/words
 [ ] in-game word count (words left)
+[ ] save prefs
 [ ] quit/restart button
 [ ] stop/skip game
 [ ] button make fun name
