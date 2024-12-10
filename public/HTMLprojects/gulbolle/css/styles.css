@@ -394,8 +394,6 @@ body>* {
 }
 
 .textpopup{
-    pointer-events: none;
-    
     display: grid;
     justify-items: center;
     align-content: center;
@@ -410,4 +408,11 @@ body>* {
 
     font-size: 100px;
     font-weight: 900;
+}
+
+.textpopup.pause{
+    background-color: rgba(0, 0, 0, 0.3);
+    font-size: 400px;
+    color: white;
+    cursor: pointer;
 }

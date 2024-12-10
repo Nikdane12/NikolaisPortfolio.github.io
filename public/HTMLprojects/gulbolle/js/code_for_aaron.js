@@ -111,7 +111,7 @@ class team {
 }
 
 const randomWords = [
-    'apple','orange','banana','dog','cat','sun',/*'moon','tree','book','happy','friend','green','water','run','jump','song','flower','smile','sleep','coffee'*/
+    'apple','orange','banana','dog','cat','sun','moon','tree','book','happy','friend','green','water','run','jump','song','flower','smile','sleep','coffee'
 ];
 
 const randomTeams = [
@@ -643,11 +643,11 @@ const startGameMode = (mode) => {
 }
 
 const goldsvg = document.createElement("div");
-goldsvg.innerHTML = `<img src="/HTMLprojects/gulbolle/img/Gold.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
+goldsvg.innerHTML = `<img src="gulbolle/img/Gold.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
 const silversvg = document.createElement("div");
-silversvg.innerHTML = `<img src="/HTMLprojects/gulbolle/img/Silver.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
+silversvg.innerHTML = `<img src="gulbolle/img/Silver.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
 const bronzesvg = document.createElement("div");
-bronzesvg.innerHTML = `<img src="/HTMLprojects/gulbolle/img/Bronze.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
+bronzesvg.innerHTML = `<img src="gulbolle/img/Bronze.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">`;
 
 const endGame = () => {
     removeAll(gamePage);
