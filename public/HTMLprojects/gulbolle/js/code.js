@@ -20,8 +20,7 @@ const timerElement = document.createElement("div");
 timerElement.classList.add("timer")
 
 const remainingWordsDisp = document.createElement("div");
-remainingWordsDisp.style.marginLeft = "auto";
-remainingWordsDisp.style.fontWeight = "bold";
+remainingWordsDisp.classList.add("remainingWordsDisp");
 
 
 // Settings Variables !!!
@@ -120,27 +119,29 @@ const randomTeams = [
 
 const gamemodeList = [
     {name: "CHARADES", id: "char", 
-        howto:`<div>How to play Charades...</div><div class="title"> How to Act Out the Word </div><span>‧ A player from the active team picks a word or phrase (without showing it).</span><span>‧ They act it out silently using gestures and body movements. No talking, sounds, or spelling allowed.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the word or phrase based on the actions.</span><span>‧ They have 1 to 2 minutes to guess correctly before time runs out.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
+        howto:`<div>How to play Charades...</div><div class="title"> How to Act Out the Word </div><span>‧ A player from the active team gets a word or phrase (without showing it).</span><span>‧ They act it out silently using gestures and body movements. No talking, sounds, or spelling allowed.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the word or phrase based on the actions.</span><span>‧ They have limited time to guess correctly before time runs out.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
     }, 
-    {name: "ALIAS", id: "alias", 
-        howto: `<div>How to play Alias...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a word (without showing it).</span><span>‧ They describe the word using synonyms, explanations, or clues, but cannot say the word itself or use direct translations.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the word based on the description.</span><span>‧ They have 1 to 2 minutes to guess as many words as possible before time runs out.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
-    }, 
+    // {name: "ALIAS", id: "alias", 
+    //     howto: `<div>How to play Alias...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a word (without showing it).</span><span>‧ They describe the word using synonyms, explanations, or clues, but cannot say the word itself or use direct translations.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the word based on the description.</span><span>‧ They have limited time to guess correctly before time runs out.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
+    // }, 
     {name: "TABOO", id: "taboo", 
-        howto: `<div>How to play Taboo...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a card with a target word and a list of forbidden words.</span><span>‧ They describe the target word to their teammates without using any of the forbidden words listed on the card.</span><span>‧ They also cannot use gestures, sound effects, or spelling to convey the word.</span><div class="title">Guessing</div><span>‧ The acting player's teammates try to guess the target word based on the description.</span><span>‧ If the player accidentally says a forbidden word, the word gets passed</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
-    },    
+        howto: `<div>How to play Taboo...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a card with a target word and a list of forbidden words.</span><span>‧ They describe the target word to their teammates without using the forbidden word.</span><span>‧ They also cannot use gestures, sound effects, or spelling to convey the word.</span><div class="title">Guessing</div><span>‧ They have limited time to guess correctly before time runs out.</span><span>‧ If the player accidentally says a forbidden word, the word gets passed</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
+    }, 
+    {name: "TABOO: 1 WORD", id: "taboo", 
+        howto: `<div>How to play Taboo: 1 Word...</div><div class="title">How to Describe the Word</div><span>‧ A player from the active team picks a card with a target word and a list of forbidden words.</span><span>‧They describe the target word to their teammates using only a single word that is not a forbidden word.</span><span>‧ They also cannot use gestures, sound effects, or spelling to convey the word.</span><div class="title">Guessing</div><span>‧ They have limited time to guess correctly before time runs out.</span><span>‧ If the player accidentally says a forbidden word, the word gets passed</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess within the time limit.</span><span>‧ No points are awarded for incorrect guesses or skipped words.</span><span>‧ Rotate turns between teams until a set score is reached or time runs out.</span>`
+    },   
     {name: "PICTIONARY", id: "pict", 
         howto: `<div>How to play Pictionary...</div><div class="title">Setup</div><span>‧ Divide players into two or more teams. Each team takes turns drawing and guessing.</span><span>‧ Prepare a set of words or phrases to be drawn, either using a game deck or custom list.</span><span>‧ Provide a drawing surface (paper, whiteboard, or digital) and a timer.</span><div class="title">How to Play</div><span>‧ A player from the active team draws a word or phrase from the word bank.</span><span>‧ Without speaking, writing letters, or using gestures, the player must draw clues to represent the word or phrase.</span><span>‧ The teammates must guess the word or phrase within the time limit based on the drawing.</span><div class="title">Guessing</div><span>‧ Teammates can shout out as many guesses as they like within the time limit.</span><span>‧ The drawer cannot provide verbal hints, spell, or use non-drawing actions to aid guessing.</span><div class="title">Scoring</div><span>‧ The team earns 1 point for each correct guess before the timer runs out.</span><span>‧ No points are awarded if the team fails to guess correctly in time.</span><span>‧ Rotate turns between teams, and continue until a set score is reached or all words are used.</span>`
     }
     
 ]
+let gamemodes = localStorage.getItem('gamemodes');
+if (gamemodes !== null) {gamemodes = JSON.parse(gamemodes);prefsarray.push('gamemodes')}
+else gamemodes = [gamemodeList[0], gamemodeList[1], gamemodeList[2]];
 
-let gamemodes = [gamemodeList[0], gamemodeList[1], gamemodeList[2]];
-let unusedGamemodes = [];
-gamemodeList.forEach(element => {
-    if (!gamemodes.includes(element)) {
-        unusedGamemodes.push(element);
-    }
-});
+let unusedGamemodes = gamemodeList.filter(element => 
+    !gamemodes.some(mode => mode.name === element.name)
+);
 
 let currentMode = 0;
 randomWords.forEach(element => {
@@ -161,7 +162,6 @@ const createTeamPage = () => {
     inputcont.classList.add("inputcont");
     const nameinput = document.createElement("input");
     nameinput.type = "text";
-    nameinput.value = "default_team";
     const addbutton = createButton(document.createTextNode("Add Team"));
     const finishbutton = createButton(document.createTextNode("Finish"));
     inputcont.append(nameinput)
@@ -251,7 +251,6 @@ const createWordInputPage = () => {
     wordscont.classList.add("wordscont")
     const wordinput = document.createElement("input");
     wordinput.type = "text";
-    wordinput.value = "default_word"; 
     const addbutton = createButton(document.createTextNode("Add Word"));
     const nextbutton = createButton(document.createTextNode("Next"));
     const finishbutton = createButton(document.createTextNode("Finish"));
@@ -698,7 +697,7 @@ const endGame = () => {
 const handleSavePreference = (key, value, saveEnabled) => {
     prefsarray.push(key)
     if (saveEnabled) {
-        localStorage.setItem(key, value);
+        localStorage.setItem(key, JSON.stringify(value));
     } else {
         localStorage.removeItem(key);
     }
@@ -820,6 +819,9 @@ const openGamemodes = () => {
             `;
             primaryContainer.appendChild(div);
         });
+
+        renderSecondaryItems();
+        handleSavePreference('gamemodes', gamemodes, saveprefs);
     }
 
     const renderSecondaryItems = () => {
@@ -857,7 +859,6 @@ const openGamemodes = () => {
                 }
                 
                 renderItems();
-                renderSecondaryItems();
             }
         }
     });
@@ -867,7 +868,6 @@ const openGamemodes = () => {
             // Add unused game mode to primary list
             gamemodes.push(unusedGamemodes.splice(index, 1)[0]);
             renderItems();
-            renderSecondaryItems();
         }
     });
 
@@ -884,7 +884,6 @@ const openGamemodes = () => {
     divider.style.margin = "0";
 
     renderItems();
-    renderSecondaryItems();
     contianer.append(primaryContainer);
     contianer.append(divider)
     contianer.append(secondaryContainer);
@@ -1058,7 +1057,7 @@ THINGS TO FIX
 [ ] fix bounce anim
 [x] popup clickthrough
 [x] rnd teams get old maxtime
-[ ] remove default teams
+[x] remove default teams
 [ ] words in temp list before next
 
 THINGS TO IMPLEMENT

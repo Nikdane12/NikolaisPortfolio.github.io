@@ -180,7 +180,7 @@ body>* {
     /* animation: tilt 4s ease-in-out infinite alternate; */
 }
 
-.wordDisplay::after {
+/* .wordDisplay::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -193,7 +193,7 @@ body>* {
     transform: translate(-50%, -10%) scaleY(0.5); 
     z-index: -1;
     filter: blur(8px);
-}
+} */
 
 .tilt_anim{
     animation: tilt 4s ease-in-out infinite alternate;
@@ -214,7 +214,7 @@ body>* {
 }
 
 .modalBACK {
-    position: absolute;
+    position: fixed;
     margin: 0;
     top: 0;
     left: 0;
@@ -415,4 +415,69 @@ body>* {
     font-size: 400px;
     color: white;
     cursor: pointer;
+}
+
+.remainingWordsDisp{
+    margin-left: auto;
+    font-weight: bold;
+}
+
+.timer .remainingWordsDisp{
+    font-size: 20px;
+}
+
+@media only screen and (orientation: landscape) and (max-width: 812px) {
+    :root {
+        --backA: 0.5; /* Example of adjusting variables for landscape */
+        --borderA: 0.8;
+    }
+
+    body {
+        font-size: 14px; /* Adjust font size for better fit */
+    }
+
+    #startPage {
+        grid-template-columns: 1fr;
+        align-items: baseline;
+        width: 100%;
+        margin: 10px;
+    }
+
+    .mainTitle {
+        font-size: 80px; /* Scale down title font size */
+    }
+
+    .startButtonsCont {
+        width: 100%;
+        gap: 10px;
+    }
+
+    .teamdiv, .worddiv, .podstats {
+        height: 35px;
+    }
+
+    .teamscont, .wordscont {
+        max-width: 375px;
+    }
+
+    .teamDisplay{
+        height: 35px;
+    }
+
+    .wordDisplay{
+        top: 65%;
+    }
+
+    .podium {
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .textpopup.pause .textpopup{
+        font-size: 300px; 
+    }
+
+    .pageTitle {
+        font-size: 20px;
+    }
 }
