@@ -59,6 +59,25 @@ let currentTeamIndex = 0;
 let globaltime = 0;
 let timerarr = [];
 
+function goFullscreen(element) {
+    if (element.requestFullscreen) {
+        element.requestFullscreen(); // Standard method
+    } else if (element.webkitRequestFullscreen) { 
+        element.webkitRequestFullscreen(); // Safari
+    } else if (element.msRequestFullscreen) { 
+        element.msRequestFullscreen(); // IE/Edge
+    }
+}
+
+function exitFullscreen() {
+    if (document.exitFullscreen) {
+        document.exitFullscreen(); // Standard method
+    } else if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen(); // Safari
+    } else if (document.msExitFullscreen) {
+        document.msExitFullscreen(); // IE/Edge
+    }
+}
 const createButton = (text) => {
     const buttonElement = document.createElement("button");
     buttonElement.classList.add("custombutton");
@@ -788,7 +807,15 @@ const openOptions = () => {
             if(!saveprefs){clearAllPreferences()}
         }
     );
-    modal.append(maxtimeOpt, wordsPPOpt, minusPassOpt, saveprefsOpt);    
+
+    const fullscreenOpt = optionItem(
+        "Fullscreen:", "checkbox", saveprefs, {}, 
+        (e) => {
+            if (e.target.checked) {goFullscreen(document.documentElement);} 
+            else {exitFullscreen();}
+        }
+    )
+    modal.append(maxtimeOpt, wordsPPOpt, minusPassOpt, fullscreenOpt, saveprefsOpt);    
 }
 
 const openGamemodes = () => {
