@@ -6,7 +6,6 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node --max-old-space-size=4096 app",
-    "install": "echo: && echo ***** && echo Note: To install as windows service, \"npm run wininstall --silent\" && echo ***** && echo:",
     "requireadmin": "powershell ./scripts/requireadmin.ps1",
     "requirejava": "powershell ./scripts/requirejava.ps1",
     "prewininstall": "npm run requireadmin && npm install node-windows@1.0.0-beta.8 -g && npm link node-windows",
