@@ -8,6 +8,7 @@ const port = portfolio.port
 
 let hostname = networks.wifi?.address
 // let hostname = "129.242.77.162" //eduroam
+// let hostname = "129.242.249.82" //eduroam Campus
 
 // let hostname = "10.239.253.238" //uitgjest
 
@@ -171,48 +172,17 @@ const PreloadFilmList = async () => {
     return filmList
 }
 
-app.get('/getpics', async (req, res) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.json(filmList)
-})
 
 const server = app.listen(port, hostname)
 
 const sayHello = async () => {
     console.log(`${portfolio.name} listening on ${hostname}:${port}, Pid: ${process.pid}`)
-    filmList = await PreloadFilmList()
+    // filmList = await PreloadFilmList()
 }
 
 server.on('listening', sayHello)
 
-app.get('/getpics', (req, res) => {
 
-    const fruit = [
-        {
-            title: 'apple',
-            img: 'https://cdn.vox-cdn.com/thumbor/pjeFz7BdE9yMiVVnbdC_JONwc48=/1400x788/filters:format(png)/cdn.vox-cdn.com/uploads/chorus_asset/file/9518377/Screen_Shot_2017_10_23_at_10.16.32_AM.png',
-            url: '',
-            desc: ''
-        },
-        {
-            title: 'orange',
-            img: 'https://strategiesforparents.com/wp-content/uploads/adam-niescioruk-ltn8ztC6kjk-unsplash-720x720.jpg',
-            url: '',
-            desc: ''
-        },
-        {
-            title: 'pear',
-            img: 'https://media1.fdncms.com/inlander/imager/pick-a-pear/u/zoom/2362696/checkin1-1.jpg?cb=1469660725',
-            url: '',
-            desc: ''
-        }
-    ]
-
-    res.setHeader('Access-Control-Allow-Origin', '*')
-
-    res.json(fruit)
-    // res.send(JSON.stringify(fruit))
-})
 
 
 // _______________________________________________
