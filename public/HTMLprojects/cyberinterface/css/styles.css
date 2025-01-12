@@ -6,9 +6,8 @@
 body{
     margin: 0;
     height: 100vh;
-    width: 90vw;
+    width: 100vw;
     position: relative;
-    left: 5vw;
 
     display: flex;
     flex-direction: column;
@@ -27,15 +26,27 @@ body{
     );
 }
 
+.inset{
+    width: 90vw;
+    height: 75px;
+
+    left: 5vw;
+    position: relative;
+}
+
+.binaryscroll{
+    word-wrap: break-word;
+}
+
 #header {
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 #headerupper{
     --top-margin: 15px;
     margin-top: var(--top-margin);
-    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -62,9 +73,8 @@ body{
 #compass::after {
     content: '';
     position: absolute;
-    top: 10px; /* Adjust as needed to position the triangle */
     left: 50%;
-    transform: translateX(calc(-50% + 5px)) rotate(180deg); /* Rotate to form a triangle */
+    transform: translateX(calc(-50% - 17.5px)) translateY(-10px) rotate(180deg); /* Rotate to form a triangle */
     width: 0;
     height: 0;
     border-left: 10px solid transparent; /* Half of the triangle */
@@ -91,8 +101,6 @@ body{
     grid-template-columns: 0fr auto 0fr;
     column-gap: 17.5px;
 }
-
-
 
 .date{
     grid-area: date;
@@ -151,3 +159,88 @@ body{
     display: flex;
 }
 
+#maincont{
+    display: grid;
+    grid-template-areas: 
+        "leftside warning rightart"
+        "leftside stats menu";
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto;
+}
+
+#leftslide, #rightart{
+    height: 60vh;
+    width: 50px;
+
+    border: solid 1px red;
+    border-radius: 5px;
+}
+
+#leftslide{
+    grid-area: leftside;
+}
+
+#warningwrapper{
+    grid-area: warning;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    border: solid red 1px;
+
+    margin: 10px;
+}
+
+#rightart{
+    grid-area: rightart;
+}
+
+#stats{
+    grid-area: stats;
+}
+
+.warning{
+    width: calc(100% - 40px);
+    height: calc(100% - 10px);
+
+    display: flex;
+    flex-direction: column;
+}
+
+.attention{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.attention>*{
+    width: 75px;
+    height: 50px;
+}
+
+.bottomwarning{
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.bottomwarning>.connect{
+    height: 20px;
+    width: 150px;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+
+    font-size: .6rem;
+    font-weight: 500;
+    letter-spacing: .5px;
+
+    border: solid rgb(var(--main-color)) 1px;
+}
+
+.bottomwarning>.mid{
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .5px;
+}

@@ -6,6 +6,7 @@ const notifs = document.getElementById("notifs")
 const mainpage = document.getElementById("mainpage")
 const calendar = document.getElementById("calendar")
 const maincont = document.getElementById("maincont")
+const degs = document.getElementById("degs")
 
 const removeInner = (element) => {
     while (element.hasChildNodes()) {
@@ -20,7 +21,7 @@ const compassrotate = (deg, fov) => {
     startBracket.textContent = "[";
     compass.appendChild(startBracket);
 
-    const text = "W · · | · · N · · | · · E · · | · · S · · | · · W";
+    const text = "W · · | · · N · · | · · E · · | · · S · · | · · ";
     const chars = text.split(' ');
 
     const displayLength = fov * 2 + 1;
@@ -51,7 +52,31 @@ const compassrotate = (deg, fov) => {
 }
 compassrotate(0, 6)
 
-// window.addEventListener("devicemotion", compassrotate(event.rotationRate.alpha, 6), true);
+let lastAlpha = 0;
+let degree = 0;
+
+window.addEventListener('devicemotion', (e) => {
+  setInterval(() => {
+    if (e.rotationRate) {
+        let currentAlpha = e.rotationRate.alpha;
+
+        // Convert rotation rate to a simple rotational direction interpretation
+        if (currentAlpha > lastAlpha) {
+            console.log('Rotating clockwise');
+        } else if (currentAlpha < lastAlpha) {
+            console.log('Rotating counterclockwise');
+        } else {
+            console.log('No significant rotation');
+        }
+
+        // Update lastAlpha for comparison in the next event
+        lastAlpha = currentAlpha;
+        degree += currentAlpha;
+        compassrotate(degree, 6)
+        degs.innerHTML = degree;
+    }
+  }, 100); 
+}, true);
 
 const events = [
     {
@@ -126,3 +151,18 @@ const calendarCalc = () => {
 };
 
 calendarCalc();
+
+let binaryscrollarr = Array.from(document.getElementsByClassName("binaryscroll"))
+let str = "01101001011001100111100101101111011101010110000101110010011001010111001001100101011000010110010001101001011011100110011101110100011010000110100101110011011010010110110101100100011001010110000101100100"
+
+// setInterval(() => {
+//   binaryscrollarr.forEach(e => {
+//     e.innerHTML = binaryscroll();
+//   });
+// }, 75); 
+
+
+const binaryscroll = () => {
+  str = str.slice(1) + str[0];
+  return str
+}

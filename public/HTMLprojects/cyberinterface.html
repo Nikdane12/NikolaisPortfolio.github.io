@@ -9,7 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Red+Hat+Display:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="header">
+    <div id="header" class="inset">
         <div id="headerupper">
             <div id="headericon">
                 <img src="/HTMLprojects/cyberinterface/img/apps.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
@@ -25,29 +25,37 @@
     </div>
     
     <div id="mainpage">
-        <div id="calendar">
+        <div id="calendar" class="inset">
             <div id="newevent">
-                <svg x="0px" y="0px" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <!-- Define the mask -->
-                    <defs>
-                      <mask id="plus-cutout-mask" x="0" y="0" width="100%" height="100%">
-                        <!-- The white background keeps the content visible -->
-                        <rect width="100%" height="100%" fill="white" />
-                        <!-- The plus sign cut-out (black removes the content) -->
-                        <rect x="45" y="20" width="10" height="60" fill="black" /> <!-- Vertical bar -->
-                        <rect x="20" y="45" width="60" height="10" fill="black" /> <!-- Horizontal bar -->
-                      </mask>
-                    </defs>
-                  
-                    <!-- Rounded square with the mask applied -->
-                    <rect x="0" y="0" width="100" height="100" rx="15" ry="15" mask="url(#plus-cutout-mask)" />
-                  </svg>
-                  
+                <img src="/HTMLprojects/cyberinterface/img/plus.svg" onload="SVGInject(this,{makeIdsUnique:false,useCache:false})">
             </div>
         </div>
-        <div id="maincont"></div>
+        <div id="maincont">
+            <div id="leftslide"></div>
+            <div id="warningwrapper">
+                <div class="warning">
+                    <div class="attention">
+                        <svg></svg>
+                        <div>ATTENTION</div>
+                    </div>
+                    <div class="bottomwarning">
+                        <div class="connect">OUTSIDE LINK CONNECTED</div>
+                        <div class="mid">CLOSE HACK IMMEDIATELY TO AVOID DATA BREACH</div>
+                        <div class="num binaryscroll" style="width:100px"></div>
+                        <div class="loading">
+                            <div class="progress"></div>
+                            <div class="text"></div>
+                            <div class="boxes"></div>
+                            <div class="boxes"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="rightart"></div>
+            <div id="stats"></div>
+        </div>
     </div>
-      
+      <div id="degs"></div>
 </body>
 <script src="/HTMLprojects/cyberinterface/js/code.js"></script>
 </html>

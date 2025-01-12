@@ -1,9 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 100 100" enable-background="new 0 0 100 100" xml:space="preserve"><link xmlns="" type="text/css" id="dark-mode" rel="stylesheet" href=""/><style xmlns="" type="text/css" id="dark-mode-custom-style"/>
         <defs>
             <mask id="gear-hole-mask">
-                <rect x="0" y="0" width="100" height="100" rx="15" ry="15" fill="white"/>
+                <rect x="0" y="0" width="100" height="100" rx="10" ry="10" fill="white"/>
                 <path fill="black" transform="translate(-5, -5) scale(1.125)" d="M71.5,50c0-0.875-0.067-1.732-0.169-2.58l7.196-5.136l-3.953-6.846l-3.75-6.495l-8.339,3.576  c-1.197-0.857-2.48-1.598-3.844-2.198l0.155-0.012L57.906,21H50h-7.5l-1.091,9.297c-1.338,0.584-2.6,1.305-3.78,2.137l0.041-0.085  l-8.507-3.883l-3.953,6.847l-3.75,6.495l7.242,5.397C28.583,48.122,28.5,49.05,28.5,50c0,0.629,0.041,1.248,0.094,1.863  l-7.338,5.227l3.953,6.848l3.75,6.494l7.934-3.416c1.349,1.04,2.818,1.929,4.394,2.629L42.093,78h7.905h7.5l0.981-8.243  c1.594-0.685,3.075-1.571,4.442-2.603l7.698,3.506l3.952-6.848l3.75-6.494l-6.93-5.184C71.461,51.433,71.5,50.721,71.5,50z   M50,59.167c-5.063,0-9.167-4.104-9.167-9.167c0-5.063,4.104-9.167,9.167-9.167c5.062,0,9.167,4.104,9.167,9.167  C59.167,55.062,55.062,59.167,50,59.167z"/>
             </mask>
           </defs>
-        <rect x="0" y="0" width="100" height="100" rx="15" ry="15" mask="url(#gear-hole-mask)"/>
+        <rect x="0" y="0" width="100" height="100" rx="10" ry="10" mask="url(#gear-hole-mask)"/>
     </svg>
