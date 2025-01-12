@@ -4,23 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script type="importmap">
-        {
-          "imports": {
-            "three": "https://unpkg.com/three@0.150.1/build/three.module.js",
-            "three/addons/": "https://unpkg.com/three@0.150.1/examples/jsm/",
-            "three/examples/jsm/": "https://unpkg.com/three@0.150.1/examples/jsm/"
-          }
-        }
-    </script>
-    <script type="module" src="/HTMLprojects/cardgame/js/code_wCont.js"></script>
+    <script src="/HTMLprojects/cardgame/js/code_nonTHREE.js"></script>
 </head>
-<body>
-    <style>
-        body{
-            margin: 0;
-        }
-    </style>
-    
+<style>
+    body{
+        margin: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgb(35, 35, 40);
+    }
+</style>
+<body onload="startup()">
 </body>
 </html>

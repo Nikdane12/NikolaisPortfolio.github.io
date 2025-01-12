@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+// import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 // import * as dat from 'three/addons/libs/lil-gui.module.min.js';
 // import WebGL from 'three/addons/capabilities/WebGL.js';
@@ -18,7 +18,7 @@ renderer.setPixelRatio(1);
 
 document.body.appendChild( renderer.domElement ); 
 const aspect = window.innerWidth / window.innerHeight;
-const viewSize = 3; 
+const viewSize = 1; 
 
 const left = -viewSize * aspect / 2;
 const right = viewSize * aspect / 2;
@@ -26,8 +26,8 @@ const top = viewSize / 2;
 const bottom = -viewSize / 2;
 
 const camera = new THREE.OrthographicCamera(left, right, top, bottom, 0.1, 500);
-const controls = new OrbitControls( camera, renderer.domElement );
-camera.position.set( 0, 0, 5 ); 
+// const controls = new OrbitControls( camera, renderer.domElement );
+camera.position.set( 0, 0, 400 ); //perspective = pos(0,0,5)
 camera.lookAt( 0, 0, 0 ); 
 const scene = new THREE.Scene();
 
@@ -149,7 +149,7 @@ class Container {
         } else if (this.type === "vertical") {
             const spacing = this.height / count; // Vertical spacing
             const cardHeight = spacing * 0.8; // Ensure cards have padding
-            const zStep = -0.01; // Offset for the Z-axis (stacking)
+            const zStep = -0.1; // Offset for the Z-axis (stacking)
 
             cardArray.forEach((card, index) => {
                 const centerOffset = -this.height / 2; // Center the distribution
@@ -163,16 +163,43 @@ class Container {
         }
     }
 
+    createSVGOverlay() {
+        // Create SVG container
+        const svgNS = "http://www.w3.org/2000/svg";
+        const svg = document.createElementNS(svgNS, "svg");
+
+        const SVGwindow = {x: window.innerWidth, y: window.innerHeight}
+
+        // Set SVG size and position
+        svg.style.position = "absolute";
+        svg.style.left = `${(this.posx*100) - (this.width*100) / 2}px`;
+        svg.style.top = `${(this.posy*100) - (this.height*100) / 2}px`;
+        svg.setAttribute("width", (this.width*100));
+        svg.setAttribute("height", (this.height*100));
+
+        // Create rectangle inside SVG
+        const rect = document.createElementNS(svgNS, "rect");
+        rect.setAttribute("width", (this.width*100));
+        rect.setAttribute("height", (this.height*100));
+        rect.setAttribute("fill", "none"); // Light green with transparency
+        rect.setAttribute("stroke", "white");
+        rect.setAttribute("stroke-width", "5");
+
+        svg.appendChild(rect);
+
+        // Append SVG to document body
+        document.body.appendChild(svg);
+
+        // Return the SVG element in case further modifications are needed
+        return svg;
+    }
+
     render(scene) {
         Object.values(this.cards).forEach((card) => {
             scene.add(card.model);
         });
     }
 }
-
-
-
-
 
 const billTexture = getTexture("bill");
 const amongusTexture = getTexture("amongus");
@@ -185,7 +212,6 @@ const blankTexture = getTexture("blank");
 // cosine = Mathf.Cos(Time.time + saved index)
 
 const tiltingAnimations = [];
-let baseCardModel;
 
 class Card {
     static idCounter = 0; 
@@ -261,118 +287,168 @@ class Card {
         };
 
         const onMouseMove = (event) => {
+            const onMouseClick = (event) =>{
+
+                return
+            }
+
             mouseIntersected = true;
             mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
             mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
         };
 
         window.addEventListener("mousemove", onMouseMove);
-
+        const onMouseDrag = (e) => {
+            mouseIntersected = true
+        }
+        
         return animateTilt;
     }
 }
+let baseCardModel;
+const loadBaseCardModel = () => {
+    return new Promise((resolve, reject) => {
+        loader.load(model, (gltf) => {
+            baseCardModel = gltf.scene.children[0];
 
-loader.load(model, (gltf) => {
-    baseCardModel = gltf.scene.children[0];
-
-    baseCardModel.traverse((child) => {
-        if (child.isMesh) {
-            child.material = new THREE.MeshBasicMaterial({
-                alphaMap: blankTexture,
-                transparent: true,
-                opacity: 1,
+            baseCardModel.traverse((child) => {
+                if (child.isMesh) {
+                    child.material = new THREE.MeshBasicMaterial({
+                        alphaMap: blankTexture,
+                        transparent: true,
+                        opacity: 1,
+                    });
+                }
             });
-        }
+
+            resolve(baseCardModel);
+        }, undefined, (error) => {
+            reject(error);
+        });
     });
+};
 
-    // Create a container
-    const container1 = new Container(0, 0, 3, 2, "horizontal");
+const main = async () => {
+    try {
+        // Wait for the baseCardModel to load
+        await loadBaseCardModel();
 
-    // Create cards using the `Card` class
-    const billCard = new Card(billTexture, scene, baseCardModel);
-    const amongusCard = new Card(amongusTexture, scene, baseCardModel);
-    const boscoCard = new Card(boscoTexture, scene, baseCardModel);
-    const vaultboyCard = new Card(vaultboyTexture, scene, baseCardModel);
+        const HozContainer = new Container(-0.5, 0, 3, 2, "horizontal");
+        HozContainer.createSVGOverlay();
 
-
-    // Add the cards to the container
-    container1.addCard(billCard);
-    container1.addCard(amongusCard);
-    container1.addCard(boscoCard);
-    container1.addCard(vaultboyCard);
-
-    console.log(container1);
-    
-
-    // Render the container (adds all card models to the scene)
-    container1.render(scene);
-
-    // Add the card animations to the main loop
-    tiltingAnimations.push(billCard.animation);
-    tiltingAnimations.push(amongusCard.animation);
-    tiltingAnimations.push(boscoCard.animation);
-    tiltingAnimations.push(vaultboyCard.animation);
-});
-
-let composer = new EffectComposer( renderer );
-let mousePointer = new THREE.Vector2();
-const raycaster = new THREE.Raycaster();
-raycaster.setFromCamera(mousePointer, camera);
+        // Create cards using the `Card` class
+        const billCard = await new Card(billTexture, scene, baseCardModel);
+        const amongusCard = await new Card(amongusTexture, scene, baseCardModel);
+        const boscoCard = await new Card(boscoTexture, scene, baseCardModel);
+        const vaultboyCard = await new Card(vaultboyTexture, scene, baseCardModel);
 
 
-const renderPass = new RenderPass( scene, camera );
-composer.addPass( renderPass );
+        // Add the cards to the container
+        HozContainer.addCard(billCard);
+        HozContainer.addCard(amongusCard);
+        HozContainer.addCard(boscoCard);
+        HozContainer.addCard(vaultboyCard);
 
-let outlinePass = getOutlineEffect(window, scene, camera);
-configureOutlineEffectSettings_Default(outlinePass);
-composer.addPass( outlinePass );
+        console.log(HozContainer);
 
-document.addEventListener('click', MouseOutline);
 
-let prevHighlighted = null;
-function MouseOutline(event) {
-    
-    mousePointer = getMouseVector2(event, window);
+        // Render the container (adds all card models to the scene)
+        HozContainer.render(scene);
 
-    const intersections = checkRayIntersections(mousePointer, camera, raycaster, scene);
+        const VerContainer = new Container(1.5, 0, 1, 1, "vertical")
+        VerContainer.createSVGOverlay();
 
-    if(intersections.length < 1){return}
-    if (intersections[0].object.uuid == prevHighlighted){
-        outlinePass.selectedObjects = []
-        prevHighlighted = null;
-    } else{
-        prevHighlighted = intersections[0].object.uuid;
-        addOutlinesBasedOnIntersections(intersections, outlinePass);
+        const billCard2 = await new Card(billTexture, scene, baseCardModel);
+        const amongusCard2 = await new Card(amongusTexture, scene, baseCardModel);
+        const boscoCard2 = await new Card(boscoTexture, scene, baseCardModel);
+
+        VerContainer.addCard(billCard2)
+        VerContainer.addCard(amongusCard2)
+        VerContainer.addCard(boscoCard2)
+
+        console.log(VerContainer);
+
+
+        VerContainer.render(scene);
+
+        // Add the card animations to the main loop
+        tiltingAnimations.push(billCard.animation);
+        tiltingAnimations.push(amongusCard.animation);
+        tiltingAnimations.push(boscoCard.animation);
+        tiltingAnimations.push(vaultboyCard.animation);
+
+        tiltingAnimations.push(billCard2.animation);
+        tiltingAnimations.push(amongusCard2.animation);
+        tiltingAnimations.push(boscoCard2.animation);
+    } catch (error) {
+        console.error("Error loading baseCardModel:", error);
     }
-}
 
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    if (composer) {
-        composer.setSize(window.innerWidth, window.innerHeight);
+    let composer = new EffectComposer( renderer );
+    let mousePointer = new THREE.Vector2();
+    const raycaster = new THREE.Raycaster();
+    raycaster.setFromCamera(mousePointer, camera);
+
+
+    const renderPass = new RenderPass( scene, camera );
+    composer.addPass( renderPass );
+
+    let outlinePass = getOutlineEffect(window, scene, camera);
+    configureOutlineEffectSettings_Default(outlinePass);
+    composer.addPass( outlinePass );
+
+    document.addEventListener('click', MouseOutline);
+
+    let prevHighlighted = null;
+    function MouseOutline(event) {
+        
+        mousePointer = getMouseVector2(event, window);
+
+        const intersections = checkRayIntersections(mousePointer, camera, raycaster, scene);
+
+        if(intersections.length < 1){return}
+        if (intersections[0].object.uuid == prevHighlighted){
+            outlinePass.selectedObjects = []
+            prevHighlighted = null;
+        } else{
+            prevHighlighted = intersections[0].object.uuid;
+            addOutlinesBasedOnIntersections(intersections, outlinePass);
+        }
     }
+
+    function onWindowResize() {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        if (composer) {
+            composer.setSize(window.innerWidth, window.innerHeight);
+        }
+    }
+
+    window.addEventListener('resize', onWindowResize);
+
+    function animate() {
+        requestAnimationFrame(animate);
+        tiltingAnimations.forEach((animateTilt) => animateTilt());
+        renderer.render(scene, camera);
+        composer.render();
+    }
+    animate();
+
+    // if ( WebGL.isWebGL2Available() ) {
+
+    // 	animate();
+
+    // } else {
+
+    // 	const warning = WebGL.getWebGL2ErrorMessage();
+    // 	document.getElementById( 'container' ).appendChild( warning );
+
+    // }
 }
 
-window.addEventListener('resize', onWindowResize);
+main();
 
-function animate() {
-    requestAnimationFrame(animate);
-    tiltingAnimations.forEach((animateTilt) => animateTilt());
-    renderer.render(scene, camera);
-    composer.render();
-}
-animate();
 
-// if ( WebGL.isWebGL2Available() ) {
 
-// 	animate();
-
-// } else {
-
-// 	const warning = WebGL.getWebGL2ErrorMessage();
-// 	document.getElementById( 'container' ).appendChild( warning );
-
-// }
 

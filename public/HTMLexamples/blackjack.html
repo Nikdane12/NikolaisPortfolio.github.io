@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <script src="./nikUtils.js"></script> -->
+</head>
+<style>
+    :root{
+        --card_scale: 1;
+        --card_padding: 10px;
+    }
+    body{
+        margin: 0px;
+        background-color: rgb(0, 95, 0);
+    }
+    .card{
+        width: calc((128px * var(--card_scale)) - (var(--card_padding) * 2));
+        height: calc((178px * var(--card_scale)) - (var(--card_padding) * 2));
+        background-color: white;
+        border-radius: 10px;
+        padding: 10px;
+    }
+    .cardPattern{
+        --color1: rgb(255, 255, 255);
+        --color2: rgb(255, 100, 100);
+        --scale: 2;       
+        position: relative; 
+        width: calc(100% + 10px);
+        height: calc(100% + 10px);
+        top: -5px;
+        left: -5px;
+        border-radius: 5px;
+        background: repeating-conic-gradient(from 45deg, var(--color1) 0% 25%, var(--color2) 0% 50%);
+        background-size: calc(32px /var(--scale)) calc(32px /var(--scale));
+        background-color: var(--color2);
+    }
+    #playerhand, #dealerhand, #discard{
+        width: inherit;
+        height: calc(178px * var(--card_scale));
+        display: flex;
+        gap: 10px;
+        border: 1px solid white;
+        border-radius: 10px;
+    }
+    #activeHands{
+        width: 100%;
+        display: flex;
+        gap: 10px;
+    }
+</style>
+<body>
+    <button id="playerhitButton">HIT</button>
+    <button id="playerstayButton">STAY</button>
+    <div style="display: flex; justify-content: space-around;">
+        <div id="dealerScore"></div>
+        <div id="playerScore"></div>
+    </div>
+    <div id="cardCountingCount"></div>
+
+    <div id="activeHands">
+        <!-- <div id="dealerhand"></div>
+        <div id="playerhand"></div> -->
+    </div>
+    <div id="discard"></div>
+</body>
+<script type="module">
+    import * as utils from "./nikUtils.js"
+
+    const typesOfContainer = [
+        "horizontal", "vertical", "array"
+    ];
+
+    class Container {
+        #padding;
+        #cellArray;
+        #cellWidth;
+        #cellHeight;
+
+        constructor(id = "defaultCont", width = 500, height = 500, padding = 10) {
+            this.id = id;
+            this.width = width;
+            this.height = height;
+            this.cards = {};
+            this.element = null;
+            this.#cellArray = [];
+            this.#cellWidth = 0;
+            this.#cellHeight = 0;
+            this.#padding = padding;
+        }
+
+        createCell(){
+            const cellElement = document.createElement('div');
+            // if(this.type === "horizontal"){
+            //     cellElement.style.height = "100%";
+            //     this.#cellHeight = this.height
+            // } else if (this.type === "vertical") {
+            //     cellElement.style.width = "100%";
+            //     this.#cellWidth = this.width
+            // }
+            this.setCellDimensions(cellElement);
+            cellElement.style.border = "2px solid black";
+            this.element.append(cellElement);
+            this.#cellArray.push(cellElement);
+            this.updateCells();
+
+            // cell.addEventListener
+        }
+
+        updateCells(){
+            this.#cellArray.forEach((e, i) => {
+                this.positionCell(e, i);
+                // if(this.type === "horizontal"){
+                //     const width = (this.width - (2 * this.#padding)) / this.#cellArray.length
+                //     e.style.width = `${width}px`;
+                //     e.style.left = `${this.#padding + (width * i)}px`
+                //     this.#cellWidth = width;
+                // } else if (this.type === "vertical") {
+                //     const height = (this.height - (2 * this.#padding)) / this.#cellArray.length
+                //     e.style.height = `${height}px`;
+                //     e.style.top = `${this.#padding + (height * i)}px`
+                //     this.#cellHeight = height;
+                // }
+            });
+        }
+
+        createCont(){
+            const element = document.createElement('div');
+            element.id = this.id;
+            element.style.width = `${this.width}px`;
+            element.style.height = `${this.height}px`;
+            this.element = element;
+            this.createCell();
+            return element
+        }
+
+        addCard(card) {
+            if (!this.cards[card.id]) {
+                this.cards[card.id] = card;
+                this.updateCardPositions();
+                if(this.element !== null && card.element !== null){
+                    this.createCell();
+                    this.element.append(card.element)
+                }
+            } else {
+                console.warn(`Card with ID ${card.id} is already in the container.`);
+            }
+        }
+
+        removeCard(cardId) {
+            if (this.cards[cardId]) {
+                delete this.cards[cardId];
+                this.updateCardPositions();
+            } else {
+                console.warn(`Card with ID ${cardId} not found in the container.`);
+            }
+        }
+
+        clearCards() {
+            this.cards = {};
+        }
+
+        listCards() {
+            return Object.values(this.cards);
+        }
+
+        updateCardPositions() {
+            const cardArray = this.listCards();
+            const count = cardArray.length;
+            
+
+            if (count === 0) return;
+            this.positionCards(cardArray);
+            // if (this.type === "horizontal") {
+            //     cardArray.forEach((card, index) => {
+            //         const posX = this.#padding + (this.#cellWidth * index) + (this.#cellWidth/2) - (card.width/2);
+            //         const posY = (this.#cellHeight/2) - (card.height/2);
+            //         card.element.style.left = `${posX}px`;
+            //         card.element.style.top = `${posY}px`;
+            //     });
+            // } else if (this.type === "vertical") {
+            //     cardArray.forEach((card, index) => {
+            //         const posX = (this.#cellWidth/2) - (card.width/2);
+            //         const posY = this.#padding + (this.#cellHeight * index) + (this.#cellHeight/2) - (card.height/2);
+            //         card.element.style.left = `${posX}px`;
+            //         card.element.style.top = `${posY}px`;
+            //     });
+            // }
+        }
+
+        setCellDimensions(cellElement) {
+            throw new Error("setCellDimensions() must be implemented by subclasses");
+        }
+
+        positionCell(cellElement, index) {
+            throw new Error("positionCell() must be implemented by subclasses");
+        }
+
+        positionCards(cardArray) {
+            throw new Error("positionCards() must be implemented by subclasses");
+        }
+    }
+
+    class HorizontalContainer extends Container {
+        setCellDimensions(cellElement) {
+            cellElement.style.height = "100%";
+        }
+
+        positionCell(cellElement, index) {
+            const width = (this.width - (2 * this.#padding)) / this.#cellArray.length;
+            cellElement.style.width = `${width}px`;
+            cellElement.style.left = `${this.#padding + (width * index)}px`;
+            this.#cellWidth = width;
+        }
+
+        positionCards(cardArray) {
+            cardArray.forEach((card, index) => {
+                const posX = this.#padding + (this.#cellWidth * index) + (this.#cellWidth / 2) - (card.width / 2);
+                const posY = (this.height / 2) - (card.height / 2);
+                card.element.style.left = `${posX}px`;
+                card.element.style.top = `${posY}px`;
+            });
+        }
+    }
+
+    class VerticalContainer extends BaseContainer {
+        setCellDimensions(cellElement) {
+            cellElement.style.width = "100%";
+        }
+
+        positionCell(cellElement, index) {
+            const height = (this.height - (2 * this.#padding)) / this.#cellArray.length;
+            cellElement.style.height = `${height}px`;
+            cellElement.style.top = `${this.#padding + (height * index)}px`;
+            this.#cellHeight = height;
+        }
+
+        positionCards(cardArray) {
+            cardArray.forEach((card, index) => {
+                const posX = (this.width / 2) - (card.width / 2);
+                const posY = this.#padding + (this.#cellHeight * index) + (this.#cellHeight / 2) - (card.height / 2);
+                card.element.style.left = `${posX}px`;
+                card.element.style.top = `${posY}px`;
+            });
+        }
+    }
+
+    const activeHandsElement = document.getElementById("activeHands");
+    const playerHandCont = new Container("playerhand", 500, 200, "horizontal");
+    activeHandsElement.append(playerHandCont.createCont());
+    const playerScoreElement = document.getElementById('playerScore');
+    const dealerScoreElement = document.getElementById('dealerScore');
+    const dealerHandCont = new Container("dealerhand", 500, 200, "horizontal");
+    activeHandsElement.append(dealerHandCont.createCont());
+    const discardElement = document.getElementById('discard');
+    
+    const playerhitButton = document.getElementById('playerhitButton');
+    const playerstayButton = document.getElementById('playerstayButton');
+
+    const cardCountingCount = document.getElementById('cardCountingCount');
+
+
+    let playerhand = [];
+    let dealerhand = [];
+    let discardHand = [];
+    let playerScore = 0;
+    let dealerScore = 0;
+
+    const suits = ["hearts", "spades", "diamonds", "clubs"];
+    const icons = ["♥", "♠", "♦", "♣"];
+
+    const deck = [];
+    let cardId = 0;
+    const fillDeck = () => {
+        suits.forEach((suit, i) => {
+            for (let index = 2; index <= 14; index++) {
+                let rank
+                let value = 10;
+                let HiLo
+                if(index <= 6){HiLo = -1;} 
+                else if (index <= 9){HiLo = 0;} 
+                else {HiLo = 1;}
+                switch (index) {
+                    case 11:
+                        rank = "J"
+                        break;
+                    case 12:
+                        rank = "Q"
+                        break;
+                    case 13:
+                        rank = "K"
+                        break;
+                    case 14:
+                        rank = "A"
+                        value = 11;
+                        break;
+                    default:
+                        rank = index;
+                        value = rank;
+                        break;
+                }
+                deck.push({cardId, suit, icon: icons[i], rank, value, HiLo}); 
+                cardId++;  
+            }
+        });
+    }
+    // utils.runFunctionXTimes(fillDeck, 0, 6);
+    fillDeck();
+    console.log(deck);
+
+    
+    
+
+
+    const getRandomCard = () => {
+        return deck[Math.floor(Math.random()*deck.length)]
+    }
+
+    const renderCard = (cardObj, options) => {
+        const {flipped = false,} = options;
+        const cardBack = document.createElement('div');
+        cardBack.classList.add("card");
+        if(!flipped){
+            const rank = document.createElement('div');
+            rank.innerHTML = cardObj.rank;
+            const suit = document.createElement('div');
+            suit.innerHTML = cardObj.icon;
+            if (cardObj.suit === "hearts" || cardObj.suit === "diamonds"){
+                rank.style.color = "red";
+                suit.style.color = "red";
+            }
+
+            cardBack.append(rank);
+            cardBack.append(suit);
+        } else {
+            const cardPattern = document.createElement('div');
+            cardPattern.classList.add('cardPattern');
+            cardBack.append(cardPattern);
+        }
+        
+        return cardBack
+    }
+
+    const playerHit = (flipped) => {
+        const card = getRandomCard()
+        if (card === undefined){return}
+        playerhand.push(card)
+        const cardIndex = deck.findIndex(deckCard => deckCard === card);
+        if (cardIndex !== -1) {deck.splice(cardIndex, 1);}        
+        playerScore += card.value;
+        playerScoreElement.innerHTML = playerScore;
+        playerHandCont.element.append(renderCard(card, {flipped}))
+        check();
+        countCards();
+    }
+
+    const playerStay = () => {
+        while(dealerScore < 17){
+            dealerPlay()
+        }
+        check();
+        countCards();
+    }
+
+    const dealerPlay = (flipped) => {
+        const card = getRandomCard()
+        if (card === undefined){return}
+        dealerhand.push(card)
+        const cardIndex = deck.findIndex(deckCard => deckCard === card);
+        if (cardIndex !== -1) {deck.splice(cardIndex, 1);}        
+        dealerScore += card.value;
+        dealerScoreElement.innerHTML = dealerScore;
+        dealerHandCont.element.append(renderCard(card, {flipped}))
+        check();
+        countCards();
+    }
+
+    const countCards = () => {
+        let count = 0;
+        playerhand.forEach(e => {
+            count += e.HiLo;
+        })
+        dealerhand.forEach(e => {
+            count += e.HiLo;
+        })
+        discardHand.forEach(e => {
+            count += e.HiLo
+        })
+        console.log(count);
+        
+        cardCountingCount.innerHTML = count;
+    }
+
+    const check = () => {
+        console.log("Player Score:", playerScore);
+        console.log("Dealer Score:", dealerScore);
+        
+        if (playerScore > 21){
+            console.log("Game Over");
+            playerScore = 0;
+            dealerScore = 0;
+            updateScore();
+            discardPlayerHand();
+            discardDealerHand();
+        }
+        if (dealerScore > 21){
+            console.log("You Win");
+            playerScore = 0;
+            dealerScore = 0;
+            discardPlayerHand();
+            discardDealerHand();
+        }
+    }
+
+    const updateScore = () => {
+        playerScoreElement.innerHTML = playerScore;
+        dealerScoreElement.innerHTML = dealerScore;
+    }
+    
+    const discardPlayerHand = () => {
+        utils.removeAll(playerHandCont)
+        playerhand.forEach(e => {
+            discardHand.push(e)
+            discardElement.append(renderCard(e, {flipped:true}))
+        });
+        playerhand = [];
+    }
+
+    const discardDealerHand = () => {
+        utils.removeAll(dealerHandCont)
+        dealerhand.forEach(e => {
+            discardHand.push(e)
+            discardElement.append(renderCard(e, {flipped:true}))
+        });
+        dealerhand = [];
+    }
+
+    playerhitButton.addEventListener('click', () => playerHit(false));
+    playerstayButton.addEventListener('click', () => playerStay(false));
+
+
+    // playerHit(false);
+    // playerHit(false);
+    // dealerPlay(false);
+    // dealerPlay(true);
+
+    
+
+</script>
+</html>
