@@ -7,186 +7,179 @@
     <!-- <script src="./nikUtils.js"></script> -->
 </head>
 <style>
-    :root{
-        --card_scale: 1;
-        --card_padding: 10px;
-    }
     body{
         margin: 0px;
         background-color: rgb(0, 95, 0);
     }
+    *{
+        box-sizing: border-box;
+    }
     .card{
-        width: calc((128px * var(--card_scale)) - (var(--card_padding) * 2));
-        height: calc((178px * var(--card_scale)) - (var(--card_padding) * 2));
+        --card_scale: 1;
+        width: calc(128px * var(--card_scale));
+        height: calc(178px * var(--card_scale));
         background-color: white;
-        border-radius: 10px;
-        padding: 10px;
+        border-radius: calc(var(--card_scale) * 10px);
+        padding: calc(var(--card_scale) * 10px);
+        position: absolute;
     }
     .cardPattern{
         --color1: rgb(255, 255, 255);
         --color2: rgb(255, 100, 100);
-        --scale: 2;       
+        --color3: rgb(210, 173, 255);
+        --scale: calc(var(--card_scale) * 0.1);       
         position: relative; 
-        width: calc(100% + 10px);
-        height: calc(100% + 10px);
-        top: -5px;
-        left: -5px;
-        border-radius: 5px;
-        background: repeating-conic-gradient(from 45deg, var(--color1) 0% 25%, var(--color2) 0% 50%);
-        background-size: calc(32px /var(--scale)) calc(32px /var(--scale));
-        background-color: var(--color2);
+        width: calc(100% + calc(var(--card_scale) * 10px));
+        height: calc(100% + calc(var(--card_scale) * 10px));
+        top: calc(var(--card_scale) * -5px);
+        left: calc(var(--card_scale) * -5px);
+        border-radius: calc(var(--card_scale) * 5px);
+
+        background-image:  linear-gradient(30deg, var(--color2) 12%, transparent 12.5%, transparent 87%, var(--color2) 87.5%, var(--color2)), 
+        linear-gradient(150deg, var(--color2) 12%, transparent 12.5%, transparent 87%, var(--color2) 87.5%, var(--color2)), 
+        linear-gradient(30deg, var(--color2) 12%, transparent 12.5%, transparent 87%, var(--color2) 87.5%, var(--color2)), 
+        linear-gradient(150deg, var(--color2) 12%, transparent 12.5%, transparent 87%, var(--color2) 87.5%, var(--color2)), 
+        linear-gradient(60deg, var(--color3) 25%, transparent 25.5%, transparent 75%, var(--color3) 75%, var(--color3)), 
+        linear-gradient(60deg, var(--color3) 25%, transparent 25.5%, transparent 75%, var(--color3) 75%, var(--color3));
+        background-size: calc(200px * var(--scale)) calc(350px * var(--scale));
+        background-position: 0 0, 0 0, 
+        calc(100px * var(--scale)) calc(175px * var(--scale)), 
+        calc(100px * var(--scale)) calc(175px * var(--scale)), 0 0, 
+        calc(100px * var(--scale)) calc(175px * var(--scale));
+        background-color: #ffffff;
     }
     #playerhand, #dealerhand, #discard{
         width: inherit;
         height: calc(178px * var(--card_scale));
-        display: flex;
-        gap: 10px;
+        /* display: flex;
+        gap: 10px; */
         border: 1px solid white;
         border-radius: 10px;
     }
     #activeHands{
         width: 100%;
         display: flex;
-        gap: 10px;
+        justify-content: space-around;
+    }
+    .cell{
+        width: 100%;
+        /* border: 2px solid black; */
+        position: absolute;
+        /* box-sizing: border-box; */
     }
 </style>
 <body>
     <button id="playerhitButton">HIT</button>
     <button id="playerstayButton">STAY</button>
+    <button id="betButton">BET</button>
+    <input id="betInput" value="100" type="number" placeholder="BET">
+    <div id="playerBalance"></div>
     <div style="display: flex; justify-content: space-around;">
+        <div id="playerScore"></div>        
         <div id="dealerScore"></div>
-        <div id="playerScore"></div>
     </div>
     <div id="cardCountingCount"></div>
-
-    <div id="activeHands">
-        <!-- <div id="dealerhand"></div>
-        <div id="playerhand"></div> -->
-    </div>
-    <div id="discard"></div>
-</body>
+    <div id="activeHands"></div>
 <script type="module">
-    import * as utils from "./nikUtils.js"
-
-    const typesOfContainer = [
-        "horizontal", "vertical", "array"
-    ];
+    import {removeAll, runFunctionXTimes} from "./nikUtils.js"
 
     class Container {
-        #padding;
-        #cellArray;
-        #cellWidth;
-        #cellHeight;
-
-        constructor(id = "defaultCont", width = 500, height = 500, padding = 10) {
+        constructor(id = "defaultCont", width = 500, height = 500) {
             this.id = id;
             this.width = width;
             this.height = height;
             this.cards = {};
-            this.element = null;
-            this.#cellArray = [];
-            this.#cellWidth = 0;
-            this.#cellHeight = 0;
-            this.#padding = padding;
+            this.cellArray = [];
+            this.cellWidth = 0;
+            this.cellHeight = 0;
+            this.padding = 10;
+            this.contX = null;
+            this.contY = null;
+
+            this.element = this.createCont();
+            this.updateContPos = this.updateContPos.bind(this);
+            window.addEventListener("resize", this.updateContPos);
+            this.updateContPos()
+        }
+
+        updateContPos(){
+            this.contX = this.element.offsetLeft;
+            this.contY = this.element.offsetTop;  
+                      
+            this.updateCells()
         }
 
         createCell(){
             const cellElement = document.createElement('div');
-            // if(this.type === "horizontal"){
-            //     cellElement.style.height = "100%";
-            //     this.#cellHeight = this.height
-            // } else if (this.type === "vertical") {
-            //     cellElement.style.width = "100%";
-            //     this.#cellWidth = this.width
-            // }
-            this.setCellDimensions(cellElement);
-            cellElement.style.border = "2px solid black";
+            cellElement.classList.add("cell");
             this.element.append(cellElement);
-            this.#cellArray.push(cellElement);
+            this.cellArray.push(cellElement);
             this.updateCells();
 
             // cell.addEventListener
+            return cellElement
+        }
+
+        removeCells(){
+            this.cellArray = [];
+            while(this.element.firstChild){this.element.removeChild(this.element.firstChild)};
+            this.updateCells();
         }
 
         updateCells(){
-            this.#cellArray.forEach((e, i) => {
+            this.cellArray.forEach((e, i) => {
                 this.positionCell(e, i);
-                // if(this.type === "horizontal"){
-                //     const width = (this.width - (2 * this.#padding)) / this.#cellArray.length
-                //     e.style.width = `${width}px`;
-                //     e.style.left = `${this.#padding + (width * i)}px`
-                //     this.#cellWidth = width;
-                // } else if (this.type === "vertical") {
-                //     const height = (this.height - (2 * this.#padding)) / this.#cellArray.length
-                //     e.style.height = `${height}px`;
-                //     e.style.top = `${this.#padding + (height * i)}px`
-                //     this.#cellHeight = height;
-                // }
+                this.setCellDimensions(e);
             });
+            this.updateCardPositions()
         }
 
-        createCont(){
+        createCont(){           
             const element = document.createElement('div');
             element.id = this.id;
             element.style.width = `${this.width}px`;
             element.style.height = `${this.height}px`;
             this.element = element;
-            this.createCell();
             return element
         }
 
-        addCard(card) {
-            if (!this.cards[card.id]) {
-                this.cards[card.id] = card;
-                this.updateCardPositions();
+        addCard(card, flipped) {          
+            if (!this.cards[card.cardId]) {
+                this.cards[card.cardId] = card;
+                card.requestElement({flipped})
                 if(this.element !== null && card.element !== null){
-                    this.createCell();
-                    this.element.append(card.element)
+                    this.createCell().append(card.element)
                 }
+                this.updateCardPositions();
             } else {
                 console.warn(`Card with ID ${card.id} is already in the container.`);
             }
         }
 
-        removeCard(cardId) {
-            if (this.cards[cardId]) {
-                delete this.cards[cardId];
+        removeCard(card) {
+            if (this.cards[card.cardId]) {
+                delete this.cards[card.cardId];
                 this.updateCardPositions();
             } else {
-                console.warn(`Card with ID ${cardId} not found in the container.`);
+                console.warn(`Card with ID ${card.cardId} not found in the container.`);
             }
         }
 
         clearCards() {
             this.cards = {};
+            this.removeCells();
+            this.updateCardPositions();
         }
 
         listCards() {
             return Object.values(this.cards);
         }
 
-        updateCardPositions() {
+        updateCardPositions() {            
             const cardArray = this.listCards();
             const count = cardArray.length;
-            
-
             if (count === 0) return;
             this.positionCards(cardArray);
-            // if (this.type === "horizontal") {
-            //     cardArray.forEach((card, index) => {
-            //         const posX = this.#padding + (this.#cellWidth * index) + (this.#cellWidth/2) - (card.width/2);
-            //         const posY = (this.#cellHeight/2) - (card.height/2);
-            //         card.element.style.left = `${posX}px`;
-            //         card.element.style.top = `${posY}px`;
-            //     });
-            // } else if (this.type === "vertical") {
-            //     cardArray.forEach((card, index) => {
-            //         const posX = (this.#cellWidth/2) - (card.width/2);
-            //         const posY = this.#padding + (this.#cellHeight * index) + (this.#cellHeight/2) - (card.height/2);
-            //         card.element.style.left = `${posX}px`;
-            //         card.element.style.top = `${posY}px`;
-            //     });
-            // }
         }
 
         setCellDimensions(cellElement) {
@@ -203,63 +196,131 @@
     }
 
     class HorizontalContainer extends Container {
-        setCellDimensions(cellElement) {
-            cellElement.style.height = "100%";
+        setCellDimensions(cellElement) { 
+                       
+            cellElement.style.height = `${this.height}px`;
+            this.cellWidth = (this.width - this.padding * 2) / this.cellArray.length       
+            
+            cellElement.style.width = `${this.cellWidth}px`
         }
 
         positionCell(cellElement, index) {
-            const width = (this.width - (2 * this.#padding)) / this.#cellArray.length;
-            cellElement.style.width = `${width}px`;
-            cellElement.style.left = `${this.#padding + (width * index)}px`;
-            this.#cellWidth = width;
+            const posX = this.contX + this.padding + (this.cellWidth * index)           
+            cellElement.style.left = `${posX}px`;
+            cellElement.style.top = `${this.contY}px`;
         }
 
         positionCards(cardArray) {
-            cardArray.forEach((card, index) => {
-                const posX = this.#padding + (this.#cellWidth * index) + (this.#cellWidth / 2) - (card.width / 2);
-                const posY = (this.height / 2) - (card.height / 2);
+            cardArray.forEach((card, index) => {                     
+                const posX = (this.cellWidth / 2) - (128 / 2);
+                const posY = (this.height / 2) - (178 / 2);                               
                 card.element.style.left = `${posX}px`;
-                card.element.style.top = `${posY}px`;
+                card.element.style.top = `${posY}px`;               
             });
         }
     }
 
-    class VerticalContainer extends BaseContainer {
+    class VerticalContainer extends Container {
         setCellDimensions(cellElement) {
             cellElement.style.width = "100%";
         }
 
         positionCell(cellElement, index) {
-            const height = (this.height - (2 * this.#padding)) / this.#cellArray.length;
+            const height = (this.height - (2 * this.padding)) / this.cellArray.length;
             cellElement.style.height = `${height}px`;
-            cellElement.style.top = `${this.#padding + (height * index)}px`;
-            this.#cellHeight = height;
+            cellElement.style.top = `${this.padding + (height * index)}px`;
+            this.cellHeight = height;
         }
 
         positionCards(cardArray) {
+            
             cardArray.forEach((card, index) => {
-                const posX = (this.width / 2) - (card.width / 2);
-                const posY = this.#padding + (this.#cellHeight * index) + (this.#cellHeight / 2) - (card.height / 2);
+                this.contX = this.element.getBoundingClientRect().left; 
+                this.contY = this.element.getBoundingClientRect().top;              
+
+                const posX = this.contX + (this.width / 2) - (128 / 2);
+                const posY = this.contY + this.padding + (this.cellHeight * index) + (this.cellHeight / 2) - (178 / 2);
                 card.element.style.left = `${posX}px`;
                 card.element.style.top = `${posY}px`;
             });
         }
     }
 
+    class Card {
+        constructor(cardId, suit, rank, value){
+            this.cardId = cardId;
+            this.suit = suit;
+            this.rank = rank;
+            this.value = value;
+            this.HiLo = null;
+            this.element = null;
+
+            if(value <= 6){this.HiLo = -1;} 
+            else if (value <= 9){this.HiLo = 0;} 
+            else {this.HiLo = 1;}
+            const icons = {
+                hearts: "♥",
+                spades: "♠",
+                diamonds: "♦",
+                clubs: "♣"
+            };
+            this.icon = icons[suit];
+            this.element = null;
+        }
+
+        renderCard(options){           
+            const {flipped = false,} = options;
+            const cardBack = document.createElement('div');
+            cardBack.classList.add("card");
+            if(!flipped){
+                const rankElement = document.createElement('div');
+                rankElement.textContent = this.rank;
+                const suitElement = document.createElement('div');
+                suitElement.textContent = this.icon;
+                if (this.suit === "hearts" || this.suit === "diamonds"){
+                    rankElement.style.color = "red";
+                    suitElement.style.color = "red";
+                }
+                cardBack.append(rankElement);
+                cardBack.append(suitElement);
+            } else {
+                const cardPattern = document.createElement('div');
+                cardPattern.classList.add('cardPattern');
+                cardBack.append(cardPattern);
+            }
+            return cardBack
+        }
+
+        requestElement(options){
+            const {flipped = false,} = options;
+            this.element = this.renderCard(options);
+            return this.element;
+        }
+    }
+
     const activeHandsElement = document.getElementById("activeHands");
-    const playerHandCont = new Container("playerhand", 500, 200, "horizontal");
-    activeHandsElement.append(playerHandCont.createCont());
+    const playerHandCont = new HorizontalContainer("playerhand", 500, 200,);
+    activeHandsElement.append(playerHandCont.element);
     const playerScoreElement = document.getElementById('playerScore');
     const dealerScoreElement = document.getElementById('dealerScore');
-    const dealerHandCont = new Container("dealerhand", 500, 200, "horizontal");
-    activeHandsElement.append(dealerHandCont.createCont());
-    const discardElement = document.getElementById('discard');
+    const dealerHandCont = new HorizontalContainer("dealerhand", 500, 200,);
+    activeHandsElement.append(dealerHandCont.element);
+    const discardCont = new HorizontalContainer("discard", 500, 200,);
+    document.body.append(discardCont.element);
+
+    const playerBalanceElement = document.getElementById('playerBalance');
+    const betInput = document.getElementById('betInput');
     
     const playerhitButton = document.getElementById('playerhitButton');
     const playerstayButton = document.getElementById('playerstayButton');
+    const betButton = document.getElementById('betButton');
 
     const cardCountingCount = document.getElementById('cardCountingCount');
 
+    let gameRunning = false;
+    let playerBalance = 1000;
+    playerBalanceElement.textContent = playerBalance;
+    let betAmount = 0;
 
     let playerhand = [];
     let dealerhand = [];
@@ -268,7 +329,6 @@
     let dealerScore = 0;
 
     const suits = ["hearts", "spades", "diamonds", "clubs"];
-    const icons = ["♥", "♠", "♦", "♣"];
 
     const deck = [];
     let cardId = 0;
@@ -278,9 +338,7 @@
                 let rank
                 let value = 10;
                 let HiLo
-                if(index <= 6){HiLo = -1;} 
-                else if (index <= 9){HiLo = 0;} 
-                else {HiLo = 1;}
+                
                 switch (index) {
                     case 11:
                         rank = "J"
@@ -300,80 +358,70 @@
                         value = rank;
                         break;
                 }
-                deck.push({cardId, suit, icon: icons[i], rank, value, HiLo}); 
-                cardId++;  
+                deck.push(new Card(cardId++, suit, rank, value)); 
             }
         });
     }
-    // utils.runFunctionXTimes(fillDeck, 0, 6);
-    fillDeck();
-    console.log(deck);
 
-    
-    
-
+    const fillShoe = () => {
+        runFunctionXTimes(fillDeck,0 ,6);
+        // fillDeck();
+        // fillDeck();
+        // fillDeck();
+        // fillDeck();
+        // fillDeck();
+        // fillDeck();
+    }
 
     const getRandomCard = () => {
+        if(deck.length == 0){
+            console.log("ran out of cards");
+        }
         return deck[Math.floor(Math.random()*deck.length)]
     }
 
-    const renderCard = (cardObj, options) => {
-        const {flipped = false,} = options;
-        const cardBack = document.createElement('div');
-        cardBack.classList.add("card");
-        if(!flipped){
-            const rank = document.createElement('div');
-            rank.innerHTML = cardObj.rank;
-            const suit = document.createElement('div');
-            suit.innerHTML = cardObj.icon;
-            if (cardObj.suit === "hearts" || cardObj.suit === "diamonds"){
-                rank.style.color = "red";
-                suit.style.color = "red";
-            }
-
-            cardBack.append(rank);
-            cardBack.append(suit);
-        } else {
-            const cardPattern = document.createElement('div');
-            cardPattern.classList.add('cardPattern');
-            cardBack.append(cardPattern);
-        }
-        
-        return cardBack
-    }
-
     const playerHit = (flipped) => {
+        if(!gameRunning){
+            console.log("game not Running");
+            return
+        }
         const card = getRandomCard()
-        if (card === undefined){return}
+        if (!card){return}
         playerhand.push(card)
-        const cardIndex = deck.findIndex(deckCard => deckCard === card);
-        if (cardIndex !== -1) {deck.splice(cardIndex, 1);}        
+        const cardIndex = deck.findIndex(deckCard => deckCard.cardId === card.cardId);
+        if (cardIndex !== -1){deck.splice(cardIndex, 1);}        
         playerScore += card.value;
-        playerScoreElement.innerHTML = playerScore;
-        playerHandCont.element.append(renderCard(card, {flipped}))
-        check();
+        playerHandCont.addCard(card, flipped);
+        if (playerScore > 21) {
+            console.log("Player busts! Dealer wins.", playerScore, "vs", dealerScore);
+            endGame();
+        }        
         countCards();
+        updateScore();
+
     }
 
     const playerStay = () => {
-        while(dealerScore < 17){
-            dealerPlay()
+        if(!gameRunning){
+            console.log("game not Running");
+            return
         }
+        while(dealerScore < 17){dealerPlay()}
         check();
         countCards();
     }
 
     const dealerPlay = (flipped) => {
         const card = getRandomCard()
-        if (card === undefined){return}
+        if (!card){return}
         dealerhand.push(card)
-        const cardIndex = deck.findIndex(deckCard => deckCard === card);
-        if (cardIndex !== -1) {deck.splice(cardIndex, 1);}        
+        const cardIndex = deck.findIndex(deckCard => deckCard.cardId === card.cardId);
+        if (cardIndex !== -1){deck.splice(cardIndex, 1);}
         dealerScore += card.value;
-        dealerScoreElement.innerHTML = dealerScore;
-        dealerHandCont.element.append(renderCard(card, {flipped}))
-        check();
+        dealerHandCont.addCard(card, flipped);
         countCards();
+        updateScore();
+
     }
 
     const countCards = () => {
@@ -387,65 +435,118 @@
         discardHand.forEach(e => {
             count += e.HiLo
         })
-        console.log(count);
-        
-        cardCountingCount.innerHTML = count;
+        cardCountingCount.textContent = count;
     }
 
     const check = () => {
         console.log("Player Score:", playerScore);
         console.log("Dealer Score:", dealerScore);
-        
         if (playerScore > 21){
-            console.log("Game Over");
-            playerScore = 0;
-            dealerScore = 0;
-            updateScore();
-            discardPlayerHand();
-            discardDealerHand();
+            console.log("Dealer Wins!");
+            endGame();
         }
         if (dealerScore > 21){
-            console.log("You Win");
-            playerScore = 0;
-            dealerScore = 0;
-            discardPlayerHand();
-            discardDealerHand();
+            console.log("Player Wins!");
+            playerWon();
+            endGame();
         }
+        if (gameRunning && dealerScore >= 17) {
+            if (playerScore > dealerScore) {
+                console.log("Player Wins!");
+                playerWon();
+            } else if (playerScore < dealerScore) {
+                console.log("Dealer Wins!");
+            } else {
+                console.log("It's a Tie!");
+                playerTied();
+            }
+            endGame();
+        }
+        updateScore();
     }
 
     const updateScore = () => {
-        playerScoreElement.innerHTML = playerScore;
-        dealerScoreElement.innerHTML = dealerScore;
+        playerScoreElement.textContent = `Player: ${playerScore}`;
+        dealerScoreElement.textContent = `Dealer: ${dealerScore}`;
     }
     
     const discardPlayerHand = () => {
-        utils.removeAll(playerHandCont)
-        playerhand.forEach(e => {
-            discardHand.push(e)
-            discardElement.append(renderCard(e, {flipped:true}))
+        removeAll(playerHandCont.element);
+        playerHandCont.clearCards();
+        playerhand.forEach(card => {
+            discardHand.push(card)
+            discardCont.addCard(card, true)
         });
+        console.log(discardHand);
+
         playerhand = [];
     }
 
     const discardDealerHand = () => {
-        utils.removeAll(dealerHandCont)
-        dealerhand.forEach(e => {
-            discardHand.push(e)
-            discardElement.append(renderCard(e, {flipped:true}))
+        removeAll(dealerHandCont.element);
+        dealerHandCont.clearCards();
+        dealerhand.forEach(card => {
+            discardHand.push(card)
+            discardCont.addCard(card, true)
         });
+        console.log(discardHand);
+        
         dealerhand = [];
     }
 
-    playerhitButton.addEventListener('click', () => playerHit(false));
-    playerstayButton.addEventListener('click', () => playerStay(false));
+    const playerWon = () => {
+        playerBalance += 2 * betAmount;
+        console.log(playerBalance);
+        
+        playerBalanceElement.textContent = playerBalance;
+    }
 
+    const playerTied = () => {
+        playerBalance += 1 * betAmount;
+        console.log(playerBalance);
 
-    // playerHit(false);
-    // playerHit(false);
-    // dealerPlay(false);
-    // dealerPlay(true);
+        playerBalanceElement.textContent = playerBalance;
+    }
 
+    const startGame = () => {
+        if(!gameRunning){
+            if(!betInput.value == ""){
+                betAmount = betInput.value;
+                playerBalance -= betAmount;
+                
+                playerBalanceElement.textContent = playerBalance;
+                console.log(playerBalanceElement.textContent);
+                
+                console.log("gameStarted");
+                
+                gameRunning = true;
+                playerHit(false);
+                playerHit(false);
+                dealerPlay(false);
+                dealerPlay(true);
+            } else {
+                console.log("Enter Valid Bet Value");
+                
+            }
+            
+        } else{console.log("game already started");}   
+    }
+
+    const endGame = () => {
+        gameRunning = false;
+        playerScore = 0;
+        dealerScore = 0;
+        discardPlayerHand();
+        discardDealerHand();
+    }
     
+    fillShoe();
+    console.log(deck);
+
+    playerhitButton.addEventListener('click', () => playerHit(false));
+    playerstayButton.addEventListener('click', () => playerStay());
+    betButton.addEventListener('click', () => startGame());
 
 </script>
+</body>
 </html>

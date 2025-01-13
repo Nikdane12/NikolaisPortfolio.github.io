@@ -10,12 +10,12 @@ export const saveLocalStorage = (key, value) => {
 }
 
 export const shuffleArray = (array) => {
-    var i = array.length, j = 0, temp
+    let i = array.length, j = 0, temp
     while (i--) {
-        j = Math.floor(Math.random() * (i + 1))
-        temp = array[i]
-        array[i] = array[j]
-        array[j] = temp
+        j = Math.floor(Math.random() * (i + 1));
+        temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
     }
     return array
 }
@@ -28,9 +28,9 @@ export const getRandomInRange = (min, max) => Math.floor(Math.random() * (max - 
 
 export const runFunctionXTimes = (callback, interval, repeatTimes) => {
     let repeated = 0;
-    const intervalTask = setInterval(doTask, interval)
+    
 
-    function doTask() {
+    const doTask = () => {
         if ( repeated < repeatTimes ) {
             callback()
             repeated += 1
@@ -38,4 +38,5 @@ export const runFunctionXTimes = (callback, interval, repeatTimes) => {
             clearInterval(intervalTask)
         }
     }
-} 
+    const intervalTask = setInterval(doTask, interval)
+}
