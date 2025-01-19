@@ -20,6 +20,8 @@ const HTMLprojects = [
         title: 'HTML Examples',
         group: 'HTMLexamples',
         cards: [
+            { name: 'Black Jack', image: '', link: 'blackjack', datecreated: '09.01.25', tags: ['JS', 'EXAMPLE']},
+            { name: 'Rocksteady Imitation', image: '', link: 'rocksteadyimitation', datecreated: '08.07.24', tags: ['CSS', 'EXAMPLE']},
             { name: 'Design Examples', image: 'DesignTest.png', link: 'designtest', datecreated: '02.05.23', tags: ['CSS', 'EXAMPLE'] },
             { name: 'Interactive Cube', image: 'Cubestuff.png', link: 'cubeThreeJs', datecreated: '13.03.23', tags: ['JS', 'TEST', 'LIBRARY'] },
             { name: 'Three.js Shaders', image: 'fox.png', link: 'threeJS2', datecreated: '06.03.23', tags: ['JS', 'TEST', 'LIBRARY'] },

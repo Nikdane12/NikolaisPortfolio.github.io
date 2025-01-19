@@ -7,21 +7,99 @@
     <!-- <script src="./nikUtils.js"></script> -->
 </head>
 <style>
+    
     body{
+        --green01: rgb(0, 95, 0);
+        --green02: rgb(34, 139, 34);
         margin: 0px;
         background-color: rgb(0, 95, 0);
+        font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        height: 100vh;
+        background: radial-gradient(ellipse, var(--green02) 0%, var(--green01) 80%);
     }
     *{
         box-sizing: border-box;
     }
+    button, input{
+        all: unset;
+        background-color: white;
+        border-radius: 5px;
+        min-width: 50px;
+        max-width: 150px;
+        height: auto;
+        padding: 2px;
+        text-align: center;
+        cursor: pointer;
+    }
+    #fullscreenButton{
+        all:unset;
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        text-align: center;
+        top: 10px;
+        right: 10px;
+        color: white;
+        cursor: pointer;
+    }
     .card{
+        background-color: white;
+        border-radius: 10px;
         --card_scale: 1;
         width: calc(128px * var(--card_scale));
         height: calc(178px * var(--card_scale));
-        background-color: white;
+        transform-style: preserve-3d;
+        position: absolute;
+        transition: 1s ease;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    .cardfront{
+        --card_scale: 1;
+        width: calc(128px * var(--card_scale));
+        height: calc(178px * var(--card_scale));
+        display: grid;
+        grid-template-rows: auto auto 1fr auto auto;
+        grid-template-columns: auto 1fr auto;
+        grid-template-areas: 
+        "rankTop . ."
+        "suitTop . ."
+        ". . ."
+        ". . suitBottom"
+        ". . rankBottom";        
         border-radius: calc(var(--card_scale) * 10px);
         padding: calc(var(--card_scale) * 10px);
         position: absolute;
+        font-family: 'Times New Roman', Times, serif;
+        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+        transition: top 0.5s ease, left 0.5s ease;
+    }
+    .cardfront > * {text-align: center;}
+    .cardfront > :nth-child(1){
+        grid-area: rankTop;
+    }
+    .cardfront > :nth-child(2){
+        grid-area: suitTop;
+    }
+    .cardfront > :nth-child(3){
+        grid-area: suitBottom;
+        transform: rotate(180deg);
+    }
+    .cardfront > :nth-child(4){
+        grid-area: rankBottom;
+        transform: rotate(180deg);
+    }
+
+    .cardback{
+        height:100%;
+        width:100%;
+        transform: rotateY(180deg);
+    }
+    .cardfront, .cardback{
+        backface-visibility: hidden;
+        position: absolute;
+    }
+    .cardfront>*{
+        backface-visibility: hidden;
     }
     .cardPattern{
         --color1: rgb(255, 255, 255);
@@ -29,10 +107,11 @@
         --color3: rgb(210, 173, 255);
         --scale: calc(var(--card_scale) * 0.1);       
         position: relative; 
-        width: calc(100% + calc(var(--card_scale) * 10px));
-        height: calc(100% + calc(var(--card_scale) * 10px));
-        top: calc(var(--card_scale) * -5px);
-        left: calc(var(--card_scale) * -5px);
+        width: calc(100% - 10px);
+        height: calc(100% - 10px);
+
+        top: 5px;
+        left: 5px;
         border-radius: calc(var(--card_scale) * 5px);
 
         background-image:  linear-gradient(30deg, var(--color2) 12%, transparent 12.5%, transparent 87%, var(--color2) 87.5%, var(--color2)), 
@@ -47,6 +126,10 @@
         calc(100px * var(--scale)) calc(175px * var(--scale)), 0 0, 
         calc(100px * var(--scale)) calc(175px * var(--scale));
         background-color: #ffffff;
+    }
+
+    .card.flipped{
+        transform: perspective(400px)     rotateY(180deg);
     }
     #playerhand, #dealerhand, #discard{
         width: inherit;
@@ -63,16 +146,50 @@
     }
     .cell{
         width: 100%;
-        /* border: 2px solid black; */
         position: absolute;
+        /* border: 2px solid black; */
+        /* position: absolute; */
         /* box-sizing: border-box; */
+    }
+    .textpopup{
+        display: grid;
+        justify-items: center;
+        align-content: center;
+        background-color: rgba(255, 255, 255, 0.3);
+        color: rgb(0, 0, 0);
+
+        position: absolute;
+        height: 100vh;
+        width: 100vw;
+        
+        top: 0px;
+        left: 0px;
+        margin: 0;
+
+        font-size: 100px;
+        font-weight: 900;
+    }
+    .textpopup>.alt{
+        font-size: 50px;
+    }
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+            -khtml-user-select: none; /* Konqueror HTML */
+            -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                        supported by Chrome, Edge, Opera and Firefox */
     }
 </style>
 <body>
+    <div id="cardContainer"></div>
+    <button id="fullscreenButton" class="noselect">⛶</button>
     <button id="playerhitButton">HIT</button>
     <button id="playerstayButton">STAY</button>
     <button id="betButton">BET</button>
-    <input id="betInput" value="100" type="number" placeholder="BET">
+    <input id="betInput" value="100" type="number" step="50" placeholder="BET">
+    <button id="allInButton">ALL IN</button>
     <div id="playerBalance"></div>
     <div style="display: flex; justify-content: space-around;">
         <div id="playerScore"></div>        
@@ -81,20 +198,45 @@
     <div id="cardCountingCount"></div>
     <div id="activeHands"></div>
 <script type="module">
-    import {removeAll, runFunctionXTimes} from "./nikUtils.js"
+    import {removeAll, runFunctionXTimes, delay} from "./nikUtils.js"
+
+    let fullscreen = false;
+    const fullscreenButton = document.getElementById('fullscreenButton');
+    fullscreenButton.addEventListener('click', () => {
+        if (!fullscreen) {
+            if (document.documentElement.requestFullscreen) {
+                document.documentElement.requestFullscreen(); // Standard method
+            } else if (document.documentElement.webkitRequestFullscreen) { 
+                document.documentElement.webkitRequestFullscreen(); // Safari
+            } else if (document.documentElement.msRequestFullscreen) { 
+                document.documentElement.msRequestFullscreen(); // IE/Edge
+            }; 
+            fullscreen = !fullscreen;} 
+        else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen(); // Standard method
+            } else if (document.webkitExitFullscreen) {
+                document.webkitExitFullscreen(); // Safari
+            } else if (document.msExitFullscreen) {
+                document.msExitFullscreen(); // IE/Edge
+            }}
+    });
 
     class Container {
-        constructor(id = "defaultCont", width = 500, height = 500) {
+        constructor(id = "defaultCont", width = 500, height = 500, maxRotation = 0,) {
             this.id = id;
+            this.hand = [];
             this.width = width;
             this.height = height;
             this.cards = {};
+            this.cardOrdered = [];
             this.cellArray = [];
             this.cellWidth = 0;
             this.cellHeight = 0;
             this.padding = 10;
             this.contX = null;
             this.contY = null;
+            this.maxRotation = maxRotation;
 
             this.element = this.createCont();
             this.updateContPos = this.updateContPos.bind(this);
@@ -105,31 +247,64 @@
         updateContPos(){
             this.contX = this.element.offsetLeft;
             this.contY = this.element.offsetTop;  
-                      
+            this.width = this.element.offsetWidth; 
+            this.height = this.element.offsetHeight;         
             this.updateCells()
         }
 
+
+        async movetoCont(cont, card){
+            if (this.cards[card.cardId]) {
+                this.removeCard(card);
+                await cont.addCard(card);
+                await cont.updateCardPositions();
+            }
+        }
+
+        moveAlltoCont(cont){
+            const cardsToMove = Object.values(this.cards).map(i => ({ ...i }));
+            cardsToMove.forEach(card => {
+                this.movetoCont(cont, card)
+            });
+            this.updateCells();
+        }
+
         createCell(){
+
             const cellElement = document.createElement('div');
             cellElement.classList.add("cell");
             this.element.append(cellElement);
             this.cellArray.push(cellElement);
-            this.updateCells();
+            console.log("cell made", cellElement);
+            console.log(this.cellArray, this.cellArray.length);
 
+            
             // cell.addEventListener
             return cellElement
         }
 
-        removeCells(){
+        removeCells(){         
+            this.cellArray.forEach(cell => {
+                cell.parentElement.removeChild(cell);
+            });
             this.cellArray = [];
-            while(this.element.firstChild){this.element.removeChild(this.element.firstChild)};
-            this.updateCells();
         }
 
-        updateCells(){
-            this.cellArray.forEach((e, i) => {
-                this.positionCell(e, i);
-                this.setCellDimensions(e);
+        updateCells(){  
+            console.log("cellsUpdated");
+            
+            // this.removeCells();
+            
+            this.hand.forEach((e, i) => {
+                let cellE = this.createCell();
+                this.cellArray.push(cellE);
+                this.element.append(cellE);
+                console.log(this.element);
+                console.log(cellE);
+                
+                
+                this.positionCell(cellE, i);
+                this.setCellDimensions(cellE);
             });
             this.updateCardPositions()
         }
@@ -137,28 +312,35 @@
         createCont(){           
             const element = document.createElement('div');
             element.id = this.id;
-            element.style.width = `${this.width}px`;
-            element.style.height = `${this.height}px`;
+            element.style.width = this.width === 0 ? "100%" : `${this.width}px`;
+            element.style.height = this.height === 0 ? "100%" : `${this.height}px`;
             this.element = element;
             return element
         }
 
-        addCard(card, flipped) {          
+        async addCard(card) {          
             if (!this.cards[card.cardId]) {
+                // await delay(0)
                 this.cards[card.cardId] = card;
-                card.requestElement({flipped})
+                this.cardOrdered.push(card);
+                this.hand.push(card)
+                card.cont = this
                 if(this.element !== null && card.element !== null){
-                    this.createCell().append(card.element)
+                    cardContainer.append(card.element)
+                    this.updateCells()
                 }
                 this.updateCardPositions();
+                this.setCardRotation(this.listCards().ordered)
             } else {
-                console.warn(`Card with ID ${card.id} is already in the container.`);
+                console.warn(`Card with ID${card.cardId}(${card.rank + card.icon}) is already in the container(${this.id}).`);
             }
         }
 
         removeCard(card) {
             if (this.cards[card.cardId]) {
                 delete this.cards[card.cardId];
+                this.cardOrdered = this.cardOrdered.filter(c => c.cardId !== card.cardId);
+                this.hand = this.hand.filter(c => c.cardId !== card.cardId);
                 this.updateCardPositions();
             } else {
                 console.warn(`Card with ID ${card.cardId} not found in the container.`);
@@ -166,17 +348,23 @@
         }
 
         clearCards() {
-            this.cards = {};
-            this.removeCells();
-            this.updateCardPositions();
+            const cardsToRemove = Object.values(this.cards).map(i => ({ ...i }));
+            cardsToRemove.forEach((e) => {
+                this.removeCard(e);
+                console.log(e.rank, e.icon, "removed from", this.id);
+            });
+            this.updateContPos();
         }
 
         listCards() {
-            return Object.values(this.cards);
+            return {
+                ordered: this.cardOrdered,
+                unordered: Object.values(this.cards),
+            };
         }
 
         updateCardPositions() {            
-            const cardArray = this.listCards();
+            const cardArray = this.listCards().ordered;
             const count = cardArray.length;
             if (count === 0) return;
             this.positionCards(cardArray);
@@ -193,57 +381,69 @@
         positionCards(cardArray) {
             throw new Error("positionCards() must be implemented by subclasses");
         }
+
+        setCardRotation(cardArray){
+            throw new Error("setCardRotation() must be implemented by subclasses");
+        }
     }
 
     class HorizontalContainer extends Container {
-        setCellDimensions(cellElement) { 
-                       
+        setCellDimensions(cellElement) {
             cellElement.style.height = `${this.height}px`;
-            this.cellWidth = (this.width - this.padding * 2) / this.cellArray.length       
-            
-            cellElement.style.width = `${this.cellWidth}px`
+            this.cellWidth = (this.width - this.padding * 2) / this.cellArray.length;       
+            cellElement.style.width = `${this.cellWidth}px`;
         }
 
         positionCell(cellElement, index) {
-            const posX = this.contX + this.padding + (this.cellWidth * index)           
+            const posX = this.contX + this.padding + (this.cellWidth * index);           
             cellElement.style.left = `${posX}px`;
             cellElement.style.top = `${this.contY}px`;
         }
 
         positionCards(cardArray) {
-            cardArray.forEach((card, index) => {                     
-                const posX = (this.cellWidth / 2) - (128 / 2);
-                const posY = (this.height / 2) - (178 / 2);                               
-                card.element.style.left = `${posX}px`;
-                card.element.style.top = `${posY}px`;               
+            cardArray.forEach((card, index) => {                   
+                const posX = this.contX + (this.cellWidth * index) + (this.cellWidth / 2) - (128 / 2);
+                const posY = this.contY + (this.height / 2) - (178 / 2);
+                card.posX = posX;
+                card.posY = posY;
+                                     
+                card.element.style.left = `${card.posX}px`;
+                card.element.style.top = `${card.posY}px`;                  
+            });
+        }
+
+        setCardRotation(cardArray){
+            if(this.maxRotation == 0){return}
+            cardArray.forEach((card, index) => {   
+                const rotationAngle = ((index / (cardArray.length - 1)) * 2 - 1) * this.maxRotation;
+                card.element.style.transform = `rotate(${rotationAngle}deg)`;
             });
         }
     }
 
     class VerticalContainer extends Container {
         setCellDimensions(cellElement) {
-            cellElement.style.width = "100%";
+            cellElement.style.width = `${this.width}px`;
+            this.cellHeight = (this.height - this.padding * 2) / this.cellArray.length;
+            cellElement.style.height = `${this.cellHeight}px`;
         }
 
         positionCell(cellElement, index) {
-            const height = (this.height - (2 * this.padding)) / this.cellArray.length;
-            cellElement.style.height = `${height}px`;
-            cellElement.style.top = `${this.padding + (height * index)}px`;
-            this.cellHeight = height;
+            const posY = this.contY + this.padding + (this.cellHeight * index);           
+            cellElement.style.left = `${this.contX}px`;
+            cellElement.style.top = `${posY}px`;
         }
 
         positionCards(cardArray) {
-            
-            cardArray.forEach((card, index) => {
-                this.contX = this.element.getBoundingClientRect().left; 
-                this.contY = this.element.getBoundingClientRect().top;              
-
-                const posX = this.contX + (this.width / 2) - (128 / 2);
-                const posY = this.contY + this.padding + (this.cellHeight * index) + (this.cellHeight / 2) - (178 / 2);
+            cardArray.forEach((card, index) => {                     
+                const posX = (this.width / 2) - (128 / 2);
+                const posY = (this.cellHeight / 2) - (178 / 2);                               
                 card.element.style.left = `${posX}px`;
-                card.element.style.top = `${posY}px`;
+                card.element.style.top = `${posY}px`;               
             });
         }
+
+        setCardRotation(cardArray){throw new Error("Card rotation not avalible for vertical containers")}
     }
 
     class Card {
@@ -254,6 +454,8 @@
             this.value = value;
             this.HiLo = null;
             this.element = null;
+            this.cont = null;
+            this.flipped = false;
 
             if(value <= 6){this.HiLo = -1;} 
             else if (value <= 9){this.HiLo = 0;} 
@@ -266,46 +468,86 @@
             };
             this.icon = icons[suit];
             this.element = null;
+            this.posX = 0;
+            this.posY = 0;
         }
 
-        renderCard(options){           
-            const {flipped = false,} = options;
-            const cardBack = document.createElement('div');
-            cardBack.classList.add("card");
-            if(!flipped){
-                const rankElement = document.createElement('div');
-                rankElement.textContent = this.rank;
-                const suitElement = document.createElement('div');
-                suitElement.textContent = this.icon;
-                if (this.suit === "hearts" || this.suit === "diamonds"){
-                    rankElement.style.color = "red";
-                    suitElement.style.color = "red";
-                }
-                cardBack.append(rankElement);
-                cardBack.append(suitElement);
-            } else {
-                const cardPattern = document.createElement('div');
-                cardPattern.classList.add('cardPattern');
-                cardBack.append(cardPattern);
+        renderCard(){           
+            const cardBase = document.createElement('div');
+            cardBase.classList.add("card");
+
+            const cardfront = document.createElement('div');
+            cardfront.classList.add("cardfront")
+            const rankElement = document.createElement('div');
+            rankElement.textContent = this.rank;
+            rankElement.style.width = "20px";
+            rankElement.style.height = "20px";
+            const suitElement = document.createElement('div');
+            suitElement.textContent = this.icon;
+            suitElement.style.width = "20px";
+            suitElement.style.height = "20px";
+            if (this.suit === "hearts" || this.suit === "diamonds") {
+                rankElement.style.color = "red";
+                suitElement.style.color = "red";
             }
-            return cardBack
+            const rankTop = rankElement.cloneNode(true);
+            cardfront.append(rankTop);
+            const suitTop = suitElement.cloneNode(true);
+            cardfront.append(suitTop);
+            const suitBottom = suitElement.cloneNode(true);
+            cardfront.append(suitBottom);
+            const rankBottom = rankElement.cloneNode(true);
+            cardfront.append(rankBottom);
+            cardBase.append(cardfront);
+
+            const cardback = document.createElement('div');
+            cardback.classList.add("cardback")
+            const cardPattern = document.createElement('div');
+            cardPattern.classList.add('cardPattern');
+            cardback.append(cardPattern);
+            cardBase.append(cardback);
+
+            return cardBase
         }
 
-        requestElement(options){
-            const {flipped = false,} = options;
-            this.element = this.renderCard(options);
+        unrender() {
+            if (this.element && this.element.parentElement) {
+                this.element.parentElement.removeChild(this.element);
+            }
+            this.element = null;
+            this.flipped = false;
+        }
+
+        requestElement(){
+            if(!this.element){this.element = this.renderCard()}
             return this.element;
         }
+
+        setFlip(flipped){
+            this.flipped = flipped;
+            if(flipped){this.element.classList.add("flipped");}
+            if(!flipped){this.element.classList.remove("flipped");}
+        }
+
+        toggleFlip(){
+            this.flipped = !this.flipped;
+            this.setFlip(this.flipped)
+        }
+
+        
     }
 
+    const cardContainer = document.getElementById('cardContainer');
     const activeHandsElement = document.getElementById("activeHands");
-    const playerHandCont = new HorizontalContainer("playerhand", 500, 200,);
+    const playerHandCont = new HorizontalContainer("playerhand", 500, 200,0);
     activeHandsElement.append(playerHandCont.element);
     const playerScoreElement = document.getElementById('playerScore');
+    playerScoreElement.style.display = "none"
     const dealerScoreElement = document.getElementById('dealerScore');
-    const dealerHandCont = new HorizontalContainer("dealerhand", 500, 200,);
+    dealerScoreElement.style.display = "none"
+    const dealerHandCont = new HorizontalContainer("dealerhand", 500, 200,0);
     activeHandsElement.append(dealerHandCont.element);
-    const discardCont = new HorizontalContainer("discard", 500, 200,);
+    const discardCont = new HorizontalContainer("discard", 0, 200,10);
     document.body.append(discardCont.element);
 
     const playerBalanceElement = document.getElementById('playerBalance');
@@ -314,6 +556,7 @@
     const playerhitButton = document.getElementById('playerhitButton');
     const playerstayButton = document.getElementById('playerstayButton');
     const betButton = document.getElementById('betButton');
+    const allInButton = document.getElementById('allInButton');
 
     const cardCountingCount = document.getElementById('cardCountingCount');
 
@@ -365,40 +608,35 @@
 
     const fillShoe = () => {
         runFunctionXTimes(fillDeck,0 ,6);
-        // fillDeck();
-        // fillDeck();
-        // fillDeck();
-        // fillDeck();
-        // fillDeck();
-        // fillDeck();
     }
 
     const getRandomCard = () => {
         if(deck.length == 0){
             console.log("ran out of cards");
         }
-        return deck[Math.floor(Math.random()*deck.length)]
+        let card = deck[Math.floor(Math.random()*deck.length)]
+        card.requestElement()
+        return card
     }
 
-    const playerHit = (flipped) => {
+     const playerHit = async (flipped) => {
         if(!gameRunning){
-            console.log("game not Running");
             return
         }
-        const card = getRandomCard()
+        const card = getRandomCard()       
         if (!card){return}
         playerhand.push(card)
+        console.log(card.rank, card.icon, `id:${card.cardId}`);
         const cardIndex = deck.findIndex(deckCard => deckCard.cardId === card.cardId);
         if (cardIndex !== -1){deck.splice(cardIndex, 1);}        
         playerScore += card.value;
-        playerHandCont.addCard(card, flipped);
+        await playerHandCont.addCard(card);
+        if(flipped){card.setFlip(true)};
         if (playerScore > 21) {
-            console.log("Player busts! Dealer wins.", playerScore, "vs", dealerScore);
-            endGame();
+            playerLost()
         }        
         countCards();
         updateScore();
-
     }
 
     const playerStay = () => {
@@ -411,17 +649,19 @@
         countCards();
     }
 
-    const dealerPlay = (flipped) => {
+    const dealerPlay = async (flipped) => {
         const card = getRandomCard()
+        console.log(card.rank, card.icon, `id:${card.cardId}`);
         if (!card){return}
         dealerhand.push(card)
         const cardIndex = deck.findIndex(deckCard => deckCard.cardId === card.cardId);
         if (cardIndex !== -1){deck.splice(cardIndex, 1);}
         dealerScore += card.value;
-        dealerHandCont.addCard(card, flipped);
+        if(flipped){card.setFlip(true);};
+        await dealerHandCont.addCard(card);
+        
         countCards();
         updateScore();
-
     }
 
     const countCards = () => {
@@ -439,28 +679,20 @@
     }
 
     const check = () => {
-        console.log("Player Score:", playerScore);
-        console.log("Dealer Score:", dealerScore);
         if (playerScore > 21){
-            console.log("Dealer Wins!");
-            endGame();
+            playerLost();
         }
         if (dealerScore > 21){
-            console.log("Player Wins!");
             playerWon();
-            endGame();
         }
         if (gameRunning && dealerScore >= 17) {
             if (playerScore > dealerScore) {
-                console.log("Player Wins!");
                 playerWon();
             } else if (playerScore < dealerScore) {
-                console.log("Dealer Wins!");
+                playerLost();
             } else {
-                console.log("It's a Tie!");
                 playerTied();
             }
-            endGame();
         }
         updateScore();
     }
@@ -470,42 +702,39 @@
         dealerScoreElement.textContent = `Dealer: ${dealerScore}`;
     }
     
-    const discardPlayerHand = () => {
-        removeAll(playerHandCont.element);
-        playerHandCont.clearCards();
-        playerhand.forEach(card => {
-            discardHand.push(card)
-            discardCont.addCard(card, true)
-        });
-        console.log(discardHand);
-
-        playerhand = [];
-    }
-
-    const discardDealerHand = () => {
-        removeAll(dealerHandCont.element);
-        dealerHandCont.clearCards();
-        dealerhand.forEach(card => {
-            discardHand.push(card)
-            discardCont.addCard(card, true)
-        });
-        console.log(discardHand);
-        
-        dealerhand = [];
+    // const discardPlayerHand = async () => {
+    //     removeAll(playerHandCont.element);
+    //     playerHandCont.clearCards();
+    //     for (const card of playerhand) {
+    //         discardHand.push(card);
+    //         await discardCont.addCard(card, true); 
+    //     }
+    //     playerhand = [];
+    // }
+    
+    const discardAll = async cont => {
+        removeAll(cont.element);
+        let TEMPcont =  cont.hand.map(i => ({ ...i }))
+        cont.moveAlltoCont(discardCont);       
     }
 
     const playerWon = () => {
-        playerBalance += 2 * betAmount;
-        console.log(playerBalance);
-        
+        playerBalance += 2 * betAmount;     
         playerBalanceElement.textContent = playerBalance;
+        textpopup("Won", `${playerScore} vs. ${dealerScore}`, 1000, "", (div) => removeSelf(div))
+        endGame();
     }
 
     const playerTied = () => {
         playerBalance += 1 * betAmount;
-        console.log(playerBalance);
-
         playerBalanceElement.textContent = playerBalance;
+        textpopup("Tied", `${playerScore} vs. ${dealerScore}`, 1000, (div) => removeSelf(div))
+        endGame();
+    }
+
+    const playerLost = () => {
+        textpopup("Lost", `${playerScore} vs. ${dealerScore}`, 1000, (div) => removeSelf(div))
+        endGame();
     }
 
     const startGame = () => {
@@ -514,11 +743,7 @@
                 betAmount = betInput.value;
                 playerBalance -= betAmount;
                 
-                playerBalanceElement.textContent = playerBalance;
-                console.log(playerBalanceElement.textContent);
-                
-                console.log("gameStarted");
-                
+                playerBalanceElement.textContent = playerBalance;                
                 gameRunning = true;
                 playerHit(false);
                 playerHit(false);
@@ -536,16 +761,45 @@
         gameRunning = false;
         playerScore = 0;
         dealerScore = 0;
-        discardPlayerHand();
-        discardDealerHand();
-    }
+        console.log("dealerhand: ", dealerHandCont.hand.map(item => item.rank).join(', '));
+        discardAll(dealerHandCont);
+        console.log("playerhand: ", playerHandCont.hand.map(item => item.rank).join(', '));
+        discardAll(playerHandCont);
+        console.log("discardhand: ", discardCont.hand.map(item => item.rank).join(', '));
+    }    
     
-    fillShoe();
+    fillDeck();
+    // fillShoe();
     console.log(deck);
 
     playerhitButton.addEventListener('click', () => playerHit(false));
     playerstayButton.addEventListener('click', () => playerStay());
     betButton.addEventListener('click', () => startGame());
+    allInButton.addEventListener('click', () => {betInput.value = playerBalance; startGame();});
+
+    const removeSelf = input => {
+        if (Array.isArray(input)) {
+            input.forEach(element => {
+                element.remove();
+            });
+        }
+        else if (input.parentNode) {input.remove();}  
+    }
+
+    const textpopup = (text, altText, fadetime, clickevent) => {
+        const div = document.createElement("div");
+        div.classList.add("textpopup");
+        div.append(document.createTextNode(text));
+        const alt = document.createElement("div");
+        alt.classList.add("alt");
+        alt.append(document.createTextNode(altText))
+        div.append(alt);
+        document.body.append(div);
+
+        if(fadetime){setInterval(() => {removeSelf(div)}, fadetime);}
+        div.addEventListener('click', (e) => clickevent(div));
+        return div;
+    }
 
 </script>
 </body>

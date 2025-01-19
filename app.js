@@ -7,10 +7,10 @@ const portfolio = config.getApp('portfolio')
 const port = portfolio.port
 
 let hostname = networks.wifi?.address
-// let hostname = "129.242.77.162" //eduroam
-// let hostname = "129.242.249.82" //eduroam Campus
+// hostname = "129.242.77.162" //eduroam
+// hostname = "129.242.253.132" //eduroam Campus
 
-// let hostname = "10.239.253.238" //uitgjest
+// hostname = "10.239.253.238" //uitgjest
 
 if (typeof hostname === 'undefined') {
     console.log('WARNING: WiFi network address not found, using localhost')
@@ -173,8 +173,7 @@ const PreloadFilmList = async () => {
 }
 
 
-const server = app.listen(port, hostname)
-
+const server = app.listen(port, hostname);
 const sayHello = async () => {
     console.log(`${portfolio.name} listening on ${hostname}:${port}, Pid: ${process.pid}`)
     // filmList = await PreloadFilmList()
