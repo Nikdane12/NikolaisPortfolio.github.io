@@ -70,7 +70,6 @@
         padding: calc(var(--card_scale) * 10px);
         position: absolute;
         font-family: 'Times New Roman', Times, serif;
-        box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
         transition: top 0.5s ease, left 0.5s ease;
     }
     .cardfront > * {text-align: center;}
@@ -183,7 +182,7 @@
     }
 </style>
 <body>
-    <div id="cardContainer"></div>
+    <div id="dontworryboutitcont"></div>
     <button id="fullscreenButton" class="noselect">⛶</button>
     <button id="playerhitButton">HIT</button>
     <button id="playerstayButton">STAY</button>
@@ -257,8 +256,9 @@
             if (this.cards[card.cardId]) {
                 this.removeCard(card);
                 await cont.addCard(card);
-                await cont.updateCardPositions();
+                cont.updateCells();
             }
+            console.log(cont.id, card.cardId);
         }
 
         moveAlltoCont(cont){
@@ -270,43 +270,35 @@
         }
 
         createCell(){
-
             const cellElement = document.createElement('div');
             cellElement.classList.add("cell");
             this.element.append(cellElement);
-            this.cellArray.push(cellElement);
-            console.log("cell made", cellElement);
-            console.log(this.cellArray, this.cellArray.length);
-
-            
+            this.cellArray.push(cellElement);           
             // cell.addEventListener
             return cellElement
         }
 
-        removeCells(){         
-            this.cellArray.forEach(cell => {
-                cell.parentElement.removeChild(cell);
-            });
+        removeCells(){
+            let div = this.element
+            while(div.firstChild){div.removeChild(div.firstChild);};
             this.cellArray = [];
         }
 
         updateCells(){  
-            console.log("cellsUpdated");
-            
-            // this.removeCells();
+            this.removeCells();
+            this.cellArray = [];
             
             this.hand.forEach((e, i) => {
                 let cellE = this.createCell();
-                this.cellArray.push(cellE);
                 this.element.append(cellE);
-                console.log(this.element);
-                console.log(cellE);
-                
-                
-                this.positionCell(cellE, i);
-                this.setCellDimensions(cellE);
             });
-            this.updateCardPositions()
+            this.cellArray.forEach((e, i) => {
+                this.setCellDimensions(e);
+                this.positionCell(e, i);
+            });
+            this.hand.forEach((e, i) => {
+                this.updateCardPosition(e, i)
+            })    
         }
 
         createCont(){           
@@ -325,12 +317,12 @@
                 this.cardOrdered.push(card);
                 this.hand.push(card)
                 card.cont = this
-                if(this.element !== null && card.element !== null){
-                    cardContainer.append(card.element)
+                if(this.element !== null && card.element !== null){                    
+                    cardContainer.element.append(card.element)
+                    console.log(this.id);
+                    console.trace("trace")
                     this.updateCells()
                 }
-                this.updateCardPositions();
-                this.setCardRotation(this.listCards().ordered)
             } else {
                 console.warn(`Card with ID${card.cardId}(${card.rank + card.icon}) is already in the container(${this.id}).`);
             }
@@ -341,7 +333,7 @@
                 delete this.cards[card.cardId];
                 this.cardOrdered = this.cardOrdered.filter(c => c.cardId !== card.cardId);
                 this.hand = this.hand.filter(c => c.cardId !== card.cardId);
-                this.updateCardPositions();
+                this.updateCardPosition(card, 0);
             } else {
                 console.warn(`Card with ID ${card.cardId} not found in the container.`);
             }
@@ -353,7 +345,6 @@
                 this.removeCard(e);
                 console.log(e.rank, e.icon, "removed from", this.id);
             });
-            this.updateContPos();
         }
 
         listCards() {
@@ -363,11 +354,9 @@
             };
         }
 
-        updateCardPositions() {            
-            const cardArray = this.listCards().ordered;
-            const count = cardArray.length;
-            if (count === 0) return;
-            this.positionCards(cardArray);
+        updateCardPosition(card, index) {
+            this.positionCard(card, index);
+            this.setCardRotation(card, index);
         }
 
         setCellDimensions(cellElement) {
@@ -378,11 +367,11 @@
             throw new Error("positionCell() must be implemented by subclasses");
         }
 
-        positionCards(cardArray) {
+        positionCard(card, index) {
             throw new Error("positionCards() must be implemented by subclasses");
         }
 
-        setCardRotation(cardArray){
+        setCardRotation(card, index){
             throw new Error("setCardRotation() must be implemented by subclasses");
         }
     }
@@ -391,7 +380,7 @@
         setCellDimensions(cellElement) {
             cellElement.style.height = `${this.height}px`;
             this.cellWidth = (this.width - this.padding * 2) / this.cellArray.length;       
-            cellElement.style.width = `${this.cellWidth}px`;
+            cellElement.style.width = `${this.cellWidth}px`;            
         }
 
         positionCell(cellElement, index) {
@@ -400,24 +389,27 @@
             cellElement.style.top = `${this.contY}px`;
         }
 
-        positionCards(cardArray) {
-            cardArray.forEach((card, index) => {                   
-                const posX = this.contX + (this.cellWidth * index) + (this.cellWidth / 2) - (128 / 2);
-                const posY = this.contY + (this.height / 2) - (178 / 2);
-                card.posX = posX;
-                card.posY = posY;
-                                     
-                card.element.style.left = `${card.posX}px`;
-                card.element.style.top = `${card.posY}px`;                  
-            });
+        positionCard(card, index) {
+            // console.log(card.value, card.icon);
+                            
+            const posX = this.contX + (this.cellWidth * index) + (this.cellWidth / 2) - (128 / 2);
+            const posY = this.contY + (this.height / 2) - (178 / 2);
+            // console.log("oldpos: ", card.posX, card.posY);
+            
+            card.posX = posX;
+            card.posY = posY;
+
+            // console.log("newpos: ", card.posX, card.posY);
+
+                                    
+            card.element.style.left = `${card.posX}px`;
+            card.element.style.top = `${card.posY}px`;                  
         }
 
-        setCardRotation(cardArray){
+        setCardRotation(card, index){
             if(this.maxRotation == 0){return}
-            cardArray.forEach((card, index) => {   
-                const rotationAngle = ((index / (cardArray.length - 1)) * 2 - 1) * this.maxRotation;
-                card.element.style.transform = `rotate(${rotationAngle}deg)`;
-            });
+            const rotationAngle = ((index / (this.hand.length - 1)) * 2 - 1) * this.maxRotation;
+            card.element.style.transform = `rotate(${rotationAngle}deg)`;
         }
     }
 
@@ -434,7 +426,7 @@
             cellElement.style.top = `${posY}px`;
         }
 
-        positionCards(cardArray) {
+        positionCard(cardArray) {
             cardArray.forEach((card, index) => {                     
                 const posX = (this.width / 2) - (128 / 2);
                 const posY = (this.cellHeight / 2) - (178 / 2);                               
@@ -444,6 +436,70 @@
         }
 
         setCardRotation(cardArray){throw new Error("Card rotation not avalible for vertical containers")}
+    }
+
+    class SingleContainer extends Container{
+        createCell(){throw new Error("SingleContainers dont have cells therfore createCell() cant run");}
+        removeCells(){throw new Error("SingleContainers dont have cells therfore removeCells() cant run");}
+        updateCells(){throw new Error("SingleContainers dont have cells therfore updateCells() cant run");}
+        setCellDimensions(){throw new Error("SingleContainers dont have cells therfore setCellDimensions() cant run");}
+        positionCell(){throw new Error("SingleContainers dont have cells therfore positionCell() cant run");}
+
+        updateContPos(){
+            this.contX = this.element.offsetLeft;
+            this.contY = this.element.offsetTop;  
+            this.width = this.element.offsetWidth; 
+            this.height = this.element.offsetHeight;         
+        }
+
+        async movetoCont(cont, card){
+            if (this.cards[card.cardId]) {
+                this.removeCard(card);
+                await cont.addCard(card);
+            }
+            console.log(cont.id, card.cardId);
+        }
+
+        moveAlltoCont(cont){
+            const cardsToMove = Object.values(this.cards).map(i => ({ ...i }));
+            cardsToMove.forEach(card => {
+                this.movetoCont(cont, card)
+            });
+        }
+
+        async addCard(card) {          
+            if (!this.cards[card.cardId]) {
+                // await delay(0)
+                this.cards[card.cardId] = card;
+                this.cardOrdered.push(card);
+                this.hand.push(card)
+                card.cont = this
+                if(this.element !== null && card.element !== null){
+                    this.element.append(card.requestElement())
+                    console.log(this.id);
+                    
+                }
+            } else {
+                console.warn(`Card with ID${card.cardId}(${card.rank + card.icon}) is already in the container(${this.id}).`);
+            }
+        }
+
+        
+
+        positionCard(card) {                                       
+            const posX = this.contX + (this.cellWidth / 2) - (128 / 2);
+            const posY = this.contY + (this.cellWidth / 2) - (128 / 2);            
+            card.posX = posX;
+            card.posY = posY;                                  
+            card.element.style.left = `${card.posX}px`;
+            card.element.style.top = `${card.posY}px`;                  
+        }
+
+        setCardRotation(card, index){
+            if(this.maxRotation == 0){return}
+            const rotationAngle = ((index / (this.hand.length - 1)) * 2 - 1) * this.maxRotation;
+            card.element.style.transform = `rotate(${rotationAngle}deg)`;
+        }
     }
 
     class Card {
@@ -520,6 +576,10 @@
 
         requestElement(){
             if(!this.element){this.element = this.renderCard()}
+            else{
+                console.log("element already exist");
+                
+            }
             return this.element;
         }
 
@@ -537,7 +597,9 @@
         
     }
 
-    const cardContainer = document.getElementById('cardContainer');
+    const dontworryboutitcont = document.getElementById('dontworryboutitcont');
+    const cardContainer = new SingleContainer("cardContainer", 0, 0,0);
+    dontworryboutitcont.append(cardContainer.element)
     const activeHandsElement = document.getElementById("activeHands");
     const playerHandCont = new HorizontalContainer("playerhand", 500, 200,0);
     activeHandsElement.append(playerHandCont.element);
@@ -630,8 +692,9 @@
         const cardIndex = deck.findIndex(deckCard => deckCard.cardId === card.cardId);
         if (cardIndex !== -1){deck.splice(cardIndex, 1);}        
         playerScore += card.value;
-        await playerHandCont.addCard(card);
-        if(flipped){card.setFlip(true)};
+        card.setFlip(flipped);
+        await cardContainer.addCard(card);
+        cardContainer.moveAlltoCont(playerHandCont)
         if (playerScore > 21) {
             playerLost()
         }        
@@ -651,15 +714,15 @@
 
     const dealerPlay = async (flipped) => {
         const card = getRandomCard()
-        console.log(card.rank, card.icon, `id:${card.cardId}`);
         if (!card){return}
         dealerhand.push(card)
+        console.log(card.rank, card.icon, `id:${card.cardId}`);
         const cardIndex = deck.findIndex(deckCard => deckCard.cardId === card.cardId);
         if (cardIndex !== -1){deck.splice(cardIndex, 1);}
         dealerScore += card.value;
-        if(flipped){card.setFlip(true);};
-        await dealerHandCont.addCard(card);
-        
+        card.setFlip(flipped);
+        await cardContainer.addCard(card);
+        cardContainer.moveAlltoCont(dealerHandCont);               
         countCards();
         updateScore();
     }
@@ -713,8 +776,8 @@
     // }
     
     const discardAll = async cont => {
-        removeAll(cont.element);
-        let TEMPcont =  cont.hand.map(i => ({ ...i }))
+        // removeAll(cont.element);
+        // let TEMPcont =  cont.hand.map(i => ({ ...i }))
         cont.moveAlltoCont(discardCont);       
     }
 
@@ -751,7 +814,6 @@
                 dealerPlay(true);
             } else {
                 console.log("Enter Valid Bet Value");
-                
             }
             
         } else{console.log("game already started");}   
